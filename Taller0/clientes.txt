@@ -1,0 +1,3 @@
+Juanito,Pérez,1.111.111-1,ABC123,20000
+Sebastian,Cortes,20.457.872-9,perro12,50000
+Juan,Antoncell,2.222.222-2,juan23,20000
