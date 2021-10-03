@@ -318,6 +318,7 @@ public class App {
                     System.out.println("Mostrar inventario de "+nombreUsuario);
                     sistema.mostrarInventario(nombreUsuario);
                     Thread.sleep(5000);
+                    
                     break;
                 case 5:
                     limpiarConsola(3);
