@@ -111,15 +111,15 @@ public class App {
         Thread.sleep(100);
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
-    private static final String Black = "\u001B[30m";
-    private static final String Red = "\u001B[31m";
-    private static final String Green = "\u001B[32m";
-    private static final String Yellow = "\u001B[33m";
-    private static final String Blue = "\u001B[34m";
-    private static final String Purple = "\u001B[35m";
-    private static final String Cyan = "\u001B[36m";
-    private static final String White = "\u001B[37m";
-    private static final String Restorer = "\u001B[00m";
+    public static final String Black = "\u001B[30m";
+    public static final String Red = "\u001B[31m";
+    public static final String Green = "\u001B[32m";
+    public static final String Yellow = "\u001B[33m";
+    public static final String Blue = "\u001B[34m";
+    public static final String Purple = "\u001B[35m";
+    public static final String Cyan = "\u001B[36m";
+    public static final String White = "\u001B[37m";
+    public static final String Restorer = "\u001B[00m";
 
     public static String[] Regiones = {"LAS","LAN","EUW","KR","NA","RU"};
     // ===============================================================================
@@ -289,54 +289,75 @@ public class App {
         System.out.println("===========================================");
         System.out.println("               Menú" + Yellow + " CLIENTE                " + Restorer);
         System.out.println("-------------------------------------------");
-        System.out.println("1)" + Cyan + " Comprar Skin." + Restorer);
-        System.out.println("2)" + Cyan + " Comprar Personaje." + Restorer);
-        System.out.println("3)" + Cyan + " Skins Disponibles." + Restorer);
-        System.out.println("4)" + Cyan + " Mostrar Inventario." + Restorer);
-        System.out.println("5)" + Cyan + " Recargar RP." + Restorer);
-        System.out.println("6)" + Cyan + " Mostrar Datos." + Restorer);
+        System.out.println("1)" + Cyan + " Comprar Skin [No Hecho]." + Restorer);
+        System.out.println("2)" + Cyan + " Comprar Personaje [No Hecho]." + Restorer);
+        System.out.println("3)" + Cyan + " Skins Disponibles [No Hecho]." + Restorer);
+        System.out.println("4)" + Cyan + " Mostrar Inventario [Listo]." + Restorer);
+        System.out.println("5)" + Cyan + " Recargar RP [Listo]." + Restorer);
+        System.out.println("6)" + Cyan + " Mostrar Datos [No Hecho]." + Restorer);
         System.out.println("7)" + Cyan + " Salir." + Restorer);
         System.out.println("===========================================");
-        System.out.println("Ingrese una opción:");
+        System.out.print("Ingrese una opción: ");
         int opcion = ScannerInt();
         while(opcion != 7){
             switch (opcion){
                 case 1:
+                    limpiarConsola(3);
                     System.out.println("Comprar Skin");
                     break;
                 case 2:
+                    limpiarConsola(3);
                     System.out.println("Comprar Personaje");
                     break;
                 case 3:
+                    limpiarConsola(3);
                     System.out.println("Skins disponibles");
                     break;
                 case 4:
-                    System.out.println("Mostrar inventario");
+                    limpiarConsola(3);
+                    System.out.println("Mostrar inventario de "+nombreUsuario);
+                    sistema.mostrarInventario(nombreUsuario);
+                    Thread.sleep(5000);
                     break;
                 case 5:
-                    System.out.println("Recargar RP");
+                    limpiarConsola(3);
+                    System.out.println("Tu saldo actual es de: " + Green + sistema.mostrarRP(nombreUsuario) + Restorer);
+                    System.out.print("Ingresa la cantidad de saldo que deseas agregar: ");
+                    int cantidadAgregar = ScannerInt();
+                    while(cantidadAgregar<=0){
+                        System.out.println(Red + "[ERROR] " + Restorer + "La cantidad no puede ser menor que 0.");
+                        System.out.print("Ingresa la cantidad de saldo que deseas agregar: ");
+                        cantidadAgregar=ScannerInt();
+                    }
+                    sistema.agregarRP(nombreUsuario,cantidadAgregar);
+                    System.out.println(Green + "EXITO! " + "El monto fue sumado a su cuenta."+Restorer);
+                    System.out.println("Tu nuevo saldo es de $" + Green + sistema.mostrarRP(nombreUsuario) + Restorer);
+                    Thread.sleep(1000);
                     break;
                 case 6:
+                    limpiarConsola(3);
                     System.out.println("Mostrar Datos");
                     break;
                 default:
                     System.out.println(Red+"[ERROR] "+Restorer+"Opcion no valida");
                     break;
             }
+            limpiarConsola(3000);
+            System.out.println("===========================================");
+            System.out.println("               Menú" + Yellow + " CLIENTE                " + Restorer);
+            System.out.println("-------------------------------------------");
+            System.out.println("1)" + Cyan + " Comprar Skin." + Restorer);
+            System.out.println("2)" + Cyan + " Comprar Personaje." + Restorer);
+            System.out.println("3)" + Cyan + " Skins Disponibles." + Restorer);
+            System.out.println("4)" + Cyan + " Mostrar Inventario." + Restorer);
+            System.out.println("5)" + Cyan + " Recargar RP." + Restorer);
+            System.out.println("6)" + Cyan + " Mostrar Datos." + Restorer);
+            System.out.println("7)" + Cyan + " Salir." + Restorer);
+            System.out.println("===========================================");
+            System.out.print("Ingrese una opción:");
+            opcion = ScannerInt();
         }
-        limpiarConsola(3000);
-        System.out.println("===========================================");
-        System.out.println("               Menú" + Yellow + " CLIENTE                " + Restorer);
-        System.out.println("-------------------------------------------");
-        System.out.println("1)" + Cyan + " Comprar Skin." + Restorer);
-        System.out.println("2)" + Cyan + " Comprar Personaje." + Restorer);
-        System.out.println("3)" + Cyan + " Skins Disponibles." + Restorer);
-        System.out.println("4)" + Cyan + " Mostrar Inventario." + Restorer);
-        System.out.println("5)" + Cyan + " Recargar RP." + Restorer);
-        System.out.println("6)" + Cyan + " Mostrar Datos." + Restorer);
-        System.out.println("7)" + Cyan + " Salir." + Restorer);
-        System.out.println("===========================================");
-        System.out.println("Ingrese una opción:");
+
     }
 
     private static void menuAdmin(SistemaRitoGames sistema) throws InterruptedException {
@@ -345,13 +366,13 @@ public class App {
         System.out.println("===========================================");
         System.out.println("               Menú" + Yellow + " ADMIN                " + Restorer);
         System.out.println("-------------------------------------------");
-        System.out.println("1)" + Cyan + " Recaudacion por venta." + Restorer);
-        System.out.println("2)" + Cyan + " Recaudacion total de ventas." + Restorer);
-        System.out.println("3)" + Cyan + " Recaudacion por personajes." + Restorer);
-        System.out.println("4)" + Cyan + " Agregar personaje." + Restorer);
-        System.out.println("5)" + Cyan + " Agregar Skin." + Restorer);
-        System.out.println("6)" + Cyan + " Bloquear jugador." + Restorer);
-        System.out.println("7)" + Cyan + " Desplegar cuentas." + Restorer);
+        System.out.println("1)" + Cyan + " Recaudacion por venta [No Hecho]." + Restorer);
+        System.out.println("2)" + Cyan + " Recaudacion total de ventas [No Hecho]." + Restorer);
+        System.out.println("3)" + Cyan + " Recaudacion por personajes [No Hecho]." + Restorer);
+        System.out.println("4)" + Cyan + " Agregar personaje [No Hecho]." + Restorer);
+        System.out.println("5)" + Cyan + " Agregar Skin [No Hecho]." + Restorer);
+        System.out.println("6)" + Cyan + " Bloquear jugador [No Hecho]." + Restorer);
+        System.out.println("7)" + Cyan + " Desplegar cuentas [No Hecho]." + Restorer);
         System.out.println("8)" + Cyan + " Salir." + Restorer);
         System.out.println("===========================================");
         System.out.print("Ingrese alguna opción -> ");

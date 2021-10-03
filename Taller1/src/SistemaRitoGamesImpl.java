@@ -43,4 +43,57 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         lestadistica.addEstadistica(estadistica);
         return false;
     }
+
+    @Override
+    public String mostrarInventario(String nombreCuenta) {
+        Cuentas cuenta = lcuentas.searchC(nombreCuenta);
+        String text = "";
+        String skins = cuenta.getSkins();
+        System.out.println("===========================================");
+        System.out.println("               Skins de " + App.Cyan + nombreCuenta + App.Restorer);
+        System.out.println("-------------------------------------------");
+
+        try {
+            String[] partes = skins.split(",");
+            for (int i = 0; i < partes.length; i++) {
+                if (VerificarInt(partes[i])) {
+                    System.out.println("Campeon: " + App.Purple + partes[i - 1] + App.Restorer);
+                    System.out.println("Skins: ");
+                    for (int j = 0; j < Integer.parseInt(partes[i]); j++) {
+                        System.out.println("  - " + App.Purple + partes[i + (j + 1)] + App.Restorer);
+                    }
+                    System.out.println("----------------------------");
+                }
+            }
+        }
+        catch(Exception e){
+            System.out.println(App.Red + "No posees Skins" + App.Restorer);
+        }
+
+
+        System.out.println("===========================================");
+        return text;
+    }
+
+    @Override
+    public void agregarRP(String nombreCuenta, int monto) {
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        int saldo = c.getRpCuenta()+monto;
+        c.setRpCuenta(saldo);
+    }
+
+    @Override
+    public int mostrarRP(String nombreCuenta) {
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        return c.getRpCuenta();
+    }
+
+    private static boolean VerificarInt(String numero){
+        try{
+            int nuevoNumero = Integer.parseInt(numero);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

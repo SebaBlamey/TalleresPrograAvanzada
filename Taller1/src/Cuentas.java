@@ -7,6 +7,7 @@ class Cuentas {
     private int totalPersonajes;
     private String Skins;
     private String regionCuenta;
+    private listaCuentas lc;
 
     public Cuentas(String nombreCuenta, String contrasenaCuenta, String nickCuenta, int nivelCuenta, int rpCuenta, int totalPersonajes,  String skins, String region) {
         this.nombreCuenta = nombreCuenta;
@@ -17,6 +18,7 @@ class Cuentas {
         this.totalPersonajes = totalPersonajes;
         this.Skins = skins;
         this.regionCuenta = region;
+        lc = new listaCuentas(100);
     }
 
     public String getNombreCuenta() {
@@ -83,6 +85,10 @@ class Cuentas {
 
     public void setRegionCuenta(String regionCuenta) {
         this.regionCuenta = regionCuenta;
+    }
+
+    public listaCuentas getLc(){
+        return lc;
     }
 
     @Override
