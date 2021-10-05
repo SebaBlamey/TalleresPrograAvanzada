@@ -88,6 +88,51 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         return c.getRpCuenta();
     }
 
+    @Override
+    public String skinsDisponibles(String nombreCuenta) {
+        String texto = "";
+        for(int i = 0; i<lpersonajes.getCant();i++){
+            Personajes p = lpersonajes.getPersonajesX(i);
+            System.out.println("Campeon: " + p.getNombreCampeon());
+            System.out.println("Skins: ");
+            String[] partes = p.getDatosSkins().split(",");
+            System.out.println(p.getDatosSkins());
+            System.out.println(p.getCantSkins());
+            for(int j = 0;j<=(p.getCantSkins());j++){
+                try {
+                    if (!App.stringCharCheck(partes[j])) {
+                        System.out.println("  - " + conversionCalidadSkin(partes[(2*j)+1]) + partes[2*j]);
+                    }
+                }catch(Exception e){
+
+                }
+            }
+            //System.out.println("Skins: " + p.getDatosSkins());
+            System.out.println("----------------------------");
+        }
+
+
+        return texto;
+    }
+
+    private static String conversionCalidadSkin(String letra){
+        switch (letra){
+            case "M":
+                return (App.Purple +"[MITICA] "+App.Restorer);
+            case "D":
+                return (App.Yellow +"[DEFINITIVA] "+App.Restorer);
+            case "L":
+                return (App.Red +"[LEGENDARIA] "+App.Restorer);
+            case "E":
+                return (App.Cyan +"[EPICA] "+App.Restorer);
+            case "N":
+                return (App.Green +"[NORMAL] "+App.Restorer);
+            default:
+                return "[XDDDDD] ";
+        }
+        //return null;
+    }
+
     private static boolean VerificarInt(String numero){
         try{
             int nuevoNumero = Integer.parseInt(numero);

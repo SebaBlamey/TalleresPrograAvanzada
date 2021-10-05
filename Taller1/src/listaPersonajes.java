@@ -41,6 +41,14 @@ class listaPersonajes {
         }
     }
 
+    public Personajes getPersonajesX(int x){
+        if(x<cant){
+            return lp[x];
+        }else{
+            return null;
+        }
+    }
+
     @Override
     public String toString(){
         return "listaPersonajes{}";

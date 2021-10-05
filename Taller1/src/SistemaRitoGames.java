@@ -1,9 +1,10 @@
 public interface SistemaRitoGames {
-    public int inicioSesion(String nombreCuenta, String contrasenaCuenta);
-    public boolean ingresarCuenta(String nombreCuenta, String contrasenaCuenta, String nickCuenta, int nivelCuenta, int rpCuenta, int totalPersonajes, String skinsCuenta, String regionCuenta);
-    public boolean ingresarPersonajes(String nombreCampeon, String rol, int cantSkins, String skins);
-    public boolean ingresarEstadisticas(String nombreCampeon, int totalRecaudado);
-    public String mostrarInventario(String nombreCuenta);
-    public void agregarRP(String nombreCuenta, int monto);
-    public int mostrarRP(String nombreCuenta);
+    int inicioSesion(String nombreCuenta, String contrasenaCuenta);
+    boolean ingresarCuenta(String nombreCuenta, String contrasenaCuenta, String nickCuenta, int nivelCuenta, int rpCuenta, int totalPersonajes, String skinsCuenta, String regionCuenta);
+    boolean ingresarPersonajes(String nombreCampeon, String rol, int cantSkins, String skins);
+    boolean ingresarEstadisticas(String nombreCampeon, int totalRecaudado);
+    String mostrarInventario(String nombreCuenta);
+    void agregarRP(String nombreCuenta, int monto);
+    int mostrarRP(String nombreCuenta);
+    String skinsDisponibles(String nombreCuenta);
 }

@@ -65,7 +65,6 @@ public class App {
         System.out.println(White+"["+Cyan+"+"+White+"]"+ Restorer +" Personajes leidos.");
         buffer.close();
     }
-
     private static void lecturaEstadisticas(SistemaRitoGames sistema) throws IOException {
         BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("/run/media/seba/HDDManjaro/Programacion/Java/TalleresPrograAvanzada/Taller1/Estadisticas.txt"),
                 "utf-8"));
@@ -184,7 +183,7 @@ public class App {
      * @param str String that will be verified within the function
      * @return true or false
      */
-    private static boolean stringCharCheck(String str){
+    public static boolean stringCharCheck(String str){
         return ((str!=null) && (!str.equals("")) && (str.matches("^[a-zA-Z]+$")));
     }
     //=======================================================================================
@@ -271,7 +270,6 @@ public class App {
             System.out.println(Red + "[ERROR] " + Restorer + "No has podido registrate!");
         }
     }
-
     private static boolean verificarRegion(String region) {
         int cont_verify = 0;
         for(int i = 0; i< Regiones.length;i++){
@@ -282,7 +280,6 @@ public class App {
         return cont_verify>0;
 
     }
-
     private static void menuUsuario(SistemaRitoGames sistema, String nombreUsuario) throws InterruptedException {
         Scanner entrada = new Scanner(System.in);
         limpiarConsola(3);
@@ -291,7 +288,7 @@ public class App {
         System.out.println("-------------------------------------------");
         System.out.println("1)" + Cyan + " Comprar Skin [No Hecho]." + Restorer);
         System.out.println("2)" + Cyan + " Comprar Personaje [No Hecho]." + Restorer);
-        System.out.println("3)" + Cyan + " Skins Disponibles [No Hecho]." + Restorer);
+        System.out.println("3)" + Cyan + " Skins Disponibles [Falta]." + Restorer);
         System.out.println("4)" + Cyan + " Mostrar Inventario [Listo]." + Restorer);
         System.out.println("5)" + Cyan + " Recargar RP [Listo]." + Restorer);
         System.out.println("6)" + Cyan + " Mostrar Datos [No Hecho]." + Restorer);
@@ -311,7 +308,9 @@ public class App {
                     break;
                 case 3:
                     limpiarConsola(3);
-                    System.out.println("Skins disponibles");
+                    //System.out.println("Skins disponibles");
+                    sistema.skinsDisponibles(nombreUsuario);
+                    Thread.sleep(5000);
                     break;
                 case 4:
                     limpiarConsola(3);
