@@ -150,7 +150,7 @@ public class App {
      * it will be requested again.
      * @return return the String
      */
-    private static String ScannerChar(){
+    public static String ScannerChar(){
         Scanner input = new Scanner(System.in);
         String valor ="";
         boolean complete = false;
@@ -291,7 +291,7 @@ public class App {
         System.out.println("3)" + Cyan + " Skins Disponibles [Listo]." + Restorer);
         System.out.println("4)" + Cyan + " Mostrar Inventario [Listo]." + Restorer);
         System.out.println("5)" + Cyan + " Recargar RP [Listo]." + Restorer);
-        System.out.println("6)" + Cyan + " Mostrar Datos [No Hecho]." + Restorer);
+        System.out.println("6)" + Cyan + " Mostrar Datos [Listo]." + Restorer);
         System.out.println("7)" + Cyan + " Salir." + Restorer);
         System.out.println("===========================================");
         System.out.print("Ingrese una opción: ");
@@ -322,7 +322,6 @@ public class App {
                     break;
                 case 4:
                     limpiarConsola(3);
-                    System.out.println("Mostrar inventario de "+nombreUsuario);
                     sistema.mostrarInventario(nombreUsuario);
                     Thread.sleep(5000);
                     break;
@@ -343,7 +342,17 @@ public class App {
                     break;
                 case 6:
                     limpiarConsola(3);
-                    System.out.println("Mostrar Datos");
+                    System.out.println("==============================================================="+
+                            "============================");
+                    var texto1 = Red+"Informacion de Usuario"+Restorer;
+                    System.out.println(String.format("%63s",texto1));
+                    System.out.println("---------------------------------------------------------------"+
+                            "----------------------------");
+                    sistema.inforUsuario(nombreUsuario);
+                    System.out.println("==============================================================="+
+                            "============================");
+
+                    Thread.sleep(1000);
                     break;
                 default:
                     System.out.println(Red+"[ERROR] "+Restorer+"Opcion no valida");

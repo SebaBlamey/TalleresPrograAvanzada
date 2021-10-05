@@ -7,4 +7,5 @@ public interface SistemaRitoGames {
     void agregarRP(String nombreCuenta, int monto);
     int mostrarRP(String nombreCuenta);
     String skinsDisponibles(String nombreCuenta);
+    void inforUsuario(String nombreCuenta);
 }

@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class SistemaRitoGamesImpl implements SistemaRitoGames{
     listaPersonajes lpersonajes;
     listaCuentas lcuentas;
@@ -49,9 +51,12 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         Cuentas cuenta = lcuentas.searchC(nombreCuenta);
         String text = "";
         String skins = cuenta.getSkins();
-        System.out.println("===========================================");
-        System.out.println("               Skins de " + App.Cyan + nombreCuenta + App.Restorer);
-        System.out.println("-------------------------------------------");
+        System.out.println("==============================================================="+
+                "============================");
+        var texto = App.Red+"Skins de " +nombreCuenta+App.Restorer;
+        System.out.println(String.format("%63s",texto));
+        System.out.println("---------------------------------------------------------------"+
+                "----------------------------");
 
         try {
             String[] partes = skins.split(",");
@@ -71,7 +76,8 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
 
 
-        System.out.println("===========================================");
+        System.out.println("==============================================================="+
+                "============================");
         return text;
     }
 
@@ -114,6 +120,56 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
 
 
         return texto;
+    }
+
+    @Override
+    public void inforUsuario(String nombreCuenta) {
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        System.out.println("Nobre de Cuenta: " + App.Cyan + c.getNombreCuenta() + App.Restorer);
+        System.out.println("Nick de Cuenta: " + App.Cyan + c.getNickCuenta() + App.Restorer);
+
+        String contrasena = c.getContrasenaCuenta();
+        String contrasenaCensurada ="";
+        for(int i = 0;i<contrasena.length();i++) {
+            if(i!=contrasena.length()-1 && i!=contrasena.length()-2 && i!=contrasena.length()-3){
+                contrasenaCensurada += "*";
+            }else {
+                contrasenaCensurada += contrasena.charAt(i);
+            }
+        }
+        System.out.println("Contraseña de Cuenta: " + App.Cyan + contrasenaCensurada + App.Restorer);
+        System.out.print("Desea hacer un cambio de contrasena? (Y/N):  ");
+        String opcion = App.ScannerChar();
+        while(!opcion.equalsIgnoreCase("Y") && !opcion.equalsIgnoreCase("N")){
+            System.out.println(App.Red + "[ERROR] " + App.Restorer + "Opcion ingresada no valida.");
+            System.out.print("Desea hacer un cambio de contrasena? (Y/N):  ");
+            opcion = App.ScannerChar();
+        }
+        if(opcion.equalsIgnoreCase("Y")){
+            cambiarcontrasena(c);
+        }
+    }
+
+    private void cambiarcontrasena(Cuentas cuenta) {
+        Scanner entrada = new Scanner(System.in);
+        String contrasenaActual, contrasenaNueva, contrasenaNueva2;
+        System.out.print("Ingrese su contrasena actual: ");
+        contrasenaActual = entrada.nextLine();
+        if(contrasenaActual.equals(cuenta.getContrasenaCuenta())){
+            System.out.print("Ingrese su nueva contraseña: ");
+            contrasenaNueva = entrada.nextLine();
+            System.out.print("Ingrese otra vez su contraseña nueva: ");
+            contrasenaNueva2 = entrada.nextLine();
+            if(contrasenaNueva.equals(contrasenaNueva2)){
+                cuenta.setContrasenaCuenta(contrasenaNueva2);
+                System.out.println("Su contrasena ha sido cambiada con exito!");
+            }else{
+                System.out.println("Las contraseñas no coinciden. Intente mas tarde");
+            }
+        }
+        else{
+            System.out.println("Su contraseña no coincide con la actual. Intente mas tarde.");
+        }
     }
 
     private boolean usuarioTieneSkin(String parte, String nombreCuenta) {
