@@ -93,26 +93,40 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         String texto = "";
         for(int i = 0; i<lpersonajes.getCant();i++){
             Personajes p = lpersonajes.getPersonajesX(i);
-            System.out.println("Campeon: " + p.getNombreCampeon());
+            System.out.println("Campeon: " +App.Cyan+ p.getNombreCampeon()+App.Restorer);
             System.out.println("Skins: ");
             String[] partes = p.getDatosSkins().split(",");
-            System.out.println(p.getDatosSkins());
-            System.out.println(p.getCantSkins());
-            for(int j = 0;j<=(p.getCantSkins());j++){
+            for(int j = 0;j<=(100);j++){
                 try {
                     if (!App.stringCharCheck(partes[j])) {
-                        System.out.println("  - " + conversionCalidadSkin(partes[(2*j)+1]) + partes[2*j]);
+                        if(!usuarioTieneSkin(partes[j], nombreCuenta)) {
+                            System.out.println("  - " + conversionCalidadSkin(partes[j + 1]) + partes[j]);
+                        }
                     }
                 }catch(Exception e){
 
                 }
             }
-            //System.out.println("Skins: " + p.getDatosSkins());
-            System.out.println("----------------------------");
+            if(i != (lpersonajes.getCant()-1)) {
+                System.out.println("-------------------------------------");
+            }
         }
 
 
         return texto;
+    }
+
+    private boolean usuarioTieneSkin(String parte, String nombreCuenta) {
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        String skins = c.getSkins();
+        String[] partes = skins.split(",");
+        int conti = 0;
+        for(int i = 0; i<partes.length; i++){
+            if(partes[i].equalsIgnoreCase(parte)){
+                conti++;
+            }
+        }
+        return conti>0;
     }
 
     private static String conversionCalidadSkin(String letra){

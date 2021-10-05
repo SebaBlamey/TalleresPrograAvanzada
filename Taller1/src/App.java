@@ -288,7 +288,7 @@ public class App {
         System.out.println("-------------------------------------------");
         System.out.println("1)" + Cyan + " Comprar Skin [No Hecho]." + Restorer);
         System.out.println("2)" + Cyan + " Comprar Personaje [No Hecho]." + Restorer);
-        System.out.println("3)" + Cyan + " Skins Disponibles [Falta]." + Restorer);
+        System.out.println("3)" + Cyan + " Skins Disponibles [Listo]." + Restorer);
         System.out.println("4)" + Cyan + " Mostrar Inventario [Listo]." + Restorer);
         System.out.println("5)" + Cyan + " Recargar RP [Listo]." + Restorer);
         System.out.println("6)" + Cyan + " Mostrar Datos [No Hecho]." + Restorer);
@@ -309,7 +309,15 @@ public class App {
                 case 3:
                     limpiarConsola(3);
                     //System.out.println("Skins disponibles");
+                    System.out.println("==============================================================="+
+                            "============================");
+                    var texto = Red+"Skins Disponibles"+Restorer;
+                    System.out.println(String.format("%63s",texto));
+                    System.out.println("---------------------------------------------------------------"+
+                            "----------------------------");
                     sistema.skinsDisponibles(nombreUsuario);
+                    System.out.println("==============================================================="+
+                            "============================");
                     Thread.sleep(5000);
                     break;
                 case 4:
