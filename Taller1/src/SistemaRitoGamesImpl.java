@@ -150,6 +150,118 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
     }
 
+    @Override
+    public String comprarSkin(String nombreCuenta) {
+        String text = "";
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        Scanner entrada = new Scanner(System.in);
+        System.out.print("Ingresa el nombre del personaje del cual quieres la skin: ");
+        String nombrePersonaje = entrada.nextLine();
+        while(!existepersonaje(nombrePersonaje) && !tienePersonaje(nombrePersonaje, nombreCuenta)){
+            System.out.println(App.Red + "[ERROR] " + App.Restorer + "El personaje ingresado no es valido o no tienes al personaje.");
+            System.out.print("Ingresa el nombre del personaje del cual quieres la skin: ");
+            nombrePersonaje = entrada.nextLine();
+        }
+        System.out.print("Ingrese el nombre de la skin que desea comprar: ");
+        String nombreSkin = entrada.nextLine();
+        while(!existeSkin(nombrePersonaje, nombreSkin,nombreCuenta)){
+            System.out.println(App.Red + "[ERROR] " + App.Restorer + "La skin no es valida o ya la tienes.");
+            System.out.print("Ingrese el nombre de la skin que desea comprar: ");
+            nombreSkin = entrada.nextLine();
+        }
+        Personajes p = lpersonajes.searchP(nombrePersonaje);
+        String Skins = p.getDatosSkins();
+        String[] partes = Skins.split(",");
+        String nombredeLaSkin = partes[pos];
+        String calidadDeSkin = conversionCalidadSkin(partes[pos+1]);
+        int precioDeLaSkin = obtenerPrecioSkin(partes[pos+1]);
+        System.out.println("Nombre de la skin: " + nombredeLaSkin);
+        System.out.println("Calidad de la skin: " + calidadDeSkin);
+        System.out.println("Precio de la skin: " + precioDeLaSkin+" RP");
+        System.out.print("Desea realizar la compra? (Y/N): ");
+        String charr = App.ScannerChar();
+        while (!charr.equalsIgnoreCase("Y") && !charr.equalsIgnoreCase("N")) {
+            System.out.println(App.Red + "[ERROR] " + App.Restorer + "La opcion indicada no es valida.");
+            System.out.print("Desea realizar la compra? (Y/N): ");
+            charr = App.ScannerChar();
+        }
+        if(charr.equalsIgnoreCase("Y")){
+            int cantRp = c.getRpCuenta();
+            if(cantRp<precioDeLaSkin){
+                System.out.println(App.Red + "[ERROR] "+"No tienes saldo suficiente para realizar la compra!");
+            }else{
+                int total = cantRp-precioDeLaSkin;
+                c.setRpCuenta(total);
+                int nivelCuenta = c.getNivelCuenta();
+                c.setNivelCuenta(nivelCuenta+1);
+                String skinsactuales = c.getSkins();
+                String[] partess = skinsactuales.split(",");
+                String actales = "";
+                for(int i = 0; i<partess.length; i++){
+
+                    if(partess[i].equalsIgnoreCase(nombrePersonaje)){
+                        int numSkinActual = Integer.parseInt(partess[i+1]);
+                        partess[i+1] = String.valueOf(numSkinActual+1);
+                        partess[i+1] += (","+nombreSkin);
+                    }
+                    if(i==partess.length-1) {
+                        actales += partess[i];
+                    }else{
+                        actales += (partess[i] + ",");
+                    }
+                }
+                c.setSkins(actales);
+                System.out.println(App.Green + "[EXITO] " + App.Restorer + "Has comprado la skin!");
+            }
+
+        }
+
+
+        return text;
+    }
+
+
+    private int obtenerPrecioSkin(String letra) {
+        switch (letra){
+            case "M":
+                return 3250;
+            case "D":
+                return 2750;
+            case "L":
+                return 1820;
+            case "E":
+                return 1350;
+            case "N":
+                return 975;
+            default:
+                return 9999999;
+        }
+    }
+
+    public int pos = 0;
+    private boolean existeSkin(String nombrePersonaje, String nombreSkin, String nombreCuenta) {
+        Personajes p = lpersonajes.searchP(nombrePersonaje);
+        String Skins = p.getDatosSkins();
+        String[] partes = Skins.split(",");
+        for(int i = 0; i<partes.length;i++){
+            if(partes[i].equalsIgnoreCase(nombreSkin) && !usuarioTieneSkin(partes[i],nombreCuenta)){
+                pos = i;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean existepersonaje(String nombrePersonaje) {
+        for(int i = 0; i<lpersonajes.getCant(); i++){
+            Personajes p = lpersonajes.getPersonajesX(i);
+            if(nombrePersonaje.equalsIgnoreCase(p.getNombreCampeon())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void cambiarcontrasena(Cuentas cuenta) {
         Scanner entrada = new Scanner(System.in);
         String contrasenaActual, contrasenaNueva, contrasenaNueva2;
@@ -170,6 +282,17 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         else{
             System.out.println("Su contraseña no coincide con la actual. Intente mas tarde.");
         }
+    }
+    private boolean tienePersonaje(String nombrePersonaje, String nombreCuenta) {
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        String personajes = c.getSkins();
+        String[] partes = personajes.split(",");
+        for(int i = 0; i<partes.length; i++){
+            if(partes[i].equalsIgnoreCase(nombrePersonaje)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean usuarioTieneSkin(String parte, String nombreCuenta) {

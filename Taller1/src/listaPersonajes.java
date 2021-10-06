@@ -47,7 +47,7 @@ class listaPersonajes {
 
     public Personajes searchP(String personaje){
         for(int i=0; i<cant;i++){
-            if ((lp[i].getNombreCampeon()).equals(personaje)){
+            if ((lp[i].getNombreCampeon()).equalsIgnoreCase(personaje)){
                 return lp[i];
             }
         }return null;

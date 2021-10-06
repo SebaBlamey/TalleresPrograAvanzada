@@ -15,7 +15,7 @@ public class App {
     }
     // ===================================LECTURAS===================================
     private static void lecturaCuentas(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C:/Users/Jota/TalleresPrograAvanzada/Taller1/Cuentas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("/run/media/seba/HDDManjaro/Programacion/Java/TalleresPrograAvanzada/Taller1/Cuentas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -43,7 +43,7 @@ public class App {
         buffer.close();
     }
     private static void lecturaPersonajes(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C:/Users/Jota/TalleresPrograAvanzada/Taller1//Personajes.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("/run/media/seba/HDDManjaro/Programacion/Java/TalleresPrograAvanzada/Taller1/Personajes.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -66,7 +66,7 @@ public class App {
         buffer.close();
     }
     private static void lecturaEstadisticas(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C:/Users/Jota/TalleresPrograAvanzada/Taller1//Estadisticas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("/run/media/seba/HDDManjaro/Programacion/Java/TalleresPrograAvanzada/Taller1/Estadisticas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -286,7 +286,7 @@ public class App {
         System.out.println("===========================================");
         System.out.println("               Menú" + Yellow + " CLIENTE                " + Restorer);
         System.out.println("-------------------------------------------");
-        System.out.println("1)" + Cyan + " Comprar Skin [No Hecho]." + Restorer);
+        System.out.println("1)" + Cyan + " Comprar Skin [Listo]." + Restorer);
         System.out.println("2)" + Cyan + " Comprar Personaje [No Hecho]." + Restorer);
         System.out.println("3)" + Cyan + " Skins Disponibles [Listo]." + Restorer);
         System.out.println("4)" + Cyan + " Mostrar Inventario [Listo]." + Restorer);
@@ -300,7 +300,16 @@ public class App {
             switch (opcion){
                 case 1:
                     limpiarConsola(3);
-                    System.out.println("Comprar Skin");
+                    System.out.println("==============================================================="+
+                            "============================");
+                    var textos = Red+"Comprar Skin"+Restorer;
+                    System.out.println(String.format("%63s",textos));
+                    System.out.println("---------------------------------------------------------------"+
+                            "----------------------------");
+                    sistema.comprarSkin(nombreUsuario);
+                    System.out.println("==============================================================="+
+                            "============================");
+                    Thread.sleep(5000);
                     break;
                 case 2:
                     limpiarConsola(3);
