@@ -3,6 +3,7 @@ class listaPersonajes {
     private int max;
     private Personajes[] lp;
 
+
     public listaPersonajes(int max){
         cant = 0;
         this.max = max;
@@ -25,6 +26,9 @@ class listaPersonajes {
         this.max = max;
     }
 
+    public Personajes[] getLp() {
+        return lp;
+    }
 
     public void setLp(Personajes[] lp) {
         this.lp = lp;
@@ -39,6 +43,23 @@ class listaPersonajes {
         else{
             return false;
         }
+    }
+
+    public Personajes searchP(String personaje){
+        for(int i=0; i<cant;i++){
+            if ((lp[i].getNombreCampeon()).equals(personaje)){
+                return lp[i];
+            }
+        }return null;
+    }
+
+    public Personajes searchR(String rol){
+        for(int i =0 ; i< cant; i++){
+            if(lp[i].getRol().equals(rol)){
+                return lp[i];
+            }
+        }
+        return null;
     }
 
     public Personajes getPersonajesX(int x){

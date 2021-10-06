@@ -29,6 +29,15 @@ class listaEstadistica {
         return le;
     }
 
+    /*
+    ublic Personajes getPersonajesX(int x){
+        if(x<cant){
+            return lp[x];
+        }else{
+            return null;
+        }
+    }
+     */
     public void setLe(Estadisticas[] le) {
         this.le = le;
     }

@@ -211,4 +211,104 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
             return false;
         }
     }
+
+    public String recaudacionRol(String rol){
+        String mensaje="";
+        /*
+
+        Personajes personajes = lpersonajes.searchR(rol);
+        String roles = personajes.getRol();
+        String [] partes = roles.split(",");
+        int cont_adc=0;
+        int cont_mid=0;
+        int cont_jg=0;
+        int cont_top=0;
+        int cont_sup=0;
+
+        for(int i=0; i< partes.length;i++) {
+            if (partes[i].equalsIgnoreCase("adc")) {
+                cont_adc++;
+            }
+            if (partes[i].equalsIgnoreCase("mid")) {
+                cont_mid++;
+            }
+            if (partes[i].equalsIgnoreCase("jg")) {
+                cont_jg++;
+            }
+            if (partes[i].equalsIgnoreCase("sup")) {
+                cont_sup++;
+            }
+            if(partes[i].equalsIgnoreCase("top")){
+                cont_top++;
+            }
+        }
+        var texto = ("La cantidad de ventas recaudadas por cada rol fue:\n SUP: "+cont_sup+"\n ADC:\n MID:\n JG:\n TOP: ");
+    | */
+        return mensaje;
+    }
+
+    /*
+    public int mostrarRP(String nombreCuenta) {
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        return c.getRpCuenta();
+    }
+     */
+    @Override
+    public int recaudacionTotal(String nombreCuenta) {
+
+        return 0;
+    }
+
+    @Override
+    public String recaudacionPersonajes(String nombreCuenta) {
+        String msg ="";
+
+        return null;
+    }
+
+    @Override
+    public String personajesXRol(String nombreCuenta) {
+        return null;
+    }
+
+    /*
+    public void agregarRP(String nombreCuenta, int monto) {
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        int saldo = c.getRpCuenta()+monto;
+        c.setRpCuenta(saldo);
+    }
+
+     */
+
+    /*
+    public boolean agregarPersonajes(String nombre )
+    private String nombreCampeon;
+    private String rol;
+    private int cantSkins;
+    private String datosSkins;
+     */
+    @Override
+    public boolean agregarPersonajes(String nombreCampeon, String rol, int cantSkins, String DatosSkin ) {
+        Personajes p = lpersonajes.searchP(nombreCampeon);
+        if(p!=null){
+            Personajes nP = new Personajes(nombreCampeon,rol,cantSkins,DatosSkin);
+            lpersonajes.addPersonajes(nP);
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    @Override
+    public String blockPlayer(String nombreCuenta) {
+        return null;
+    }
+
+    @Override
+    public String infoCuentas(String nombreCuenta) {
+        return null;
+    }
+
+
 }

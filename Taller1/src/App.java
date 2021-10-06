@@ -15,7 +15,7 @@ public class App {
     }
     // ===================================LECTURAS===================================
     private static void lecturaCuentas(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("/run/media/seba/HDDManjaro/Programacion/Java/TalleresPrograAvanzada/Taller1/Cuentas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C:/Users/Jota/TalleresPrograAvanzada/Taller1/Cuentas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -43,7 +43,7 @@ public class App {
         buffer.close();
     }
     private static void lecturaPersonajes(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("/run/media/seba/HDDManjaro/Programacion/Java/TalleresPrograAvanzada/Taller1/Personajes.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C:/Users/Jota/TalleresPrograAvanzada/Taller1//Personajes.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -66,7 +66,7 @@ public class App {
         buffer.close();
     }
     private static void lecturaEstadisticas(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("/run/media/seba/HDDManjaro/Programacion/Java/TalleresPrograAvanzada/Taller1/Estadisticas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C:/Users/Jota/TalleresPrograAvanzada/Taller1//Estadisticas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -214,7 +214,7 @@ public class App {
                 switch (inicio) {
                     case 2:
                         System.out.println("Administrador");
-                        menuAdmin(sistema);
+                        menuAdmin(sistema, usuario);
                         break;
                     case 1:
                         System.out.println("Usuario");
@@ -376,7 +376,7 @@ public class App {
 
     }
 
-    private static void menuAdmin(SistemaRitoGames sistema) throws InterruptedException {
+    private static void menuAdmin(SistemaRitoGames sistema, String rol) throws InterruptedException {
         Scanner entrada = new Scanner(System.in);
         limpiarConsola(3);
         System.out.println("===========================================");
@@ -396,7 +396,10 @@ public class App {
         while(opcion != 9){
             switch (opcion){
                 case 1:
+                    limpiarConsola(3);
                     System.out.println("Recaudacion por venta");
+                    sistema.recaudacionRol(rol);
+                    Thread.sleep(5000);
                     break;
                 case 2:
                     System.out.println("Recaudacion total de ventas");
@@ -405,10 +408,37 @@ public class App {
                     System.out.println("Recaudacion por personajes");
                     break;
                 case 4:
+                    limpiarConsola(3);
                     System.out.println("Agregar personaje");
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Ingrese nombre del personaje: ");
+                    String name = s.nextLine();
+                    System.out.println("Ingrese rol del personaje: ");
+                    String Rol = s.nextLine();
+                    System.out.println("Ingrese cantidad de skins del personaje: ");
+                    int cantSkins = s.nextInt();
+                    int contSkins = cantSkins;
+                    String Skins = "";
+                    while(contSkins>0){
+                        System.out.println("Ingrese el nombre de la skin del personaje: ");
+                        String nameSkins = s.nextLine();
+                        if(contSkins>0){
+                            Skins = nameSkins + ",";
+                        }
+                        contSkins--;
+                    }
+
+                    if(sistema.agregarPersonajes(name,Rol,cantSkins,Skins)){
+                        System.out.println("EXITO Personaje agregado exitosamente.");
+                    }else{
+                        System.out.println("ERROR! El dentista no pudo ser contratado");
+                    }
+                    Thread.sleep(5000);
                     break;
                 case 5:
+                    limpiarConsola(3);
                     System.out.println("Agregar Skin");
+                    Thread.sleep(5000);
                     break;
                 case 6:
                     System.out.println("Bloquear jugador");
