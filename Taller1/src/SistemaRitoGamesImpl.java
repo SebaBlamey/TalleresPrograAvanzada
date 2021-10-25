@@ -220,6 +220,43 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         return text;
     }
 
+    @Override
+    public String comprarPersonaje(String nombreCuenta) {
+        String text = "";
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        Scanner entrada = new Scanner(System.in);
+        System.out.print("Ingrese el nombre del personaje que desea comprar: ");
+        String nombrePersonaje = entrada.nextLine();
+        while(!existepersonaje(nombrePersonaje) && !tienePersonaje(nombrePersonaje, nombreCuenta)){
+            System.out.println(App.Red + "[ERROR] " + App.Restorer + "El personaje ingresado no es valido o no tienes al personaje.");
+            System.out.print("Ingrese el nombre del personaje que desea comprar: ");
+            nombrePersonaje = entrada.nextLine();
+        }
+        System.out.println("Personaje seleccionado: " + App.Cyan + nombrePersonaje + App.Restorer);
+        System.out.print("Desea realizar la compra? (Y/N): ");
+        String charr = App.ScannerChar();
+        while (!charr.equalsIgnoreCase("Y") && !charr.equalsIgnoreCase("N")) {
+            System.out.println(App.Red + "[ERROR] " + App.Restorer + "La opcion indicada no es valida.");
+            System.out.print("Desea realizar la compra? (Y/N): ");
+            charr = App.ScannerChar();
+        }
+        if(charr.equalsIgnoreCase("Y")){
+            int cantRP = c.getRpCuenta();
+            if(cantRP<975){
+                System.out.println(App.Red + "[ERROR] "+"No tienes saldo suficiente para realizar la compra!");
+            }else{
+                int total = cantRP-975;
+                c.setRpCuenta(total);
+                int nivelCuenta = c.getNivelCuenta();
+                c.setNivelCuenta(nivelCuenta+1);
+                String skinsactuales = c.getSkins();
+                c.setSkins(skinsactuales+(","+nombrePersonaje+",0"));
+                System.out.println(App.Green + "[EXITO] " + App.Restorer + "Has comprado el personaje!");
+            }
+        }
+        return text;
+    }
+
 
     private int obtenerPrecioSkin(String letra) {
         switch (letra){

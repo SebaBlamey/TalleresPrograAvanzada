@@ -10,6 +10,7 @@ public interface SistemaRitoGames {
     String skinsDisponibles(String nombreCuenta);
     void inforUsuario(String nombreCuenta);
     String comprarSkin(String nombreCuenta);
+    String comprarPersonaje(String nombreCuenta);
 
     String recaudacionRol(String rol);
     int recaudacionTotal(String nombreCuenta);
