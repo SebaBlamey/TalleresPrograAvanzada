@@ -372,6 +372,8 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
     }
 
+
+    //ADMIN
     public String recaudacionRol(String rol){
         String mensaje="";
         /*
@@ -427,10 +429,13 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     }
 
     @Override
-    public String personajesXRol(String nombreCuenta) {
+    public String personajesVentasXRol(String nombreCuenta) {
         return null;
     }
 
+    public String personajesXRol(String nombreCuenta){
+        return null;
+    }
     /*
     public void agregarRP(String nombreCuenta, int monto) {
         Cuentas c = lcuentas.searchC(nombreCuenta);
@@ -459,14 +464,34 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
 
     }
+    public boolean agregarSkins(String nombreCampeon, String nameSkin, int valor, String calidad) {
+        Personajes p = lpersonajes.searchP(nombreCampeon);
+        if(p!=null){
+            Personajes Skin = new Personajes(nombreCampeon, nameSkin,valor, calidad);
+            lpersonajes.addPersonajes(Skin);
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     @Override
     public String blockPlayer(String nombreCuenta) {
-        return null;
+        String mensaje="";
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        System.out.println("Nombre de Cuenta: "+ c.getNombreCuenta());
+        lcuentas.deleteC(nombreCuenta);
+        System.out.println("La cuenta "+nombreCuenta+" ha sido bloqueada.");
+        return mensaje;
     }
 
     @Override
     public String infoCuentas(String nombreCuenta) {
+        Cuentas c = lcuentas.searchC(nombreCuenta);
+        int nivelMayor=0, nivelMenor=0;
+        if(c.getNivelCuenta()<c.getNivelCuenta()+1){
+            nivelMayor=c.getNivelCuenta()+1;
+        }
         return null;
     }
 

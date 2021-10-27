@@ -55,6 +55,27 @@ class listaCuentas {
         return null;
     }
 
+    public boolean deleteC(String nombreCuenta){
+        int i=0;
+        for(int x =0 ; x<cant;x++){
+            if(lc[x].getNombreCuenta().equals(nombreCuenta)){
+                i=x;
+                break;
+            }
+        }
+        if(i==cant){
+            return false;
+        }
+        else{
+            lc[i]=null;
+            for(int j=i; j<cant-1;j++){
+                lc[j]=lc[j+1];
+            }
+            cant--;
+            return true;
+        }
+    }
+
     @Override
     public String toString() {
         return "listaCuentas{}";

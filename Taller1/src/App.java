@@ -394,7 +394,7 @@ public class App {
 
     }
 
-    private static void menuAdmin(SistemaRitoGames sistema, String rol) throws InterruptedException {
+    private static void menuAdmin(SistemaRitoGames sistema, String nombreCuenta) throws InterruptedException {
         Scanner entrada = new Scanner(System.in);
         limpiarConsola(3);
         System.out.println("===========================================");
@@ -403,11 +403,12 @@ public class App {
         System.out.println("1)" + Cyan + " Recaudacion por venta [No Hecho]." + Restorer);
         System.out.println("2)" + Cyan + " Recaudacion total de ventas [No Hecho]." + Restorer);
         System.out.println("3)" + Cyan + " Recaudacion por personajes [No Hecho]." + Restorer);
-        System.out.println("4)" + Cyan + " Agregar personaje [No Hecho]." + Restorer);
-        System.out.println("5)" + Cyan + " Agregar Skin [No Hecho]." + Restorer);
-        System.out.println("6)" + Cyan + " Bloquear jugador [No Hecho]." + Restorer);
-        System.out.println("7)" + Cyan + " Desplegar cuentas [No Hecho]." + Restorer);
-        System.out.println("8)" + Cyan + " Salir." + Restorer);
+        System.out.println("4)" + Cyan + " Cantidad de personajes por rol [No Hecho]." + Restorer);
+        System.out.println("5)" + Cyan + " Agregar personaje [Hecho]." + Restorer);
+        System.out.println("6)" + Cyan + " Agregar Skin [Hecho]." + Restorer);
+        System.out.println("7)" + Cyan + " Bloquear jugador [Hecho]." + Restorer);
+        System.out.println("8)" + Cyan + " Desplegar cuentas [No Hecho]." + Restorer);
+        System.out.println("9)" + Cyan + " Salir." + Restorer);
         System.out.println("===========================================");
         System.out.print("Ingrese alguna opción -> ");
         int opcion = ScannerInt();
@@ -416,7 +417,7 @@ public class App {
                 case 1:
                     limpiarConsola(3);
                     System.out.println("Recaudacion por venta");
-                    sistema.recaudacionRol(rol);
+                    sistema.recaudacionRol(nombreCuenta);
                     Thread.sleep(5000);
                     break;
                 case 2:
@@ -426,6 +427,9 @@ public class App {
                     System.out.println("Recaudacion por personajes");
                     break;
                 case 4:
+                    System.out.println("Cantidad de personajes por rol");
+                    break;
+                case 5:
                     limpiarConsola(3);
                     System.out.println("Agregar personaje");
                     Scanner s = new Scanner(System.in);
@@ -449,20 +453,30 @@ public class App {
                     if(sistema.agregarPersonajes(name,Rol,cantSkins,Skins)){
                         System.out.println("EXITO Personaje agregado exitosamente.");
                     }else{
-                        System.out.println("ERROR! El dentista no pudo ser contratado");
+                        System.out.println("ERROR! El personaje no pudo ser agregado.");
                     }
                     Thread.sleep(5000);
                     break;
-                case 5:
+                case 6:
                     limpiarConsola(3);
                     System.out.println("Agregar Skin");
+                    Scanner ss= new Scanner(System.in);
+                    System.out.println("Ingrese nombre del personaje: ");
+                    String names = ss.nextLine();
+                    System.out.println("Ingrese el nombre de la skin del personaje: ");
+                    String nameSkin = ss.nextLine();
+                    System.out.println("Ingrese la calidad de la skin: ");
+                    String calidad = ss.nextLine();
+                    sistema.agregarSkins(names,nameSkin,+1,calidad);
                     Thread.sleep(5000);
                     break;
-                case 6:
-                    System.out.println("Bloquear jugador");
-                    break;
                 case 7:
+                    System.out.println("Bloquear jugador");
+                    sistema.blockPlayer(nombreCuenta);
+                    break;
+                case 8:
                     System.out.println("Desplegar cuentas");
+                    sistema.infoCuentas(nombreCuenta);
                     break;
                 default:
                     System.out.println(Red+"[ERROR] "+Restorer+"Opcion no valida");
@@ -476,11 +490,12 @@ public class App {
         System.out.println("1)" + Cyan + " Recaudacion por venta." + Restorer);
         System.out.println("2)" + Cyan + " Recaudacion total de ventas." + Restorer);
         System.out.println("3)" + Cyan + " Recaudacion por personajes." + Restorer);
-        System.out.println("4)" + Cyan + " Agregar personaje." + Restorer);
-        System.out.println("5)" + Cyan + " Agregar Skin." + Restorer);
-        System.out.println("6)" + Cyan + " Bloquear jugador." + Restorer);
-        System.out.println("7)" + Cyan + " Desplegar cuentas." + Restorer);
-        System.out.println("8)" + Cyan + " Salir." + Restorer);
+        System.out.println("4)" + Cyan + " Cantidad de personajes por rol." + Restorer);
+        System.out.println("5)" + Cyan + " Agregar personaje." + Restorer);
+        System.out.println("6)" + Cyan + " Agregar Skin." + Restorer);
+        System.out.println("7)" + Cyan + " Bloquear jugador." + Restorer);
+        System.out.println("8)" + Cyan + " Desplegar cuentas." + Restorer);
+        System.out.println("9)" + Cyan + " Salir." + Restorer);
         System.out.println("===========================================");
         System.out.print("Ingrese alguna opción -> ");
         opcion = ScannerInt();
