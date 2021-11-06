@@ -376,7 +376,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     //ADMIN
     public String recaudacionRol(String rol){
         String mensaje="";
-        /*
+
 
         Personajes personajes = lpersonajes.searchR(rol);
         String roles = personajes.getRol();
@@ -405,7 +405,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
             }
         }
         var texto = ("La cantidad de ventas recaudadas por cada rol fue:\n SUP: "+cont_sup+"\n ADC:\n MID:\n JG:\n TOP: ");
-    | */
+
         return mensaje;
     }
 
@@ -415,6 +415,12 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         return c.getRpCuenta();
     }
      */
+
+
+    private int recaudacionRegion(String nombreCuenta) {
+        return 0;
+    }
+
     @Override
     public int recaudacionTotal(String nombreCuenta) {
 
@@ -424,8 +430,14 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     @Override
     public String recaudacionPersonajes(String nombreCuenta) {
         String msg ="";
+        Estadisticas stats = lestadistica.searchE(nombreCuenta);
+        for(int i=0; i< lestadistica.getCant();i++){
+            double montoCampeon= stats.getTotalRecaudado();
+            double montoCampeonClp = conversionRpClp(montoCampeon);
+            System.out.println(stats.getNombreCampeon() + montoCampeonClp);
+        }
 
-        return null;
+        return msg;
     }
 
     @Override
@@ -434,7 +446,29 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     }
 
     public String personajesXRol(String nombreCuenta){
-        return null;
+        String msg ="";
+        Personajes p = lpersonajes.searchP(nombreCuenta);
+        String adc="",supp="",mid="",top="",jg="";
+        for(int i =0 ; i<lpersonajes.getCant();i++){
+            if(p.getRol().equalsIgnoreCase("Adc")){
+                adc = p + "\n";
+            }if(p.getRol().equalsIgnoreCase("supp")){
+                 supp = p + "";
+            }if(p.getRol().equalsIgnoreCase("mid")){
+                 mid = p + "";
+            }if(p.getRol().equalsIgnoreCase("top")){
+                 top = p + "";
+            }if(p.getRol().equalsIgnoreCase("jg")){
+                 jg = p + "";
+            }
+        }
+        System.out.println("ADC"+adc+"\nSupp"+supp+"\nMid"+mid+"\nTop+"+top+"\nJg"+jg);
+        /*
+        var texto = ("La cantidad de ventas recaudadas por cada rol fue:\n SUP: "+cont_sup+"\n ADC:\n MID:\n JG:\n TOP: ");
+         */
+
+
+        return msg;
     }
     /*
     public void agregarRP(String nombreCuenta, int monto) {
@@ -495,5 +529,18 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         return null;
     }
 
+    private double conversionRpClp(double monto){
+        double val_clp= 6.15;
+        return (monto*val_clp);
+    }
+    private boolean validarRol(String rolPersonaje){
+        for (int i=0; i<lpersonajes.getCant();i++){
+            Personajes p = lpersonajes.getRolX(i);
+            if(rolPersonaje.equalsIgnoreCase(p.getRol())){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

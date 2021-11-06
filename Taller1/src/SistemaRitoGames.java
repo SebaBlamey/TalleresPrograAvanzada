@@ -12,7 +12,7 @@ public interface SistemaRitoGames {
     String comprarSkin(String nombreCuenta);
     String comprarPersonaje(String nombreCuenta);
 
-    String recaudacionRol(String rol);
+    String recaudacionRol(String nombreCuenta);
     int recaudacionTotal(String nombreCuenta);
     String recaudacionPersonajes(String nombreCuenta);
     String personajesVentasXRol (String nombreCuenta);

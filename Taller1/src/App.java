@@ -402,8 +402,8 @@ public class App {
         System.out.println("-------------------------------------------");
         System.out.println("1)" + Cyan + " Recaudacion por venta [No Hecho]." + Restorer);
         System.out.println("2)" + Cyan + " Recaudacion total de ventas [No Hecho]." + Restorer);
-        System.out.println("3)" + Cyan + " Recaudacion por personajes [No Hecho]." + Restorer);
-        System.out.println("4)" + Cyan + " Cantidad de personajes por rol [No Hecho]." + Restorer);
+        System.out.println("3)" + Cyan + " Recaudacion por personajes [Hecho]." + Restorer);
+        System.out.println("4)" + Cyan + " Cantidad de personajes por rol [Hecho]." + Restorer);
         System.out.println("5)" + Cyan + " Agregar personaje [Hecho]." + Restorer);
         System.out.println("6)" + Cyan + " Agregar Skin [Hecho]." + Restorer);
         System.out.println("7)" + Cyan + " Bloquear jugador [Hecho]." + Restorer);
@@ -416,18 +416,24 @@ public class App {
             switch (opcion){
                 case 1:
                     limpiarConsola(3);
-                    System.out.println("Recaudacion por venta");
+                    System.out.println("Recaudacion de venta por rol");
                     sistema.recaudacionRol(nombreCuenta);
                     Thread.sleep(5000);
                     break;
                 case 2:
-                    System.out.println("Recaudacion total de ventas");
+                    System.out.println("Recaudacion total de ventas por región");
                     break;
                 case 3:
+                    limpiarConsola(3);
                     System.out.println("Recaudacion por personajes");
+                    sistema.recaudacionPersonajes(nombreCuenta);
+                    Thread.sleep(5000);
                     break;
                 case 4:
+                    limpiarConsola(3);
                     System.out.println("Cantidad de personajes por rol");
+                    sistema.personajesXRol(nombreCuenta);
+                    Thread.sleep(5000);
                     break;
                 case 5:
                     limpiarConsola(3);

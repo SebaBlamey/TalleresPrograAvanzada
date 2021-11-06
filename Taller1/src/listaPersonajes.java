@@ -69,6 +69,13 @@ class listaPersonajes {
             return null;
         }
     }
+    public Personajes getRolX(int x){
+        if(x<cant){
+            return lp[x];
+        }else{
+            return null;
+        }
+    }
 
     @Override
     public String toString(){

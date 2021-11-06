@@ -29,18 +29,10 @@ class listaEstadistica {
         return le;
     }
 
-    /*
-    ublic Personajes getPersonajesX(int x){
-        if(x<cant){
-            return lp[x];
-        }else{
-            return null;
-        }
-    }
-     */
     public void setLe(Estadisticas[] le) {
         this.le = le;
     }
+
     public boolean addEstadistica(Estadisticas estadisticas){
         if(cant<max){
             le[cant] = estadisticas;
@@ -50,6 +42,20 @@ class listaEstadistica {
         else{
             return false;
         }
+    }
+    public Estadisticas getEstadisticaX(int x){
+        if(x<cant){
+            return le[x];
+        }else{
+            return null;
+        }
+    }
+    public Estadisticas searchE (String personaje){
+        for(int i=0;i<cant;i++){
+            if((le[i].getNombreCampeon()).equalsIgnoreCase(personaje)){
+                return le[i];
+            }
+        }return null;
     }
     @Override
     public String toString(){
