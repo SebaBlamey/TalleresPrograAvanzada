@@ -13,9 +13,8 @@ public interface SistemaRitoGames {
     String comprarPersonaje(String nombreCuenta);
 
     String recaudacionRol(String nombreCuenta);
-    int recaudacionTotal(String nombreCuenta);
+    String recaudacionTotal(String nombreCuenta);
     String recaudacionPersonajes(String nombreCuenta);
-    String personajesVentasXRol (String nombreCuenta);
     String personajesXRol(String nombreCuenta);
     boolean agregarPersonajes (String nombreCampeon, String rol, int cantSkins, String  DatosSkin);
     boolean agregarSkins(String nombreCampeon, String nameSkin,int valor, String calidad);

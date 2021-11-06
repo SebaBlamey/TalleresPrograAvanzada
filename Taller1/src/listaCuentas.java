@@ -76,6 +76,13 @@ class listaCuentas {
         }
     }
 
+    public Cuentas searchR(String nombreCuenta){
+        for(int i=0;i<cant;i++){
+            if(lc[i].getRegionCuenta().equalsIgnoreCase(nombreCuenta)){
+                return lc[i];
+            }
+        }return null;
+    }
     @Override
     public String toString() {
         return "listaCuentas{}";

@@ -125,7 +125,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     @Override
     public void inforUsuario(String nombreCuenta) {
         Cuentas c = lcuentas.searchC(nombreCuenta);
-        System.out.println("Nobre de Cuenta: " + App.Cyan + c.getNombreCuenta() + App.Restorer);
+        System.out.println("Nombre de Cuenta: " + App.Cyan + c.getNombreCuenta() + App.Restorer);
         System.out.println("Nick de Cuenta: " + App.Cyan + c.getNickCuenta() + App.Restorer);
 
         String contrasena = c.getContrasenaCuenta();
@@ -374,6 +374,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
 
 
     //ADMIN
+
     public String recaudacionRol(String rol){
         String mensaje="";
 
@@ -409,24 +410,39 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         return mensaje;
     }
 
-    /*
-    public int mostrarRP(String nombreCuenta) {
-        Cuentas c = lcuentas.searchC(nombreCuenta);
-        return c.getRpCuenta();
-    }
-     */
-
-
-    private int recaudacionRegion(String nombreCuenta) {
-        return 0;
-    }
-
     @Override
-    public int recaudacionTotal(String nombreCuenta) {
+    //ARREGLAR
+    public String recaudacionTotal(String nombreCuenta) {
+        String msg ="";
+        double recLanClp=0,recLasClp=0,recEuwClp=0,recKrClp=0,recNaClp=0,recRuClp=0;
+        for(int i =0 ; i< lcuentas.getCant();i++){
+            Cuentas c = lcuentas.searchR(nombreCuenta);
+            if(c.getRegionCuenta().equalsIgnoreCase("LAN")){
+                double recLan=c.getRpCuenta();
+                recLanClp += conversionRpClp(recLan);
+            }if(c.getRegionCuenta().equalsIgnoreCase("LAS")){
+                double recLas=c.getRpCuenta();
+                recLasClp += conversionRpClp(recLas);
+            }if(c.getRegionCuenta().equalsIgnoreCase("EUW")){
+                double recEuw=c.getRpCuenta();
+                recEuwClp += conversionRpClp(recEuw);
+            }if(c.getRegionCuenta().equalsIgnoreCase("Kr")){
+                double recKr=c.getRpCuenta();
+                recKrClp += conversionRpClp(recKr);
+            }if(c.getRegionCuenta().equalsIgnoreCase("Na")){
+                double recNa=c.getRpCuenta();
+                recNaClp += conversionRpClp(recNa);
+            }if(c.getRegionCuenta().equalsIgnoreCase("Ru")){
+                double recRu=c.getRpCuenta();
+                recRuClp += conversionRpClp(recRu);
+            }
+        }
+        System.out.println("LAN: "+ recLanClp+ "\nLAS :" + recLasClp + "\nEUW: "+
+                recEuwClp +"\nKR: " +recKrClp+ "\nNA: " +recNaClp +"\nRU: "+recRuClp);
 
-        return 0;
+        return msg;
     }
-
+    //ARREGLAR
     @Override
     public String recaudacionPersonajes(String nombreCuenta) {
         String msg ="";
@@ -439,12 +455,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
 
         return msg;
     }
-
-    @Override
-    public String personajesVentasXRol(String nombreCuenta) {
-        return null;
-    }
-
+    //ARREGLAR
     public String personajesXRol(String nombreCuenta){
         String msg ="";
         Personajes p = lpersonajes.searchP(nombreCuenta);
@@ -463,21 +474,8 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
             }
         }
         System.out.println("ADC"+adc+"\nSupp"+supp+"\nMid"+mid+"\nTop+"+top+"\nJg"+jg);
-        /*
-        var texto = ("La cantidad de ventas recaudadas por cada rol fue:\n SUP: "+cont_sup+"\n ADC:\n MID:\n JG:\n TOP: ");
-         */
-
-
         return msg;
     }
-    /*
-    public void agregarRP(String nombreCuenta, int monto) {
-        Cuentas c = lcuentas.searchC(nombreCuenta);
-        int saldo = c.getRpCuenta()+monto;
-        c.setRpCuenta(saldo);
-    }
-
-     */
 
     /*
     public boolean agregarPersonajes(String nombre )
@@ -487,6 +485,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     private String datosSkins;
      */
     @Override
+    //ARREGLAR
     public boolean agregarPersonajes(String nombreCampeon, String rol, int cantSkins, String DatosSkin ) {
         Personajes p = lpersonajes.searchP(nombreCampeon);
         if(p!=null){
@@ -498,6 +497,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
 
     }
+    //ARREGLAR
     public boolean agregarSkins(String nombreCampeon, String nameSkin, int valor, String calidad) {
         Personajes p = lpersonajes.searchP(nombreCampeon);
         if(p!=null){
@@ -510,6 +510,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     }
 
     @Override
+    //ARREGLAR
     public String blockPlayer(String nombreCuenta) {
         String mensaje="";
         Cuentas c = lcuentas.searchC(nombreCuenta);
@@ -520,13 +521,27 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     }
 
     @Override
+    //ARREGLAR
     public String infoCuentas(String nombreCuenta) {
+        String msg="";
+        int aux,cuentaMenor,cuentaMayor;
         Cuentas c = lcuentas.searchC(nombreCuenta);
-        int nivelMayor=0, nivelMenor=0;
-        if(c.getNivelCuenta()<c.getNivelCuenta()+1){
-            nivelMayor=c.getNivelCuenta()+1;
+        for(int i =0 ; i < lcuentas.getCant();i++){
+            for(int j=0;j< lcuentas.getCant()-1;j++){
+                if(c.getNivelCuenta()<c.getNivelCuenta()+1){
+                    aux=c.getRpCuenta();
+                    cuentaMenor=c.getNivelCuenta();
+                    cuentaMayor=c.getNivelCuenta()+1;
+                    cuentaMenor=cuentaMayor;
+                    cuentaMayor=aux;
+                }
+            }
         }
-        return null;
+        for(int k=0;k< lcuentas.getCant();k++){
+            System.out.println(c.getNombreCuenta() + c.getNivelCuenta());
+        }
+
+        return msg;
     }
 
     private double conversionRpClp(double monto){
@@ -542,5 +557,17 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
         return false;
     }
-
+    private void ordenCuentas(int[] arreglo){
+        int aux;
+        for(int i=0; i< lcuentas.getCant();i++){
+            for(int j=0 ; j< lcuentas.getCant()-1;j++){
+                if(arreglo[j]<arreglo[j+1]){
+                    aux=arreglo[j];
+                    arreglo[j]=arreglo[j+1];
+                    arreglo[j+1]=aux;
+                }
+            }
+        }
+    }
 }
+

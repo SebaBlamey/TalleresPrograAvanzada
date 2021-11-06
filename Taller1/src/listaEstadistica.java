@@ -50,7 +50,7 @@ class listaEstadistica {
             return null;
         }
     }
-    public Estadisticas searchE (String personaje){
+    public Estadisticas searchE(String personaje){
         for(int i=0;i<cant;i++){
             if((le[i].getNombreCampeon()).equalsIgnoreCase(personaje)){
                 return le[i];

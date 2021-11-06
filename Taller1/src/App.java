@@ -15,7 +15,8 @@ public class App {
     }
     // ===================================LECTURAS===================================
     private static void lecturaCuentas(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D:/Programacion/Java/Universidad/TalleresPrograAvanzada/Taller1/Cuentas.txt"),
+
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Cuentas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -43,7 +44,7 @@ public class App {
         buffer.close();
     }
     private static void lecturaPersonajes(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D:/Programacion/Java/Universidad/TalleresPrograAvanzada/Taller1/Personajes.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Personajes.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -66,7 +67,7 @@ public class App {
         buffer.close();
     }
     private static void lecturaEstadisticas(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D:/Programacion/Java/Universidad/TalleresPrograAvanzada/Taller1/Estadisticas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Estadisticas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -191,7 +192,7 @@ public class App {
     // ===================================MENUS===================================
     public static void menus(SistemaRitoGames sistema) throws InterruptedException {
         System.out.println("===========================================");
-        System.out.println("               Sistema" + Yellow + " Sonrisas                 " + Restorer);
+        System.out.println("               Sistema" + Yellow + "   RitoGames               " + Restorer);
         System.out.println("-------------------------------------------");
         System.out.println("1)" + Cyan + " Iniciar Sesión." + Restorer);
         System.out.println("2)" + Cyan + " Registrarse." + Restorer);
@@ -400,8 +401,8 @@ public class App {
         System.out.println("===========================================");
         System.out.println("               Menú" + Yellow + " ADMIN                " + Restorer);
         System.out.println("-------------------------------------------");
-        System.out.println("1)" + Cyan + " Recaudacion por venta [No Hecho]." + Restorer);
-        System.out.println("2)" + Cyan + " Recaudacion total de ventas [No Hecho]." + Restorer);
+        System.out.println("1)" + Cyan + " Recaudacion de venta por rol [No Hecho]." + Restorer);
+        System.out.println("2)" + Cyan + " Recaudacion total de ventas por región[Hecho]." + Restorer);
         System.out.println("3)" + Cyan + " Recaudacion por personajes [Hecho]." + Restorer);
         System.out.println("4)" + Cyan + " Cantidad de personajes por rol [Hecho]." + Restorer);
         System.out.println("5)" + Cyan + " Agregar personaje [Hecho]." + Restorer);
@@ -416,22 +417,25 @@ public class App {
             switch (opcion){
                 case 1:
                     limpiarConsola(3);
-                    System.out.println("Recaudacion de venta por rol");
+                    System.out.println("Recaudacion de venta por rol.");
                     sistema.recaudacionRol(nombreCuenta);
                     Thread.sleep(5000);
                     break;
                 case 2:
-                    System.out.println("Recaudacion total de ventas por región");
+                    limpiarConsola(3);
+                    System.out.println("Recaudacion total de ventas por región.");
+                    sistema.recaudacionTotal(nombreCuenta);
+                    Thread.sleep(3000);
                     break;
                 case 3:
                     limpiarConsola(3);
-                    System.out.println("Recaudacion por personajes");
+                    System.out.println("Recaudacion por personajes.");
                     sistema.recaudacionPersonajes(nombreCuenta);
                     Thread.sleep(5000);
                     break;
                 case 4:
                     limpiarConsola(3);
-                    System.out.println("Cantidad de personajes por rol");
+                    System.out.println("Cantidad de personajes por rol.");
                     sistema.personajesXRol(nombreCuenta);
                     Thread.sleep(5000);
                     break;
@@ -477,15 +481,15 @@ public class App {
                     Thread.sleep(5000);
                     break;
                 case 7:
-                    System.out.println("Bloquear jugador");
+                    System.out.println("Bloquear jugador.");
                     sistema.blockPlayer(nombreCuenta);
                     break;
                 case 8:
-                    System.out.println("Desplegar cuentas");
+                    System.out.println("Desplegar cuentas.");
                     sistema.infoCuentas(nombreCuenta);
                     break;
                 default:
-                    System.out.println(Red+"[ERROR] "+Restorer+"Opcion no valida");
+                    System.out.println(Red+"[ERROR] "+Restorer+"Opción no valida");
                     break;
             }
         }
@@ -493,8 +497,8 @@ public class App {
         System.out.println("===========================================");
         System.out.println("               Menú" + Yellow + " ADMIN                " + Restorer);
         System.out.println("-------------------------------------------");
-        System.out.println("1)" + Cyan + " Recaudacion por venta." + Restorer);
-        System.out.println("2)" + Cyan + " Recaudacion total de ventas." + Restorer);
+        System.out.println("1)" + Cyan + " Recaudacion de ventas por rol." + Restorer);
+        System.out.println("2)" + Cyan + " Recaudacion total de ventas por región." + Restorer);
         System.out.println("3)" + Cyan + " Recaudacion por personajes." + Restorer);
         System.out.println("4)" + Cyan + " Cantidad de personajes por rol." + Restorer);
         System.out.println("5)" + Cyan + " Agregar personaje." + Restorer);
