@@ -401,14 +401,14 @@ public class App {
         System.out.println("===========================================");
         System.out.println("               Menú" + Yellow + " ADMIN                " + Restorer);
         System.out.println("-------------------------------------------");
-        System.out.println("1)" + Cyan + " Recaudacion de venta por rol [No Hecho]." + Restorer);
+        System.out.println("1)" + Cyan + " Recaudacion de venta por rol [Hecho]." + Restorer);
         System.out.println("2)" + Cyan + " Recaudacion total de ventas por región[Hecho]." + Restorer);
         System.out.println("3)" + Cyan + " Recaudacion por personajes [Hecho]." + Restorer);
         System.out.println("4)" + Cyan + " Cantidad de personajes por rol [Hecho]." + Restorer);
         System.out.println("5)" + Cyan + " Agregar personaje [Hecho]." + Restorer);
         System.out.println("6)" + Cyan + " Agregar Skin [Hecho]." + Restorer);
         System.out.println("7)" + Cyan + " Bloquear jugador [Hecho]." + Restorer);
-        System.out.println("8)" + Cyan + " Desplegar cuentas [No Hecho]." + Restorer);
+        System.out.println("8)" + Cyan + " Desplegar cuentas [Hecho]." + Restorer);
         System.out.println("9)" + Cyan + " Salir." + Restorer);
         System.out.println("===========================================");
         System.out.print("Ingrese alguna opción -> ");

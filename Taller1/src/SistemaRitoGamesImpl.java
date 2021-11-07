@@ -375,19 +375,51 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
 
     //ADMIN
 
-    public String recaudacionRol(String rol){
+    public String recaudacionRol(String nombreCuenta){
         String mensaje="";
-
-
+        /*
         Personajes personajes = lpersonajes.searchR(rol);
         String roles = personajes.getRol();
         String [] partes = roles.split(",");
+
+         */
         int cont_adc=0;
         int cont_mid=0;
         int cont_jg=0;
         int cont_top=0;
         int cont_sup=0;
+        double recaudadoAdc=0,recaudadoSup=0,recaudadoMid=0,recaudadoTop=0,recadudadoJg=0;
+        for(int i=0 ; i<lpersonajes.getCant();i++){
+            Personajes p = lpersonajes.getPersonajesX(i);
+            Estadisticas e = lestadistica.getEstadisticaX(i);
+            if(e.getNombreCampeon().equals(p.getNombreCampeon())){
+                if(p.getRol().equalsIgnoreCase("ADC")){
+                    cont_adc+=e.getTotalRecaudado();
+                }if(p.getRol().equalsIgnoreCase("SUP")){
+                    cont_sup+=e.getTotalRecaudado();
+                }if(p.getRol().equalsIgnoreCase("MID")){
+                    cont_mid+=e.getTotalRecaudado();
+                }if(p.getRol().equalsIgnoreCase("TOP")){
+                    cont_top+=e.getTotalRecaudado();
+                }if(p.getRol().equalsIgnoreCase("JG")){
+                    cont_jg+=e.getTotalRecaudado();
+                }
+            }
+            /*
+            if(p.getRol().equalsIgnoreCase("ADC")){
+                for(int j=0; j<lestadistica.getCant();j++){
+                    Estadisticas e = lestadistica.getEstadisticaX(j);
+                }
+            }
 
+             */
+            recaudadoAdc=conversionRpClp(cont_adc);
+            recadudadoJg=conversionRpClp(cont_jg);
+            recaudadoMid=conversionRpClp(cont_mid);
+            recaudadoSup=conversionRpClp(cont_sup);
+            recaudadoTop=conversionRpClp(cont_top);
+        }
+        /*
         for(int i=0; i< partes.length;i++) {
             if (partes[i].equalsIgnoreCase("adc")) {
                 cont_adc++;
@@ -405,18 +437,19 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
                 cont_top++;
             }
         }
-        var texto = ("La cantidad de ventas recaudadas por cada rol fue:\n SUP: "+cont_sup+"\n ADC:\n MID:\n JG:\n TOP: ");
+
+         */
+        var texto = ("La cantidad de ventas recaudadas por cada rol fue:\n SUP: $ "+recaudadoSup+"\n ADC: $"+recaudadoAdc+"\n MID: $"+recaudadoMid+"\n JG: $"+recadudadoJg+"\n TOP: $"+recaudadoTop);
 
         return mensaje;
     }
-
     @Override
-    //ARREGLAR
+    //ARREGLAR CORTAR CICLO INFINITO
     public String recaudacionTotal(String nombreCuenta) {
         String msg ="";
         double recLanClp=0,recLasClp=0,recEuwClp=0,recKrClp=0,recNaClp=0,recRuClp=0;
         for(int i =0 ; i< lcuentas.getCant();i++){
-            Cuentas c = lcuentas.searchR(nombreCuenta);
+            Cuentas c = lcuentas.getRegionX(i);
             if(c.getRegionCuenta().equalsIgnoreCase("LAN")){
                 double recLan=c.getRpCuenta();
                 recLanClp += conversionRpClp(recLan);
@@ -442,38 +475,56 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
 
         return msg;
     }
-    //ARREGLAR
+    /*
+       Estadisticas stats = lestadistica.searchE(nombreCuenta);
+       for(int i=0; i< lestadistica.getCant();i++){
+           double montoCampeon= stats.getTotalRecaudado();
+           double montoCampeonClp = conversionRpClp(montoCampeon);
+           System.out.println(stats.getNombreCampeon() + montoCampeonClp);
+       }
+
+       return msg;
+
+        */
+    //ARREGLADO CORTAR CICLO INFINITO
     @Override
     public String recaudacionPersonajes(String nombreCuenta) {
         String msg ="";
-        Estadisticas stats = lestadistica.searchE(nombreCuenta);
-        for(int i=0; i< lestadistica.getCant();i++){
-            double montoCampeon= stats.getTotalRecaudado();
-            double montoCampeonClp = conversionRpClp(montoCampeon);
-            System.out.println(stats.getNombreCampeon() + montoCampeonClp);
-        }
-
-        return msg;
+        double montoCampeon,montoCampeonClp;
+        String nombreCampeon;
+        for (int i=0; i< lestadistica.getCant();i++){
+            Estadisticas e = lestadistica.getEstadisticaX(i);
+            nombreCampeon=e.getNombreCampeon();
+            montoCampeon=e.getTotalRecaudado();
+            montoCampeonClp=conversionRpClp(montoCampeon);
+            System.out.printf(nombreCampeon,montoCampeonClp);
+        }return msg;
     }
-    //ARREGLAR
+    //ARREGLADO CORTAR CICLO INFINITO
     public String personajesXRol(String nombreCuenta){
         String msg ="";
-        Personajes p = lpersonajes.searchP(nombreCuenta);
-        String adc="",supp="",mid="",top="",jg="";
+        //Personajes p = lpersonajes.searchP(nombreCuenta);
+        int adc=0,supp=0,mid=0,top=0,jg=0;
         for(int i =0 ; i<lpersonajes.getCant();i++){
+            Personajes p = lpersonajes.getPersonajesX(i);
             if(p.getRol().equalsIgnoreCase("Adc")){
-                adc = p + "\n";
+                //adc = p + "\n";
+                adc++;
             }if(p.getRol().equalsIgnoreCase("supp")){
-                 supp = p + "";
+                 //supp = p + "\n";
+                supp++;
             }if(p.getRol().equalsIgnoreCase("mid")){
-                 mid = p + "";
+                 //mid = p + "\n";
+                mid++;
             }if(p.getRol().equalsIgnoreCase("top")){
-                 top = p + "";
+                 //top = p + "\n";
+                top++;
             }if(p.getRol().equalsIgnoreCase("jg")){
-                 jg = p + "";
+                 //jg = p + "\n";
+                jg++;
             }
         }
-        System.out.println("ADC"+adc+"\nSupp"+supp+"\nMid"+mid+"\nTop+"+top+"\nJg"+jg);
+        System.out.println("Adc: "+adc+"\nSupp: "+supp+"\nMid: "+mid+"\nTop: "+top+"\nJg: "+jg);
         return msg;
     }
 
@@ -510,39 +561,56 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     }
 
     @Override
-    //ARREGLAR
+    //ARREGLAR CORTAR CICLO INFINITO
     public String blockPlayer(String nombreCuenta) {
         String mensaje="";
         Cuentas c = lcuentas.searchC(nombreCuenta);
-        System.out.println("Nombre de Cuenta: "+ c.getNombreCuenta());
-        lcuentas.deleteC(nombreCuenta);
-        System.out.println("La cuenta "+nombreCuenta+" ha sido bloqueada.");
+        Scanner s = new Scanner (System.in);
+        System.out.print("Nombre de cuenta a bloquear: ");
+        String NombreCuenta= s.nextLine();
+        while(!existeCuenta(NombreCuenta)){
+            System.out.println(App.Red + "[ERROR] " + App.Restorer + "La cuenta ingresada no es válida.");
+            System.out.print("Ingrese el nombre de la cuentar: ");
+            NombreCuenta = s.nextLine();
+        }
+        System.out.println("Cuenta seleccionada: " + App.Cyan + NombreCuenta + App.Restorer);
+        System.out.print("¿Desea realizar el bloqueo? (Y/N): ");
+        String charr = App.ScannerChar();
+        while (!charr.equalsIgnoreCase("Y") && !charr.equalsIgnoreCase("N")) {
+            System.out.println(App.Red + "[ERROR] " + App.Restorer + "La opcion indicada no es valida.");
+            System.out.print("¿Desea realizar el bloqueo? (Y/N): ");
+            charr = App.ScannerChar();
+        }
+        if(charr.equalsIgnoreCase("Y")){
+            lcuentas.deleteC(NombreCuenta);
+            System.out.println("[EXITO] La cuenta" + NombreCuenta + "ha sido bloqueada.");
+        }
         return mensaje;
     }
 
     @Override
-    //ARREGLAR
+    //ARREGLAR  CORTAR CICLO INFINITO
     public String infoCuentas(String nombreCuenta) {
         String msg="";
         int aux,cuentaMenor,cuentaMayor;
-        Cuentas c = lcuentas.searchC(nombreCuenta);
-        for(int i =0 ; i < lcuentas.getCant();i++){
-            for(int j=0;j< lcuentas.getCant()-1;j++){
-                if(c.getNivelCuenta()<c.getNivelCuenta()+1){
-                    aux=c.getRpCuenta();
-                    cuentaMenor=c.getNivelCuenta();
-                    cuentaMayor=c.getNivelCuenta()+1;
-                    cuentaMenor=cuentaMayor;
-                    cuentaMayor=aux;
+        for(int i =0 ; i < lcuentas.getCant();i++) {
+            Cuentas c = lcuentas.getCuentaX(i);
+            for (int j = 0; j < lcuentas.getCant() - 1; j++) {
+                if (c.getNivelCuenta() < c.getNivelCuenta() + 1) {
+                    aux = c.getRpCuenta();
+                    cuentaMenor = c.getNivelCuenta();
+                    cuentaMayor = c.getNivelCuenta() + 1;
+                    cuentaMenor = cuentaMayor;
+                    cuentaMayor = aux;
                 }
             }
+            for (int k = 0; k < lcuentas.getCant(); k++) {
+                System.out.println(c.getNickCuenta() +" "+ c.getNivelCuenta());
+            }
         }
-        for(int k=0;k< lcuentas.getCant();k++){
-            System.out.println(c.getNombreCuenta() + c.getNivelCuenta());
-        }
-
         return msg;
     }
+
 
     private double conversionRpClp(double monto){
         double val_clp= 6.15;
@@ -568,6 +636,15 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
                 }
             }
         }
+    }
+    private boolean existeCuenta(String nombreCuenta) {
+        for(int i = 0; i<lcuentas.getCant(); i++){
+            Cuentas c = lcuentas.getCuentaX(i);
+            if(nombreCuenta.equalsIgnoreCase(c.getNombreCuenta())){
+                return true;
+            }
+        }
+        return false;
     }
 }
 
