@@ -230,7 +230,7 @@ public class App {
             }
             limpiarConsola(3);
             System.out.println("===========================================");
-            System.out.println("               Sistema" + Yellow + " Sonrisas                 " + Restorer);
+            System.out.println("               Sistema" + Yellow + " RitoGames                 " + Restorer);
             System.out.println("-------------------------------------------");
             System.out.println("1)" + Cyan + " Iniciar Sesión." + Restorer);
             System.out.println("2)" + Cyan + " Registrarse." + Restorer);
@@ -405,8 +405,8 @@ public class App {
         System.out.println("2)" + Cyan + " Recaudacion total de ventas por región[Hecho]." + Restorer);
         System.out.println("3)" + Cyan + " Recaudacion por personajes [Hecho]." + Restorer);
         System.out.println("4)" + Cyan + " Cantidad de personajes por rol [Hecho]." + Restorer);
-        System.out.println("5)" + Cyan + " Agregar personaje [Hecho]." + Restorer);
-        System.out.println("6)" + Cyan + " Agregar Skin [Hecho]." + Restorer);
+        System.out.println("5)" + Cyan + " Agregar personaje [No Hecho]." + Restorer);
+        System.out.println("6)" + Cyan + " Agregar Skin [No Hecho]." + Restorer);
         System.out.println("7)" + Cyan + " Bloquear jugador [Hecho]." + Restorer);
         System.out.println("8)" + Cyan + " Desplegar cuentas [Hecho]." + Restorer);
         System.out.println("9)" + Cyan + " Salir." + Restorer);
@@ -425,7 +425,7 @@ public class App {
                     limpiarConsola(3);
                     System.out.println("Recaudacion total de ventas por región.");
                     sistema.recaudacionTotal(nombreCuenta);
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
                     break;
                 case 3:
                     limpiarConsola(3);
@@ -441,6 +441,7 @@ public class App {
                     break;
                 case 5:
                     limpiarConsola(3);
+                    /*
                     System.out.println("Agregar personaje");
                     Scanner s = new Scanner(System.in);
                     System.out.println("Ingrese nombre del personaje: ");
@@ -460,15 +461,18 @@ public class App {
                         contSkins--;
                     }
 
-                    if(sistema.agregarPersonajes(name,Rol,cantSkins,Skins)){
+                    if(sistema.agregarPersonajes(name,Rol,cantSkins,Skins)==true){
                         System.out.println("EXITO Personaje agregado exitosamente.");
                     }else{
                         System.out.println("ERROR! El personaje no pudo ser agregado.");
                     }
+
+                     */
                     Thread.sleep(5000);
                     break;
                 case 6:
                     limpiarConsola(3);
+                    /*
                     System.out.println("Agregar Skin");
                     Scanner ss= new Scanner(System.in);
                     System.out.println("Ingrese nombre del personaje: ");
@@ -478,6 +482,8 @@ public class App {
                     System.out.println("Ingrese la calidad de la skin: ");
                     String calidad = ss.nextLine();
                     sistema.agregarSkins(names,nameSkin,+1,calidad);
+
+                     */
                     Thread.sleep(5000);
                     break;
                 case 7:
@@ -491,7 +497,7 @@ public class App {
                 default:
                     System.out.println(Red+"[ERROR] "+Restorer+"Opción no valida");
                     break;
-            }
+
         }
         limpiarConsola(3000);
         System.out.println("===========================================");
@@ -509,6 +515,7 @@ public class App {
         System.out.println("===========================================");
         System.out.print("Ingrese alguna opción -> ");
         opcion = ScannerInt();
-    }
+        }
     // ===============================================================================
+    }
 }

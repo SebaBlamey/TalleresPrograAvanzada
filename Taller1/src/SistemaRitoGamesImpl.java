@@ -439,7 +439,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
 
          */
-        var texto = ("La cantidad de ventas recaudadas por cada rol fue:\n SUP: $ "+recaudadoSup+"\n ADC: $"+recaudadoAdc+"\n MID: $"+recaudadoMid+"\n JG: $"+recadudadoJg+"\n TOP: $"+recaudadoTop);
+        System.out.println("La cantidad de ventas recaudadas por cada rol fue:\n SUP: $ "+recaudadoSup+"\n ADC: $"+recaudadoAdc+"\n MID: $"+recaudadoMid+"\n JG: $"+recadudadoJg+"\n TOP: $"+recaudadoTop);
 
         return mensaje;
     }
@@ -470,8 +470,8 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
                 recRuClp += conversionRpClp(recRu);
             }
         }
-        System.out.println("LAN: "+ recLanClp+ "\nLAS :" + recLasClp + "\nEUW: "+
-                recEuwClp +"\nKR: " +recKrClp+ "\nNA: " +recNaClp +"\nRU: "+recRuClp);
+        System.out.println("LAN: $"+ recLanClp+ "\nLAS: $" + recLasClp + "\nEUW: $"+
+                recEuwClp +"\nKR: $" +recKrClp+ "\nNA: $" +recNaClp +"\nRU: $"+recRuClp);
 
         return msg;
     }
@@ -497,7 +497,7 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
             nombreCampeon=e.getNombreCampeon();
             montoCampeon=e.getTotalRecaudado();
             montoCampeonClp=conversionRpClp(montoCampeon);
-            System.out.printf(nombreCampeon,montoCampeonClp);
+            System.out.printf(nombreCampeon +" $" + montoCampeonClp +"\n");
         }return msg;
     }
     //ARREGLADO CORTAR CICLO INFINITO
