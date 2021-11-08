@@ -85,17 +85,62 @@ public interface SistemaRitoGames {
     /**
      * Function used to buy Characters.
      * @param nombreCuenta String that contains the username that the program is using.
-     * @return a String
+     * @return a String.
      */
     String comprarPersonaje(String nombreCuenta);
 
+    /**
+     * Function used to display the collection by role.
+     * @param nombreCuenta String that contains the username that the program is using.
+     * @return a String.
+     */
     String recaudacionRol(String nombreCuenta);
+
+    /**
+     * Function used to display the collection by region.
+     * @param nombreCuenta String that contains the username that the program is using.
+     * @return a String.
+     */
     String recaudacionTotal(String nombreCuenta);
+
+    /**
+     * Function used to display the collection per character.
+     * @param nombreCuenta String that contains the username that the program is using.
+     * @return a String.
+     */
     String recaudacionPersonajes(String nombreCuenta);
+
+    /**
+     * Function used to display the number of characters per role.
+     * @param nombreCuenta String that contains the username that the program is using.
+     * @return a String.
+     */
     String personajesXRol(String nombreCuenta);
-    boolean agregarPersonajes (String nombreCampeon, String rol, int cantSkins, String  DatosSkin);
-    boolean agregarSkins(String nombreCampeon, String nameSkin,int valor, String calidad);
+
+    /**
+     * Function used to add a character.
+     * @param nombreCuenta String that contains the username that the program is using.
+     */
+    void agregarPersonajes(String nombreCuenta);
+
+    /**
+     * Function used to add a skin.
+     * @param nombreCuenta String that contains the username that the program is using.
+     */
+    void agregarSkins(String nombreCuenta);
+
+    /**
+     * Function used to block a player's account.
+     * @param nombreCuenta String that contains the username that the program is using.
+     * @return a String.
+     */
     String blockPlayer(String nombreCuenta);
+
+    /**
+     * Function used to display in decreasing order the player's accounts.
+     * @param nombreCuenta String that contains the username that the program is using.
+     * @return a String.
+     */
     String infoCuentas(String nombreCuenta);
 
     void sobreEscribirDtos() throws IOException;

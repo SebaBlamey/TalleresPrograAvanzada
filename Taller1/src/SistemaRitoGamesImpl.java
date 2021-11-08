@@ -260,7 +260,6 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         return text;
     }
 
-
     private int obtenerPrecioSkin(String letra) {
         switch (letra){
             case "M":
@@ -377,15 +376,8 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
 
 
     //ADMIN
-
     public String recaudacionRol(String nombreCuenta){
         String mensaje="";
-        /*
-        Personajes personajes = lpersonajes.searchR(rol);
-        String roles = personajes.getRol();
-        String [] partes = roles.split(",");
-
-         */
         int cont_adc=0;
         int cont_mid=0;
         int cont_jg=0;
@@ -408,46 +400,18 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
                     cont_jg+=e.getTotalRecaudado();
                 }
             }
-            /*
-            if(p.getRol().equalsIgnoreCase("ADC")){
-                for(int j=0; j<lestadistica.getCant();j++){
-                    Estadisticas e = lestadistica.getEstadisticaX(j);
-                }
-            }
-
-             */
             recaudadoAdc=conversionRpClp(cont_adc);
             recadudadoJg=conversionRpClp(cont_jg);
             recaudadoMid=conversionRpClp(cont_mid);
             recaudadoSup=conversionRpClp(cont_sup);
             recaudadoTop=conversionRpClp(cont_top);
         }
-        /*
-        for(int i=0; i< partes.length;i++) {
-            if (partes[i].equalsIgnoreCase("adc")) {
-                cont_adc++;
-            }
-            if (partes[i].equalsIgnoreCase("mid")) {
-                cont_mid++;
-            }
-            if (partes[i].equalsIgnoreCase("jg")) {
-                cont_jg++;
-            }
-            if (partes[i].equalsIgnoreCase("sup")) {
-                cont_sup++;
-            }
-            if(partes[i].equalsIgnoreCase("top")){
-                cont_top++;
-            }
-        }
-
-         */
-        System.out.println("La cantidad de ventas recaudadas por cada rol fue:\n SUP: $ "+recaudadoSup+"\n ADC: $"+recaudadoAdc+"\n MID: $"+recaudadoMid+"\n JG: $"+recadudadoJg+"\n TOP: $"+recaudadoTop);
+        System.out.println(App.Cyan +"La cantidad de ventas recaudadas por cada rol fue:"+ App.Restorer+"\n SUP: "+App.Yellow+"$"+App.Restorer+recaudadoSup+"\n ADC: "+App.Yellow+"$"+App.Restorer+recaudadoAdc+
+                        "\n MID: "+App.Yellow+"$"+App.Restorer+recaudadoMid+"\n JG : "+App.Yellow+"$"+App.Restorer+recadudadoJg+"\n TOP: "+App.Yellow+"$"+App.Restorer+recaudadoTop);
 
         return mensaje;
     }
     @Override
-    //ARREGLAR CORTAR CICLO INFINITO
     public String recaudacionTotal(String nombreCuenta) {
         String msg ="";
         double recLanClp=0,recLasClp=0,recEuwClp=0,recKrClp=0,recNaClp=0,recRuClp=0;
@@ -473,23 +437,11 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
                 recRuClp += conversionRpClp(recRu);
             }
         }
-        System.out.println("LAN: $"+ recLanClp+ "\nLAS: $" + recLasClp + "\nEUW: $"+
-                recEuwClp +"\nKR: $" +recKrClp+ "\nNA: $" +recNaClp +"\nRU: $"+recRuClp);
+        System.out.println(App.Cyan +"La cantidad de ventas recaudadas por cada región fue"+ App.Restorer+"\nLAN: "+App.Yellow+"$"+App.Restorer+ recLanClp+ "\nLAS: "+App.Yellow+"$"+App.Restorer + recLasClp + "\nEUW: "+App.Yellow+"$"+App.Restorer+
+                            recEuwClp +"\nKR: "+App.Yellow+"$"+App.Restorer +recKrClp+ "\nNA: "+App.Yellow+"$"+App.Restorer +recNaClp +"\nRU: "+App.Yellow+"$"+App.Restorer+recRuClp);
 
         return msg;
     }
-    /*
-       Estadisticas stats = lestadistica.searchE(nombreCuenta);
-       for(int i=0; i< lestadistica.getCant();i++){
-           double montoCampeon= stats.getTotalRecaudado();
-           double montoCampeonClp = conversionRpClp(montoCampeon);
-           System.out.println(stats.getNombreCampeon() + montoCampeonClp);
-       }
-
-       return msg;
-
-        */
-    //ARREGLADO CORTAR CICLO INFINITO
     @Override
     public String recaudacionPersonajes(String nombreCuenta) {
         String msg ="";
@@ -500,80 +452,136 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
             nombreCampeon=e.getNombreCampeon();
             montoCampeon=e.getTotalRecaudado();
             montoCampeonClp=conversionRpClp(montoCampeon);
-            System.out.printf(nombreCampeon +" $" + montoCampeonClp +"\n");
+            System.out.printf(App.Cyan+nombreCampeon +App.Restorer+App.Yellow+" $"+App.Restorer + montoCampeonClp +"\n");
         }return msg;
     }
-    //ARREGLADO CORTAR CICLO INFINITO
+
     public String personajesXRol(String nombreCuenta){
         String msg ="";
-        //Personajes p = lpersonajes.searchP(nombreCuenta);
         int adc=0,supp=0,mid=0,top=0,jg=0;
         for(int i =0 ; i<lpersonajes.getCant();i++){
             Personajes p = lpersonajes.getPersonajesX(i);
             if(p.getRol().equalsIgnoreCase("Adc")){
-                //adc = p + "\n";
                 adc++;
             }if(p.getRol().equalsIgnoreCase("supp")){
-                 //supp = p + "\n";
                 supp++;
             }if(p.getRol().equalsIgnoreCase("mid")){
-                 //mid = p + "\n";
                 mid++;
             }if(p.getRol().equalsIgnoreCase("top")){
-                 //top = p + "\n";
                 top++;
             }if(p.getRol().equalsIgnoreCase("jg")){
-                 //jg = p + "\n";
                 jg++;
             }
         }
-        System.out.println("Adc: "+adc+"\nSupp: "+supp+"\nMid: "+mid+"\nTop: "+top+"\nJg: "+jg);
+        System.out.println(App.Cyan +"La cantidad de personajes por rol son: "+ App.Restorer+"\nAdc: "+adc+"\nSupp: "+supp+"\nMid: "+mid+"\nTop: "+top+"\nJg: "+jg);
         return msg;
     }
 
-    /*
-    public boolean agregarPersonajes(String nombre )
     private String nombreCampeon;
     private String rol;
     private int cantSkins;
     private String datosSkins;
-     */
     @Override
     //ARREGLAR
-    public boolean agregarPersonajes(String nombreCampeon, String rol, int cantSkins, String DatosSkin ) {
-        Personajes p = lpersonajes.searchP(nombreCampeon);
-        if(p!=null){
-            Personajes nP = new Personajes(nombreCampeon,rol,cantSkins,DatosSkin);
-            lpersonajes.addPersonajes(nP);
-            return true;
-        }else{
-            return false;
+    public void agregarPersonajes(String nombreCuenta) {
+
+        Scanner s = new Scanner(System.in);
+        System.out.print(App.Cyan+"Ingrese nombre del personaje: "+App.Restorer);
+        String name = s.nextLine();
+        for(int i=0; i<lpersonajes.getCant();i++){
+            while(!existepersonaje(name)==false){
+                System.out.println(App.Red + "[ERROR]" +App.Restorer +"Este personaje ya se encuentra.");
+                System.out.print(App.Cyan+"Ingrese nombre del personaje: "+App.Restorer);
+                name = s.nextLine();
+            }
         }
+        System.out.print(App.Cyan+"Ingrese rol del personaje: "+App.Restorer);
+        String Rol = s.nextLine();
+        while(!validarRol(Rol)){
+            System.out.println(App.Red + "[ERROR]" +App.Restorer +"El rol que ingresado no existe.");
+            System.out.print(App.Cyan+"Ingrese rol del personaje: "+App.Restorer);
+            Rol = s.nextLine();
+        }
+        System.out.print(App.Cyan+"Ingrese cantidad de skins del personaje: "+App.Restorer);
+        int CantSkins = s.nextInt();
+        //int contSkins = cantSkins;
+        String calidadSkin="",nameSkin="";
+        String Skins = "";
+        System.out.print(App.Cyan+"Ingrese el nombre de la skin del personaje y la calidad: "+App.Restorer);
+        String nameSkins = s.nextLine();
+        String [] partes = nameSkins.split(",");
+        nameSkin=partes[0];
+        calidadSkin = partes[1];
+        Skins=nameSkin + "," + calidadSkin;
+
+        if(CantSkins>0){
+            System.out.print(App.Cyan+"Ingrese el nombre de la skin del personaje y la calidad: "+App.Restorer);
+            nameSkins = s.nextLine();
+            partes = nameSkins.split(",");
+            nameSkin=partes[0];
+            calidadSkin=partes[1];
+            Skins = nameSkin+ ", "+calidadSkin;
+            CantSkins--;
+
+        }
+        nombreCampeon=name;
+        rol = Rol;
+        cantSkins = CantSkins;
+        datosSkins=Skins;
+        Personajes Np = new Personajes(nombreCampeon,rol,cantSkins,datosSkins);
+        lpersonajes.addPersonajes(Np);
 
     }
-    //ARREGLAR
-    public boolean agregarSkins(String nombreCampeon, String nameSkin, int valor, String calidad) {
-        Personajes p = lpersonajes.searchP(nombreCampeon);
-        if(p!=null){
-            Personajes Skin = new Personajes(nombreCampeon, nameSkin,valor, calidad);
-            lpersonajes.addPersonajes(Skin);
-            return true;
-        }else{
-            return false;
+    public void agregarSkins(String nombreCuenta) {
+        Scanner sk = new Scanner(System.in);
+        System.out.print(App.Cyan+"Ingrese nombre del personaje: "+App.Restorer);
+        String name = sk.nextLine();
+        for(int i=0; i<lpersonajes.getCant();i++){
+            while(!existepersonaje(name)){
+                System.out.println(App.Red + "[ERROR]" +App.Restorer +" Este personaje no se encuentra.");
+                System.out.print(App.Cyan+"Ingrese nombre del personaje: "+App.Restorer);
+                name = sk.nextLine();
+            }
         }
+        String Rol="";
+        for(int i=0; i<lpersonajes.getCant();i++){
+            if(name.equals(lpersonajes.getPersonajesX(i))){
+                Personajes p = lpersonajes.getRolX(i);
+                Rol = p.getRol();
+            }
+        }
+        int contSkins = 1;
+        String calidadSkin="",nameSkin="";
+        String Skins = "";
+        System.out.print(App.Cyan+"Ingrese el nombre de la skin del personaje y la calidad: "+App.Restorer);
+        String nameSkins = sk.nextLine();
+        String [] partes = nameSkins.split(",");
+
+        nameSkin=partes[0];
+        calidadSkin=partes[1];
+        Skins = nameSkin+ ", "+calidadSkin;
+
+
+
+        nombreCampeon=name;
+        rol = Rol;
+        cantSkins += 1;
+        datosSkins=Skins;
+        Personajes Np = new Personajes(nombreCampeon,rol,cantSkins,datosSkins);
+        lpersonajes.addPersonajes(Np);
+        System.out.println(App.Green+"[EXITO]"+App.Restorer+"La skin ha sido agregada.");
     }
 
     @Override
-    //ARREGLAR CORTAR CICLO INFINITO
     public String blockPlayer(String nombreCuenta) {
         String mensaje="";
         Cuentas c = lcuentas.searchC(nombreCuenta);
         Scanner s = new Scanner (System.in);
-        System.out.print("Nombre de cuenta a bloquear: ");
+        System.out.print(App.Cyan+"Nombre de cuenta a bloquear: "+App.Restorer);
         String NombreCuenta= s.nextLine();
         while(!existeCuenta(NombreCuenta)){
             System.out.println(App.Red + "[ERROR] " + App.Restorer + "La cuenta ingresada no es válida.");
-            System.out.print("Ingrese el nombre de la cuentar: ");
+            System.out.print(App.Cyan+"Nombre de cuenta a bloquear: "+App.Restorer);
             NombreCuenta = s.nextLine();
         }
         System.out.println("Cuenta seleccionada: " + App.Cyan + NombreCuenta + App.Restorer);
@@ -586,13 +594,12 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
         if(charr.equalsIgnoreCase("Y")){
             lcuentas.deleteC(NombreCuenta);
-            System.out.println("[EXITO] La cuenta" + NombreCuenta + "ha sido bloqueada.");
+            System.out.println(App.Green+"[EXITO]"+App.Restorer+ "La cuenta" + NombreCuenta + "ha sido bloqueada.");
         }
         return mensaje;
     }
 
     @Override
-    //ARREGLAR  CORTAR CICLO INFINITO
     public String infoCuentas(String nombreCuenta) {
         String msg="";
         int aux,cuentaMenor,cuentaMayor;
@@ -607,8 +614,8 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
                     cuentaMayor = aux;
                 }
             }
-            for (int k = 0; k < lcuentas.getCant(); k++) {
-                System.out.println(c.getNickCuenta() +" "+ c.getNivelCuenta());
+            for (int k = 0; k < lcuentas.getCant()-1; k++) {
+                System.out.println(App.Cyan+c.getNickCuenta()+App.Restorer +" "+ c.getNivelCuenta());
             }
         }
         return msg;
@@ -628,18 +635,6 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
         return false;
     }
-    private void ordenCuentas(int[] arreglo){
-        int aux;
-        for(int i=0; i< lcuentas.getCant();i++){
-            for(int j=0 ; j< lcuentas.getCant()-1;j++){
-                if(arreglo[j]<arreglo[j+1]){
-                    aux=arreglo[j];
-                    arreglo[j]=arreglo[j+1];
-                    arreglo[j+1]=aux;
-                }
-            }
-        }
-    }
     private boolean existeCuenta(String nombreCuenta) {
         for(int i = 0; i<lcuentas.getCant(); i++){
             Cuentas c = lcuentas.getCuentaX(i);
@@ -649,7 +644,6 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         }
         return false;
     }
-
     @Override
     public void sobreEscribirDtos() throws IOException {
         ArchivoSalida arch = new ArchivoSalida("Cuentas.txt");
@@ -689,5 +683,6 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
         arch2.close();
 
     }
+
 }
 

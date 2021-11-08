@@ -23,7 +23,7 @@ public class App {
      */
     private static void lecturaCuentas(SistemaRitoGames sistema) throws IOException {
 
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D://Programacion//Java//Universidad//TalleresPrograAvanzada//Taller1//Cuentas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Cuentas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -57,7 +57,7 @@ public class App {
      * @throws IOException
      */
     private static void lecturaPersonajes(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D://Programacion//Java//Universidad//TalleresPrograAvanzada//Taller1//Personajes.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Personajes.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -86,7 +86,7 @@ public class App {
      * @throws IOException
      */
     private static void lecturaEstadisticas(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D://Programacion//Java//Universidad//TalleresPrograAvanzada//Taller1//Estadisticas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Estadisticas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -451,14 +451,14 @@ public class App {
         System.out.println("===========================================");
         System.out.println("               Menú" + Yellow + " ADMIN                " + Restorer);
         System.out.println("-------------------------------------------");
-        System.out.println("1)" + Cyan + " Recaudacion de venta por rol [Hecho]." + Restorer);
-        System.out.println("2)" + Cyan + " Recaudacion total de ventas por región[Hecho]." + Restorer);
-        System.out.println("3)" + Cyan + " Recaudacion por personajes [Hecho]." + Restorer);
-        System.out.println("4)" + Cyan + " Cantidad de personajes por rol [Hecho]." + Restorer);
+        System.out.println("1)" + Cyan + " Recaudacion de venta por rol." + Restorer);
+        System.out.println("2)" + Cyan + " Recaudacion total de ventas por región." + Restorer);
+        System.out.println("3)" + Cyan + " Recaudacion por personajes." + Restorer);
+        System.out.println("4)" + Cyan + " Cantidad de personajes por rol." + Restorer);
         System.out.println("5)" + Cyan + " Agregar personaje [No Hecho]." + Restorer);
-        System.out.println("6)" + Cyan + " Agregar Skin [No Hecho]." + Restorer);
-        System.out.println("7)" + Cyan + " Bloquear jugador [Hecho]." + Restorer);
-        System.out.println("8)" + Cyan + " Desplegar cuentas [Hecho]." + Restorer);
+        System.out.println("6)" + Cyan + " Agregar Skin." + Restorer);
+        System.out.println("7)" + Cyan + " Bloquear jugador." + Restorer);
+        System.out.println("8)" + Cyan + " Desplegar cuentas." + Restorer);
         System.out.println("9)" + Cyan + " Salir." + Restorer);
         System.out.println("===========================================");
         System.out.print("Ingrese alguna opción -> ");
@@ -491,58 +491,27 @@ public class App {
                     break;
                 case 5:
                     limpiarConsola(3);
-                    /*
-                    System.out.println("Agregar personaje");
-                    Scanner s = new Scanner(System.in);
-                    System.out.println("Ingrese nombre del personaje: ");
-                    String name = s.nextLine();
-                    System.out.println("Ingrese rol del personaje: ");
-                    String Rol = s.nextLine();
-                    System.out.println("Ingrese cantidad de skins del personaje: ");
-                    int cantSkins = s.nextInt();
-                    int contSkins = cantSkins;
-                    String Skins = "";
-                    while(contSkins>0){
-                        System.out.println("Ingrese el nombre de la skin del personaje: ");
-                        String nameSkins = s.nextLine();
-                        if(contSkins>0){
-                            Skins = nameSkins + ",";
-                        }
-                        contSkins--;
-                    }
-
-                    if(sistema.agregarPersonajes(name,Rol,cantSkins,Skins)==true){
-                        System.out.println("EXITO Personaje agregado exitosamente.");
-                    }else{
-                        System.out.println("ERROR! El personaje no pudo ser agregado.");
-                    }
-
-                     */
-                    Thread.sleep(5000);
+                    System.out.println("Agregar personaje.");
+                    sistema.agregarPersonajes(nombreCuenta);
+                    Thread.sleep(3000);
                     break;
                 case 6:
                     limpiarConsola(3);
-                    /*
-                    System.out.println("Agregar Skin");
-                    Scanner ss= new Scanner(System.in);
-                    System.out.println("Ingrese nombre del personaje: ");
-                    String names = ss.nextLine();
-                    System.out.println("Ingrese el nombre de la skin del personaje: ");
-                    String nameSkin = ss.nextLine();
-                    System.out.println("Ingrese la calidad de la skin: ");
-                    String calidad = ss.nextLine();
-                    sistema.agregarSkins(names,nameSkin,+1,calidad);
-
-                     */
-                    Thread.sleep(5000);
+                    System.out.println("Agregar skin.");
+                    sistema.agregarSkins(nombreCuenta);
+                    Thread.sleep(3000);
                     break;
                 case 7:
+                    limpiarConsola(3);
                     System.out.println("Bloquear jugador.");
                     sistema.blockPlayer(nombreCuenta);
+                    Thread.sleep(3000);
                     break;
                 case 8:
+                    limpiarConsola(3);
                     System.out.println("Desplegar cuentas.");
                     sistema.infoCuentas(nombreCuenta);
+                    Thread.sleep(5000);
                     break;
                 default:
                     System.out.println(Red+"[ERROR] "+Restorer+"Opción no valida");
