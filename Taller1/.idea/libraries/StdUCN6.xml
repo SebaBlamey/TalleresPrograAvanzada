@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="StdUCN6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../../Descargas/StdUCN6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../../../Descargas/StdUCN6.jar!/" />
+    </SOURCES>
+  </library>
+</component>

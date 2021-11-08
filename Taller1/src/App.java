@@ -12,11 +12,18 @@ public class App {
         lecturaEstadisticas(sistema);
         Thread.sleep(500);
         menus(sistema);
+        sistema.sobreEscribirDtos();
     }
     // ===================================LECTURAS===================================
+
+    /**
+     * Function that reads the data from the file Cuentas.txt; and then store them in their respective class
+     * @param sistema
+     * @throws IOException
+     */
     private static void lecturaCuentas(SistemaRitoGames sistema) throws IOException {
 
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Cuentas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D://Programacion//Java//Universidad//TalleresPrograAvanzada//Taller1//Cuentas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -43,8 +50,14 @@ public class App {
         System.out.println(White+"["+Cyan+"+"+White+"]"+ Restorer +" Cuentas leidos.");
         buffer.close();
     }
+
+    /**
+     * Function that reads the data from the file Personajes.txt; and then store them in their respective class
+     * @param sistema
+     * @throws IOException
+     */
     private static void lecturaPersonajes(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Personajes.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D://Programacion//Java//Universidad//TalleresPrograAvanzada//Taller1//Personajes.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -66,8 +79,14 @@ public class App {
         System.out.println(White+"["+Cyan+"+"+White+"]"+ Restorer +" Personajes leidos.");
         buffer.close();
     }
+
+    /**
+     * Function that reads the data from the file Estadisticas.txt; and then store them in their respective class
+     * @param sistema
+     * @throws IOException
+     */
     private static void lecturaEstadisticas(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Estadisticas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D://Programacion//Java//Universidad//TalleresPrograAvanzada//Taller1//Estadisticas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -190,6 +209,12 @@ public class App {
     //=======================================================================================
 
     // ===================================MENUS===================================
+
+    /**
+     * Function whose only utility is to forward to the option entered by the user.
+     * @param sistema
+     * @throws InterruptedException
+     */
     public static void menus(SistemaRitoGames sistema) throws InterruptedException {
         System.out.println("===========================================");
         System.out.println("               Sistema" + Yellow + "   RitoGames               " + Restorer);
@@ -244,6 +269,12 @@ public class App {
 
 
     }
+
+    /**
+     * Function that allows creating new accounts for new users.
+     * @param sistema
+     * @throws InterruptedException
+     */
     public static void registro(SistemaRitoGames sistema) throws InterruptedException{
         limpiarConsola(3);
         Scanner entrada = new Scanner(System.in);
@@ -271,6 +302,12 @@ public class App {
             System.out.println(Red + "[ERROR] " + Restorer + "No has podido registrate!");
         }
     }
+
+    /**
+     * Function that is in charge of verifying if the entered String corresponds to a valid region.
+     * @param region String data which will be verified
+     * @return true or false
+     */
     private static boolean verificarRegion(String region) {
         int cont_verify = 0;
         for(int i = 0; i< Regiones.length;i++){
@@ -281,6 +318,13 @@ public class App {
         return cont_verify>0;
 
     }
+
+    /**
+     * The main menu of users, where they can be redirected to multiple options as indicated
+     * @param sistema
+     * @param nombreUsuario String where the name of the user's account is saved.
+     * @throws InterruptedException
+     */
     private static void menuUsuario(SistemaRitoGames sistema, String nombreUsuario) throws InterruptedException {
         Scanner entrada = new Scanner(System.in);
         limpiarConsola(3);
@@ -395,6 +439,12 @@ public class App {
 
     }
 
+    /**
+     * Administrators main menu, where according to the option they induen they will be redirected to other functions.
+     * @param sistema
+     * @param nombreCuenta String where the name of the administrators account is saved.
+     * @throws InterruptedException
+     */
     private static void menuAdmin(SistemaRitoGames sistema, String nombreCuenta) throws InterruptedException {
         Scanner entrada = new Scanner(System.in);
         limpiarConsola(3);

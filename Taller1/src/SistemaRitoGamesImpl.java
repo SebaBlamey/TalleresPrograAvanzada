@@ -1,4 +1,7 @@
+import java.io.IOException;
 import java.util.Scanner;
+import ucn.ArchivoSalida;
+import ucn.Registro;
 
 public class SistemaRitoGamesImpl implements SistemaRitoGames{
     listaPersonajes lpersonajes;
@@ -645,6 +648,46 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
             }
         }
         return false;
+    }
+
+    @Override
+    public void sobreEscribirDtos() throws IOException {
+        ArchivoSalida arch = new ArchivoSalida("Cuentas.txt");
+        for(int i = 0; i<lcuentas.getCant();i++){
+            Cuentas c = lcuentas.getCuentaX(i);
+            Registro reg = new Registro(8);
+            reg.agregarCampo(c.getNombreCuenta());
+            reg.agregarCampo(c.getContrasenaCuenta());
+            reg.agregarCampo(c.getNickCuenta());
+            reg.agregarCampo(c.getNivelCuenta());
+            reg.agregarCampo(c.getRpCuenta());
+            reg.agregarCampo(c.getTotalPersonajes());
+            reg.agregarCampo(c.getSkins());
+            reg.agregarCampo(c.getRegionCuenta());
+            arch.writeRegistro(reg);
+        }
+        arch.close();
+        ArchivoSalida arch1 = new ArchivoSalida("Estadisticas.txt");
+        for(int i = 0; i<lestadistica.getCant();i++){
+            Estadisticas e = lestadistica.getEstadisticaX(i);
+            Registro reg = new Registro(2);
+            reg.agregarCampo(e.getNombreCampeon());
+            reg.agregarCampo(e.getTotalRecaudado());
+            arch1.writeRegistro(reg);
+        }
+        arch1.close();
+        ArchivoSalida arch2 = new ArchivoSalida("Personajes.txt");
+        for(int i = 0; i<lpersonajes.getCant() ;i++){
+            Personajes p = lpersonajes.getPersonajesX(i);
+            Registro reg = new Registro(4);
+            reg.agregarCampo(p.getNombreCampeon());
+            reg.agregarCampo(p.getRol());
+            reg.agregarCampo(p.getCantSkins());
+            reg.agregarCampo(p.getDatosSkins());
+            arch2.writeRegistro(reg);
+        }
+        arch2.close();
+
     }
 }
 
