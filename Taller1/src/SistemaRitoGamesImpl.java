@@ -113,7 +113,6 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
                         }
                     }
                 }catch(Exception e){
-
                 }
             }
             if(i != (lpersonajes.getCant()-1)) {
@@ -362,7 +361,6 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
             default:
                 return "[XDDDDD] ";
         }
-        //return null;
     }
 
     private static boolean VerificarInt(String numero){
@@ -375,7 +373,6 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     }
 
 
-    //ADMIN
     public String recaudacionRol(String nombreCuenta){
         String mensaje="";
         int cont_adc=0;
@@ -482,7 +479,6 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
     private int cantSkins;
     private String datosSkins;
     @Override
-    //ARREGLAR
     public void agregarPersonajes(String nombreCuenta) {
 
         Scanner s = new Scanner(System.in);
@@ -495,42 +491,74 @@ public class SistemaRitoGamesImpl implements SistemaRitoGames{
                 name = s.nextLine();
             }
         }
-        System.out.print(App.Cyan+"Ingrese rol del personaje: "+App.Restorer);
-        String Rol = s.nextLine();
-        while(!validarRol(Rol)){
-            System.out.println(App.Red + "[ERROR]" +App.Restorer +"El rol que ingresado no existe.");
-            System.out.print(App.Cyan+"Ingrese rol del personaje: "+App.Restorer);
-            Rol = s.nextLine();
+        System.out.print("Ingrese el rol de "+name+": ");
+        String rol = s.nextLine();
+        while(!verificarRol(rol)){
+            System.out.println(App.Red + "[ERROR]" + App.Restorer + " Rol ingresado no valido.");
+            System.out.print("Ingrese el rol de "+name+": ");
+            rol = s.nextLine();
         }
-        System.out.print(App.Cyan+"Ingrese cantidad de skins del personaje: "+App.Restorer);
-        int CantSkins = s.nextInt();
-        //int contSkins = cantSkins;
-        String calidadSkin="",nameSkin="";
-        String Skins = "";
-        System.out.print(App.Cyan+"Ingrese el nombre de la skin del personaje y la calidad: "+App.Restorer);
-        String nameSkins = s.nextLine();
-        String [] partes = nameSkins.split(",");
-        nameSkin=partes[0];
-        calidadSkin = partes[1];
-        Skins=nameSkin + "," + calidadSkin;
-
-        if(CantSkins>0){
-            System.out.print(App.Cyan+"Ingrese el nombre de la skin del personaje y la calidad: "+App.Restorer);
-            nameSkins = s.nextLine();
-            partes = nameSkins.split(",");
-            nameSkin=partes[0];
-            calidadSkin=partes[1];
-            Skins = nameSkin+ ", "+calidadSkin;
-            CantSkins--;
-
+        System.out.print("Ingrese el numero de skins que posee " + name + ": ");
+        int cantSkinsP = s.nextInt();
+        while(cantSkinsP<1){
+            System.out.println(App.Red + "[ERROR]" + App.Restorer + " El personaje debe poseer al menos una skin.");
+            System.out.print("Ingrese el numero de skins que posee " + name + ": ");
+            cantSkinsP = s.nextInt();
         }
-        nombreCampeon=name;
-        rol = Rol;
-        cantSkins = CantSkins;
-        datosSkins=Skins;
-        Personajes Np = new Personajes(nombreCampeon,rol,cantSkins,datosSkins);
-        lpersonajes.addPersonajes(Np);
+        String datosSkins = "";
+        String nameSkin,calidadSkin;
+        for(int i =0;i<cantSkinsP;i++){
+            System.out.print("Ingrese el nombre de la skin n"+App.Cyan+(i+1)+App.Restorer+": ");
+            if(i==0) {
+                s.nextLine();
+            }
+            nameSkin = s.nextLine();
+            System.out.print("Ingrese la calidad de la skin n" + App.Cyan + (i+1) + App.Restorer + ": ");
+            calidadSkin = App.ScannerChar();
+            while(!verificarCalidad(calidadSkin)){
+                System.out.println(App.Red + "[ERROR]" + App.Restorer + " Calidad ingresada no valida.");
+                System.out.print("Ingrese la calidad de la skin n" + App.Cyan + (i+1) + App.Restorer + ": ");
+                calidadSkin = App.ScannerChar();
+            }
+            System.out.println(nameSkin + ", " + calidadSkin);
+            if((i+1)==cantSkinsP){
+                datosSkins += nameSkin+","+calidadSkin;
+            }else{
+                datosSkins += nameSkin+ ","+calidadSkin+",";
+            }
+        }
+        try {
+            ingresarPersonajes(name,rol,cantSkinsP,datosSkins);
+            Personajes p = lpersonajes.searchP(name);
+            Personajes e = lpersonajes.searchP("Jinx");
+            System.out.println(p.toString());
+            System.out.println(e.toString());
+            System.out.println(App.Green + "Se ha ingresado el personaje " + App.Cyan + name + App.Green + " con exito!" + App.Restorer);
+        }catch (Exception e){
+            System.out.println(App.Red + "[ERROR] " + App.Restorer + "No se ha podido registrar su personaje.");
+            System.out.println(e);
+        }
 
+    }
+    private static boolean verificarRol(String rol){
+        String[] roles = {"TOP","JG","MID","ADC","SUPP"};
+        boolean result = false;
+        for(int i = 0;i<roles.length;i++){
+            if(rol.equalsIgnoreCase(roles[i])){
+                result = true;
+            }
+        }
+        return result;
+    }
+    private static boolean verificarCalidad(String calidad){
+        String[] calidades = {"M","D","L","E","N"};
+        boolean result = false;
+        for(int i =0;i<calidades.length;i++){
+            if(calidad.equalsIgnoreCase(calidades[i])){
+                result = true;
+            }
+        }
+        return result;
     }
     public void agregarSkins(String nombreCuenta) {
         Scanner sk = new Scanner(System.in);

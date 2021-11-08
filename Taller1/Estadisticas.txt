@@ -4,3 +4,4 @@ Lillia,80000
 Vex,10000
 Jhin,90000
 Kaisa,100000
+Ahri,100000
