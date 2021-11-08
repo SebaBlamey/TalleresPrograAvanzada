@@ -461,8 +461,8 @@ public class App {
         System.out.println("===========================================");
         System.out.print("Ingrese alguna opción -> ");
         int opcion = ScannerInt();
-        while(opcion != 9){
-            switch (opcion){
+        while (opcion != 9) {
+            switch (opcion) {
                 case 1:
                     limpiarConsola(3);
                     System.out.println("Recaudacion de venta por rol.");
@@ -512,29 +512,34 @@ public class App {
                     Thread.sleep(5000);
                     break;
                 default:
-                    System.out.println(Red+"[ERROR] "+Restorer+"Opción no valida");
+                    System.out.println(Red + "[ERROR] " + Restorer + "Opción no valida");
                     break;
 
+            }
+            limpiarConsola(3000);
+            System.out.println("===========================================");
+            System.out.println("               Menú" + Yellow + " ADMIN                " + Restorer);
+            System.out.println("-------------------------------------------");
+            System.out.println("1)" + Cyan + " Recaudacion de ventas por rol." + Restorer);
+            System.out.println("2)" + Cyan + " Recaudacion total de ventas por región." + Restorer);
+            System.out.println("3)" + Cyan + " Recaudacion por personajes." + Restorer);
+            System.out.println("4)" + Cyan + " Cantidad de personajes por rol." + Restorer);
+            System.out.println("5)" + Cyan + " Agregar personaje." + Restorer);
+            System.out.println("6)" + Cyan + " Agregar Skin." + Restorer);
+            System.out.println("7)" + Cyan + " Bloquear jugador." + Restorer);
+            System.out.println("8)" + Cyan + " Desplegar cuentas." + Restorer);
+            System.out.println("9)" + Cyan + " Salir." + Restorer);
+            System.out.println("===========================================");
+            System.out.print("Ingrese alguna opción -> ");
+            opcion = ScannerInt();
         }
-        limpiarConsola(3000);
-        System.out.println("===========================================");
-        System.out.println("               Menú" + Yellow + " ADMIN                " + Restorer);
-        System.out.println("-------------------------------------------");
-        System.out.println("1)" + Cyan + " Recaudacion de ventas por rol." + Restorer);
-        System.out.println("2)" + Cyan + " Recaudacion total de ventas por región." + Restorer);
-        System.out.println("3)" + Cyan + " Recaudacion por personajes." + Restorer);
-        System.out.println("4)" + Cyan + " Cantidad de personajes por rol." + Restorer);
-        System.out.println("5)" + Cyan + " Agregar personaje." + Restorer);
-        System.out.println("6)" + Cyan + " Agregar Skin." + Restorer);
-        System.out.println("7)" + Cyan + " Bloquear jugador." + Restorer);
-        System.out.println("8)" + Cyan + " Desplegar cuentas." + Restorer);
-        System.out.println("9)" + Cyan + " Salir." + Restorer);
-        System.out.println("===========================================");
-        System.out.print("Ingrese alguna opción -> ");
-        opcion = ScannerInt();
-        }
-    // ===============================================================================
     }
+    // ===============================================================================
+    //========================================WAIFUSS========================================
+
+    /**
+     * Simple function that only has the ascii drawing of different anime waifus
+     */
     private static void MaiSan(){
         System.out.println(Purple + "⠄⠄⠄⣰⣿⠄⠄⠄⠄⠄⢠⠄⠄⢀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄\n" +
                 "⠄⠄⢰⣿⠿⠄⡀⠄⠄⠄⠘⣷⡀⠄⠢⣄⠄⠄⠄⠄⠄⠄⠄⣠⠖⠁⠄⠄⠄⠄\n" +
@@ -569,6 +574,34 @@ public class App {
                 "⠄⣰⡗⠹⣿⣄⠄⠄⠄⢀⣿⣿⣿⣿⣿⣿⠟⣅⣥⣿⣿⣿⣿⠿⠋⠄⠄⣾⡌⢠⣿⡿⠃\n" +
                 "⠜⠋⢠⣷⢻⣿⣿⣶⣾⣿⣿⣿⣿⠿⣛⣥⣾⣿⠿⠟⠛⠉⠄⠄");
     }
+    private static void Fubuki(){
+        System.out.println(Purple + "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢛⡋⠙⡩⠵⢒⠯⡉⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣤⢀⡄⢀⢠⢈⠈⠀⠩⠹⡀⡀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠯⠈⡁⠑⠁⡃⠉⠋⠉⠳⠛⠏⠁⠁⡀⠐⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠁⠆⡀⢠⠀⠀⡀⠀⠁⠩⠱⠄⡘⠗⢈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠤⡐⠠⠘⠈⠅⣹⠀⡇⠀⢀⠈⡀⢧⠄⢰⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⣰⣠⡀⠀⣡⡟⣸⣣⣆⢸⠀⠩⣥⠀⢼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⣳⣏⣐⣬⣿⣧⣖⣴⣴⣾⣾⣿⣿⡄⢘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣅⡄⠀⠓⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⡉⡚⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠅⠰⠀⠂⣿⣿⡻⣿⣿⣿⣿⣿⣿⢉⠁⡖⡷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⡿⣦⢰⠀⠀⠀⠝⠿⣿⣞⢯⣽⡟⠿⢱⠀⢸⠁⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⡾⠋⠀⠀⠀⠀⠈⠉⠁⢨⡄⠺⣸⣬⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⡛⣩⢀⢶⠈⠢⠀⣀⠀⠀⠀⠀⠀⡄⡀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⡿⠑⢠⡖⠼⠟⣳⠇⣄⠄⡞⢀⣀⠀⢀⠈⣃⡀⠉⠙⡛⠛⠟⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣄⠧⢙⠀⣀⠔⢇⣇⡤⠣⢂⠐⠒⡰⠘⠡⢿⣷⣔⡓⠋⠐⠀⠊⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⢯⠀⠀⠘⢛⣍⢫⡂⠓⡄⠚⠐⠥⢽⡊⠄⠁⢿⣿⣿⣿⣮⣴⠒⠘⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⡋⠀⠀⠀⢤⠈⠢⣀⠃⡀⠊⠂⠐⠈⣤⣬⣶⣶⣿⣯⣟⠷⡿⣻⣿⣶⣤⡛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⠟⠀⠀⠀⣤⠼⠂⠃⠀⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣟⣿⣿⣷⣟⠍⠛⠻⢿⣽⣶⣽⣻⢿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⠉⡽⣴⡪⢹⠫⢁⣴⣷⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⡟⠛⠋⠉⠀⠀⠀⠀⠈⠋⠛⠋⠛⠷⡽⣿⣿⣿⣿⣿⣿\n" +
+                "⢎⡔⠀⢹⠥⢂⣷⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿\n" +
+                "⢄⢃⣀⣗⣡⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿\n" +
+                "⡗⡡⣔⣼⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⢮⠁⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⡔⡛⡖⠟⢿⣿⣿⣿⣿⣿⣿⡟⠁⠀⠀⢀⠀⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿");
+    }
     private static void ZeroTwo(){
         System.out.println(Purple + "⣿⣿⣿⣿⣯⣿⣿⠄⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠈⣿⣿⣿⣿⣿⣿⣆⠄\n" +
                 "⢻⣿⣿⣿⣾⣿⢿⣢⣞⣿⣿⣿⣿⣷⣶⣿⣯⣟⣿⢿⡇⢃⢻⣿⣿⣿⣿⣿⢿⡄\n" +
@@ -584,6 +617,29 @@ public class App {
                 "⠄⠄⠈⢸⣿⠄⠙⢿⣿⣿⣹⣿⣿⣿⣿⣟⡃⣽⣿⣿⡟⠁⣿⣿⢻⣿⣿⢿⠄⠄\n" +
                 "⠄⠄⠄⠘⣿⡄⠄⠄⠙⢿⣿⣿⣾⣿⣷⣿⣿⣿⠟⠁⠄⠄⣿⣿⣾⣿⡟⣿⠄⠄\n" +
                 "⠄⠄⠄⠄⢻⡇⠸⣆⠄⠄⠈⠻⣿⡿⠿⠛⠉⠄⠄⠄⠄⢸⣿⣇⣿⣿⢿⣿⠄⠄");
+    }
+    private static void Umaru(){
+        System.out.println(Purple + "⠄⡀⠄⠄⠠⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠠⠄⠄⠄⠄⠄⠄⠄⠄⠠⠄⠄⠄⣀⣀⣀⣀⡀⠄⠄⠄\n" +
+                "⠐⠄⠄⠤⠅⠐⠄⠄⠄⠠⠄⠄⠄⡼⣻⢳⣀⣤⣤⣴⣶⣶⣶⣶⣦⣤⣤⣄⣀⠄⠄⠄⢀⠄⠄⠄⠈⠱⠙⠋⠒⠄⠄⠅\n" +
+                "⢀⠄⠒⠪⢤⡠⡡⢀⡄⢁⢓⠠⠄⣑⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣦⣼⢯⡝⡆⠄⠁⠄⠄⡠⡀⠠⢈⠄\n" +
+                "⠄⠂⢚⣀⡁⢐⣄⡂⠚⣈⠠⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣥⡐⠅⠈⠄⠂⠐⠆⠄⢐\n" +
+                "⠖⠢⢔⠒⠐⣒⠰⠆⢐⢀⣼⣿⣿⣿⢿⣻⣿⣭⣍⣭⣭⣭⣽⣿⣛⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠄⠐⠄⠂⠄⢂⠃\n" +
+                "⢢⣬⡠⢤⣠⡬⣐⡀⡀⣾⣿⢿⣽⣾⡿⣿⣟⣿⣿⢻⣿⣿⣿⣿⣿⣿⣿⣾⣿⡿⣿⣿⣿⣿⣿⣿⣷⣐⢥⡶⠲⢰⢄⠆\n" +
+                "⣺⠣⣖⣤⣯⢵⢁⢭⢸⡟⢱⠿⠟⢙⣓⠛⠽⣿⣿⣸⡿⣿⣿⣿⣿⣿⡽⣻⣿⣿⣾⣿⣿⣿⣿⣿⣿⡇⠉⠳⠷⠷⠹⠺\n" +
+                "⣿⣹⡻⣯⣵⢧⠩⠟⣾⢡⣿⠄⠔⠳⠄⠄⠄⠄⠈⠙⠿⠽⠏⢛⠛⠻⠿⠻⣾⢿⣿⣿⣮⢿⣿⣿⣿⣇⡪⢅⢑⣬⡄⠑\n" +
+                "⣩⣘⢓⡒⣩⣷⣾⡇⣿⣾⣿⣡⡀⠄⠄⠄⠄⠄⠄⣰⣶⡶⠄⠲⠄⠁⠄⠄⠈⠛⢿⣿⣿⡟⣿⣿⣿⣏⣩⠧⣠⡊⣝⡪\n" +
+                "⣽⣾⣿⣿⣷⣝⠿⣸⡇⣿⣿⣿⣿⣿⣶⣶⣶⣶⣾⣿⣿⣧⡀⠄⠄⠄⠄⠄⢀⡴⣾⣿⣿⡗⣽⣿⣿⡏⣿⣿⣶⣴⣲⢶\n" +
+                "⣿⣿⣿⣿⣿⣿⢧⣿⡇⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣤⣴⣿⡻⣫⣿⣿⣙⣛⣿⣿⡷⣿⣿⣿⣿⣿⣷\n" +
+                "⣿⣿⣿⣿⣿⣏⣿⣿⡇⣿⡿⢿⢹⡻⣿⣿⣿⣿⣭⣿⣿⣿⣽⣿⣿⣿⣿⣿⣧⣽⣿⣿⢯⣿⠿⠿⠿⠇⢿⣋⣽⣷⣶⣿\n" +
+                "⣿⣿⣿⣿⡟⣼⣿⣿⣿⠹⡏⢿⢸⢿⠱⣦⣧⢑⠾⠻⠿⠿⠿⠿⠿⠿⢛⢛⢡⣿⣿⣏⢞⣥⣿⣿⣿⣿⣶⣽⣛⡿⢿⣿\n" +
+                "⡿⣿⣿⣿⢷⣿⣿⢟⣥⣾⣦⣧⣾⣿⣿⣾⣮⣷⣶⣔⣤⣀⣳⣤⣼⣷⣾⢏⣾⣿⢏⣴⣿⣨⢱⣾⣿⣶⡆⠉⣛⣛⣡⣿\n" +
+                "⣿⣮⡻⣿⢸⡿⡃⢸⣿⣧⣿⣻⣷⡻⣼⣿⣿⣿⣿⣿⣿⣾⣭⣭⣭⣯⣍⣮⢜⣵⡟⣭⣽⣿⡞⣿⣿⣿⠃⣴⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣮⣸⠁⠃⢸⣿⢿⣟⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⣿⣿⣿⣧⢻⣿⣟⣶⣾⣿⣷⣶⣾\n" +
+                "⣿⣿⣿⣿⣧⠈⣀⣴⣶⣿⣿⣿⣿⣿⣟⣿⡿⢿⣃⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⠃⢸⣫⣾⣿⣿⣿⣿⣿⣿\n" +
+                "⡿⣛⢽⣶⣾⣾⣿⣿⣿⣿⡿⠜⢿⣿⣿⣿⣿⣿⣿⣿⣟⣛⣿⢿⣿⣿⣿⣿⣿⡿⣾⣿⣿⢿⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣾⣿⣿⣿⣿⣻⣿⣿⣿⣿⣦⣤⣈⣻⣿⡿⣻⣿⣿⡿⠿⠏⠻⣿⣾⡿⣿⠿⠿⣓⢻⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣿⡿⣟⣽⣾⣿⣷⣶⣶⣷⣶⣿⣿⣿⣿⣿⣮⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣏⣾⣿⣽⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n");
     }
     private static void DripGoku(){
         System.out.println(Purple + "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⣤⣤⢀\n" +
@@ -619,10 +675,10 @@ public class App {
     }
 
     /**
-     * Function that gives a random number in a range of the numbers given as parameters.
-     * @param min Minimum value that can be obtained.
-     * @param max Maximum value that can be obtained.
-     * @return a double.
+     * Function to have a random number
+     * @param min minimum number that can be obtained
+     * @param max maximum number that can be obtained
+     * @return a random number between the ranges of min and max
      */
     private static double getRandomDoubleBetweenRange(double min, double max){
         double x = (Math.random()*((max-min)+1))+min;
@@ -630,10 +686,10 @@ public class App {
     }
 
     /**
-     * Function that prints a drawing made in ascii randomly
+     * Depending on the number obtained, it will print a waifu
      */
     private static void imprimirWaifu(){
-        int num = (int) getRandomDoubleBetweenRange(0.0,4.0);
+        int num = (int) getRandomDoubleBetweenRange(0.0,6.0);
         switch (num){
             case 0:
                 MaiSan();
@@ -646,6 +702,12 @@ public class App {
                 break;
             case 3:
                 DripGoku();
+                break;
+            case 4:
+                Fubuki();
+                break;
+            case 5:
+                Umaru();
                 break;
             default:
                 System.out.println("Esta vez no hay waifus :C");
