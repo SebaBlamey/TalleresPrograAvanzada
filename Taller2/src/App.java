@@ -18,4 +18,12 @@ public class App {
             System.out.println(linea);
         }
     }
+    private static void lecturaAsignaturas(SistemaUCR sistema) throws IOException{
+        BufferedReader buffer = new BufferedReader(new InputStreamReader
+                (new FileInputStream("asignaturas.txt"),"utf-8"));
+        String linea;
+        while((linea=buffer.readLine()) != null){
+
+        }
+    }
 }

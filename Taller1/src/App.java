@@ -24,7 +24,7 @@ public class App {
      */
     private static void lecturaCuentas(SistemaRitoGames sistema) throws IOException {
 
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D://Programacion//Java//Universidad//TalleresPrograAvanzada//Taller1//Cuentas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Cuentas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -58,7 +58,7 @@ public class App {
      * @throws IOException
      */
     private static void lecturaPersonajes(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D://Programacion//Java//Universidad//TalleresPrograAvanzada//Taller1//Personajes.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Personajes.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
@@ -87,7 +87,7 @@ public class App {
      * @throws IOException
      */
     private static void lecturaEstadisticas(SistemaRitoGames sistema) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("D://Programacion//Java//Universidad//TalleresPrograAvanzada//Taller1//Estadisticas.txt"),
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(new FileInputStream("C://Users//Jota//TalleresPrograAvanzada//Taller1//Estadisticas.txt"),
                 "utf-8"));
         String linea;
         while((linea = buffer.readLine()) != null) {
