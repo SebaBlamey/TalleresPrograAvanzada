@@ -1,47 +1,57 @@
 package Clases;
 
 public class Profesores {
-    private String rutProfesor;
-    private String correoProfesor;
-    private String contraseñaProfesor;
-    private float salario;
+    private String rut;
+    private String correo;
+    private String contrasena;
+    private int salario;
 
-    public Profesores (String rutProfesor, String correoProfesor, String contraseñaProfesor, float salario){
-        this.rutProfesor=rutProfesor;
-        this.correoProfesor=correoProfesor;
-        this.contraseñaProfesor=contraseñaProfesor;
-        this.salario=salario;
+    public Profesores(String rut, String correo, String contrasena, int salario) {
+        this.rut = rut;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.salario = salario;
     }
 
-    public String getRutProfesor() {
-        return rutProfesor;
+    public String getRut() {
+        return rut;
     }
 
-    public void setRutProfesor(String rutProfesor) {
-        this.rutProfesor = rutProfesor;
+    public void setRut(String rut) {
+        this.rut = rut;
     }
 
-    public String getCorreoProfesor() {
-        return correoProfesor;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setCorreoProfesor(String correoProfesor) {
-        this.correoProfesor = correoProfesor;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
-    public String getContraseñaProfesor() {
-        return contraseñaProfesor;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseñaProfesor(String contraseñaProfesor) {
-        this.contraseñaProfesor = contraseñaProfesor;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
-    public float getSalario() {
+    public int getSalario() {
         return salario;
     }
 
-    public void setSalario(float salario) {
+    public void setSalario(int salario) {
         this.salario = salario;
+    }
+
+    @Override
+    public String toString() {
+        return "Profesores{" +
+                "rut='" + rut + '\'' +
+                ", correo='" + correo + '\'' +
+                ", contrasena='" + contrasena + '\'' +
+                ", salario=" + salario +
+                '}';
     }
 }

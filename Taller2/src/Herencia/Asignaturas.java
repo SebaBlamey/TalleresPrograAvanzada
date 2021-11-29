@@ -1,22 +1,22 @@
 package Herencia;
 public class Asignaturas{
-    private int CodigoAsignatura;
+    private String CodigoAsignatura;
     private String NombreAsignatura;
     private int CreditoAsignatura;
     private String TipoAsignatura;
 
-    public Asignaturas(int codigoAsignatura, String nombreAsignatura, int creditoAsignatura, String tipoAsignatura){
+    public Asignaturas(String codigoAsignatura, String nombreAsignatura, int creditoAsignatura, String tipoAsignatura){
         CodigoAsignatura = codigoAsignatura;
         NombreAsignatura = nombreAsignatura;
         CreditoAsignatura = creditoAsignatura;
         TipoAsignatura = tipoAsignatura;
     }
 
-    public int getCodigoAsignatura() {
+    public String getCodigoAsignatura() {
         return CodigoAsignatura;
     }
 
-    public void setCodigoAsignatura(int codigoAsignatura) {
+    public void setCodigoAsignatura(String codigoAsignatura) {
         CodigoAsignatura = codigoAsignatura;
     }
 

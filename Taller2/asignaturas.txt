@@ -1,6 +1,6 @@
 1285,termodinámica,8,obligatoria,2,4,1458,1523,1211,1428
 1286,belga,4,opcional,14
-1458,matematica,8,opcional
-1523,leguaje,4,opcional
-1211,historia,8,opcional
-1428,ingles,4,opcional
+1458,matematica,8,opcional,7
+1523,leguaje,4,opcional,8
+1211,historia,8,opcional,9
+1428,ingles,4,opcional,10

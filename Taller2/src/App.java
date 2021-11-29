@@ -1,21 +1,109 @@
+import Clases.AsignaturasCursadas;
+import Clases.AsignaturasInscritas;
+import Clases.Estudiante;
+
 import java.io.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class App {
     private static String linuxFilePath="/home/sebaarch/ProyectosU/TalleresPrograAvanzada/Taller2/";
-    public static void main(String[] args) throws IOException {
+    private static String windowsSeba="D:/Programacion/Java/Universidad/TalleresPrograAvanzada/Taller2/";
+    public static void main(String[] args) throws Exception {
         SistemaUCR sistema = new SistemaUCRImpl();
         lecturaEstudiantes(sistema);
-
-
+        lecturaAsignaturas(sistema);
+        lecturaParalelos(sistema);
+        lecturaProfesores(sistema);
     }
 
-    private static void lecturaEstudiantes(SistemaUCR sistema) throws IOException{
-        BufferedReader buffer = new BufferedReader(new InputStreamReader
-                (new FileInputStream(linuxFilePath+"estudiantes.txt"),
-                        "utf-8"));
-        String linea;
-        while ((linea = buffer.readLine()) != null){
-            System.out.println(linea);
+    //-------------------------------------------------------------------------------------------------------------
+
+    //-------------------------------------------------- MENUS -----------------------------------------------
+    public static void Menu(SistemaUCR sistema) throws InterruptedException {
+        System.out.println("===========================================");
+        System.out.println("               Sistema" + Yellow + " UCR                 " + Restorer);
+        System.out.println("-------------------------------------------");
+        System.out.println("1)" + Cyan + " Iniciar Sesión." + Restorer);
+        System.out.println("2)" + Cyan + " Registrarse." + Restorer);
+        System.out.println("3)" + Cyan + " Salir." + Restorer);
+        System.out.println("===========================================");
+        System.out.print("Ingrese alguna opción -> ");
+        int opcion = ScannerInt();
+        Scanner entrada = new Scanner(System.in);
+        while(opcion != 3){
+            switch (opcion) {
+                case 1:
+                    limpiarConsola(3);
+                    System.out.println("===========================================");
+                    System.out.println(Yellow + "             Inicio de Sesión              " + Restorer);
+                    System.out.println("-------------------------------------------");
+                    System.out.print("Ingrese su " + Cyan + "CORREO" + Restorer + " -> ");
+                    String rut = entrada.nextLine();
+                    System.out.print("Ingrese su " + Cyan + "CLAVE" + Restorer + " -> ");
+                    String pass = entrada.nextLine();
+                    int inicio = sistema.inicioSesion(rut, pass);
+                    switch (inicio) {
+                        case 0: // Menu administrador
+                            //menuAdmin(sistema,rut);
+                            break;
+                        case 1: // Menu Estudiante
+                            // = sistema.rutCompleto(rut);
+                            menuEstudiante(sistema);
+                            break;
+                        case 2: // Menu profesor
+                            break;
+                        default:
+                            System.out.println(Red + "ERROR: " + Restorer +
+                                    "No se encuentras las credenciales ingresadas.");
+                    }
+                    break;
+
+            }
+            limpiarConsola(3000);
+            System.out.println("===========================================");
+            System.out.println("               Sistema" + Yellow + " UCR                 " + Restorer);
+            System.out.println("-------------------------------------------");
+            System.out.println("1)" + Cyan + " Iniciar Sesión." + Restorer);
+            System.out.println("2)" + Cyan + " Registrarse." + Restorer);
+            System.out.println("3)" + Cyan + " Salir." + Restorer);
+            System.out.println("===========================================");
+            System.out.print("Ingrese alguna opción -> ");
+            opcion = ScannerInt();
+        }
+    }
+
+    private static void menuEstudiante(SistemaUCR sistema) {
+    }
+
+
+    public static void lecturaEstudiantes(SistemaUCR sistema) throws IOException{
+        Scanner entrada = new Scanner(new File(windowsSeba+"estudiantes.txt"));
+        while(entrada.hasNextLine()){
+            String partes[] = entrada.nextLine().split(",");
+            String rut = partes[0];
+            String correo = partes[1];
+            int nivel = Integer.parseInt(partes[2]);
+            String contrasena = partes[3];
+            Estudiante e = new Estudiante(rut,correo,nivel,contrasena);
+            String partes2[] = entrada.nextLine().split("");
+            sistema.ingresarEstudiante(rut,contrasena,nivel,contrasena);
+            int asignaturasCursadas = Integer.parseInt(partes2[0]);
+            for (int i = 0; i < asignaturasCursadas; i++) {
+                String partes3[] = entrada.nextLine().split(",");
+                String codigoAsignatura = partes3[0];
+                Double notaFinal = Double.valueOf((partes3[1]));
+                sistema.ingresarAsignaturasCursadas(rut,codigoAsignatura,notaFinal);
+            }
+            String partes4[] = entrada.nextLine().split(",");
+            int asignaturasInscritas = Integer.parseInt(partes4[0]);
+            for (int j = 0; j < asignaturasInscritas; j++) {
+                String partes5[] = entrada.nextLine().split(",");
+                String codigoAsignaturaInscrita = partes5[0];
+                String paralelo = ((partes5[1]));
+                sistema.ingresarAsignaturasInscritas(rut,codigoAsignaturaInscrita,paralelo);
+            }
+
         }
     }
     private static void lecturaAsignaturas(SistemaUCR sistema) throws IOException{
@@ -23,7 +111,239 @@ public class App {
                 (new FileInputStream("asignaturas.txt"),"utf-8"));
         String linea;
         while((linea=buffer.readLine()) != null){
+            String partes[] = linea.split(",");
+            String codigo = partes[0];
+            String nombreAsignatura = partes[1];
+            int cantCreditos = Integer.parseInt(partes[2]);
+            String tipoAsignatura = partes[3];
+            if(tipoAsignatura.equalsIgnoreCase("Obligatoria")){
+                int nivel = Integer.parseInt(partes[4]);
+                int cantidadPreRequisitos = Integer.parseInt(partes[5]);
+                String codigos = "";
+                for(int i = 0 ; i < cantidadPreRequisitos ; i++){
+                    if(i+1 == (cantidadPreRequisitos-1)){
+                        codigos = codigos + partes[i+6];
+                    }else{
+                        codigos = codigos + partes[i+6] + ",";
+                    }
+                }
+                sistema.ingresarAsignaturaObligatoria(codigo,nombreAsignatura,cantCreditos,tipoAsignatura,nivel,cantidadPreRequisitos,codigos);
 
+            }else{
+                int cantidadPreRequisitos = Integer.parseInt(partes[4]);
+                sistema.ingresarAsignaturaOpcional(codigo,nombreAsignatura,cantCreditos,tipoAsignatura,cantidadPreRequisitos);
+            }
         }
     }
+    private static void lecturaParalelos(SistemaUCR sistema) throws Exception{
+        BufferedReader buffer = new BufferedReader(new InputStreamReader
+                (new FileInputStream("paralelos.txt"),"utf-8"));
+        String linea;
+        while((linea = buffer.readLine()) != null) {
+            String partes[] = linea.split(",");
+            String numeroParalelo = partes[0];
+            String paralelo = partes[1];
+            String rutProfesor = partes[2];
+            sistema.acociarParalelo(numeroParalelo,paralelo,rutProfesor);
+        }
+    }
+    private static void lecturaProfesores(SistemaUCR sistema) throws Exception{
+        BufferedReader buffer = new BufferedReader(new InputStreamReader
+                (new FileInputStream("profesores.txt"),"utf-8"));
+        String linea;
+        while((linea = buffer.readLine()) != null) {
+            String partes[] = linea.split(",");
+            String rut = partes[0];
+            String correo = partes[1];
+            String contrasena = partes[2];
+            int salario = Integer.parseInt(partes[3]);
+            sistema.ingresarProfesores(rut,correo,contrasena,salario);
+        }
+    }
+
+    //-------------------------------------------------- UTILIDADES -----------------------------------------------
+
+    //LIMPIAR CONSOLA
+    private static void limpiarConsola(int time) throws InterruptedException {
+        /**
+         * This function gives several line breaks to "clean" the console.
+         */
+        Thread.sleep(time);
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    }
+
+    //COLORES
+    private static final String Black = "\u001B[30m";
+    private static final String Red = "\u001B[31m";
+    private static final String Green = "\u001B[32m";
+    private static final String Yellow = "\u001B[33m";
+    private static final String Blue = "\u001B[34m";
+    private static final String Purple = "\u001B[35m";
+    private static final String Cyan = "\u001B[36m";
+    private static final String White = "\u001B[37m";
+    private static final String Restorer = "\u001B[00m";
+
+    //SCANNERS
+    private static int ScannerInt() {
+        /**
+         * Basic function not to be using creating a Scanner every time you want to request an option
+         */
+        Scanner input = new Scanner(System.in);
+        int valor = 0;
+        boolean complete = false;
+        do {
+            try {
+                valor = input.nextInt();
+                complete = true;
+            } catch (InputMismatchException ex) {
+                System.out.print(Red + "ERROR: " + Restorer + "Carácter no válido. Ingrese nuevamente -> ");
+                input.nextLine();
+            }
+        } while (!complete);
+        return valor;
+    }
+
+    public static String ScannerChar() {
+        /**
+         * Function that asks the user to enter a character. In case of being more than a single character,
+         * it will be requested again.
+         */
+        Scanner input = new Scanner(System.in);
+        String valor = "";
+        boolean complete = false;
+        do {
+            if (input.hasNext()) {
+                valor = input.next();
+                input.nextLine();
+                if (stringCharCheck(valor)) {
+                    if (valor.length() == 1) {
+                        complete = true;
+                    } else {
+                        System.out.print(Red + "ERROR: " + Restorer + "Ingresa un sólo carácter por favor -> ");
+                    }
+                } else {
+                    System.out.print("Por favor ingresa un carácter");
+                }
+            } else {
+                System.out.println("Carácter inválido");
+            }
+        } while (!complete);
+        valor = valor.toUpperCase();
+        return valor;
+    }
+
+    private static boolean stringCharCheck(String str) {
+        /**
+         * Here it is verified that a single character has been entered.
+         */
+        return ((str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z]+$")));
+    }
+    private static void MaiSan(){
+        System.out.println(Purple + "⠄⠄⠄⣰⣿⠄⠄⠄⠄⠄⢠⠄⠄⢀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄\n" +
+                "⠄⠄⢰⣿⠿⠄⡀⠄⠄⠄⠘⣷⡀⠄⠢⣄⠄⠄⠄⠄⠄⠄⠄⣠⠖⠁⠄⠄⠄⠄\n" +
+                "⠄⣤⢸⣿⣿⣆⠣⠄⠄⠄⠄⠸⣿⣦⡀⠙⢶⣦⣄⡀⠄⡠⠞⠁⢀⡴⠄⠄⠄⠄\n" +
+                "⢰⣿⣎⣿⣿⣿⣦⣀⠄⠄⠄⠄⠹⣿⣿⣦⢄⡙⠻⠿⠷⠶⠤⢐⣋⣀⠄⠄⠄⠄\n" +
+                "⢸⣿⠛⠛⠻⠿⢿⣿⣧⢤⣤⣄⣠⡘⣿⣿⣿⡟⠿⠛⠂⠈⠉⠛⢿⣿⠄⠄⠄⠄\n" +
+                "⠄⡇⢰⣿⣇⡀⠄⠄⣝⣿⣿⣿⣿⣿⣿⣿⣿⣶⣿⡄⠄⠈⠄⣷⢠⡆⠄⠄⠄⠄\n" +
+                "⢹⣿⣼⣿⣯⢁⣤⣄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⣴⠶⣲⣵⠟⠄⠄⠄⠄⠸\n" +
+                "⠄⢿⣿⣿⣿⣷⣮⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣾⣟⣡⡴⠄⠄⠄⠄⠁\n" +
+                "⠄⠰⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⡀⠄⠄⠄⠄\n" +
+                "⠄⠄⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⣶⡞⠄⠄⠄⠄⠄\n" +
+                "⠄⠄⠐⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠄⠄⠄⠄⠄⠄\n" +
+                "⠄⠄⠄⠈⠻⣿⣿⣿⣿⣿⣿⣯⣿⣯⣿⣾⣿⣿⣿⣿⣿⡿⠋⠄⠄⠄⠄⠄⠄⠄\n" +
+                "⠄⠄⠄⠄⠄⠄⠙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣵⠄⠄⠄⠄⠄⠄⠄⠄⠄\n" +
+                "⠄⠄⠄⠄⠄⠄⠄⢀⣿⣯⣟⣿⣿⣿⡿⣟⣯⣷⣿⣿⡏⣤⠄⠄⠄⠄⠄⠄⠄⠄\n" +
+                "⠄⠄⠄⠄⠄⠄⠄⣞⢸⣿⣿⣿⣾⣷⣿⣿⣿⣿⣿⣿⣇⣿⡆⠄⠄⠄⠄⠄⠄⠄");
+    }
+    private static void ChikaFujiwara(){
+        System.out.println(Purple + "⢸⣿⣿⣿⣿⠃⠄⢀⣴⡾⠃⠄⠄⠄⠄⠄⠈⠺⠟⠛⠛⠛⠛⠻⢿⣿⣿⣿⣿⣶⣤⡀⠄\n" +
+                "⢸⣿⣿⣿⡟⢀⣴⣿⡿⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣸⣿⣿⣿⣿⣿⣿⣿⣷\n" +
+                "⢸⣿⣿⠟⣴⣿⡿⡟⡼⢹⣷⢲⡶⣖⣾⣶⢄⠄⠄⠄⠄⠄⢀⣼⣿⢿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⢸⣿⢫⣾⣿⡟⣾⡸⢠⡿⢳⡿⠍⣼⣿⢏⣿⣷⢄⡀⠄⢠⣾⢻⣿⣸⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⡿⣡⣿⣿⡟⡼⡁⠁⣰⠂⡾⠉⢨⣿⠃⣿⡿⠍⣾⣟⢤⣿⢇⣿⢇⣿⣿⢿⣿⣿⣿⣿⣿\n" +
+                "⣱⣿⣿⡟⡐⣰⣧⡷⣿⣴⣧⣤⣼⣯⢸⡿⠁⣰⠟⢀⣼⠏⣲⠏⢸⣿⡟⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⡟⠁⠄⠟⣁⠄⢡⣿⣿⣿⣿⣿⣿⣦⣼⢟⢀⡼⠃⡹⠃⡀⢸⡿⢸⣿⣿⣿⣿⣿⡟\n" +
+                "⣿⣿⠃⠄⢀⣾⠋⠓⢰⣿⣿⣿⣿⣿⣿⠿⣿⣿⣾⣅⢔⣕⡇⡇⡼⢁⣿⣿⣿⣿⣿⣿⢣\n" +
+                "⣿⡟⠄⠄⣾⣇⠷⣢⣿⣿⣿⣿⣿⣿⣿⣭⣀⡈⠙⢿⣿⣿⡇⡧⢁⣾⣿⣿⣿⣿⣿⢏⣾\n" +
+                "⣿⡇⠄⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⢻⠇⠄⠄⢿⣿⡇⢡⣾⣿⣿⣿⣿⣿⣏⣼⣿\n" +
+                "⣿⣷⢰⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⢰⣧⣀⡄⢀⠘⡿⣰⣿⣿⣿⣿⣿⣿⠟⣼⣿⣿\n" +
+                "⢹⣿⢸⣿⣿⠟⠻⢿⣿⣿⣿⣿⣿⣿⣿⣶⣭⣉⣤⣿⢈⣼⣿⣿⣿⣿⣿⣿⠏⣾⣹⣿⣿\n" +
+                "⢸⠇⡜⣿⡟⠄⠄⠄⠈⠙⣿⣿⣿⣿⣿⣿⣿⣿⠟⣱⣻⣿⣿⣿⣿⣿⠟⠁⢳⠃⣿⣿⣿\n" +
+                "⠄⣰⡗⠹⣿⣄⠄⠄⠄⢀⣿⣿⣿⣿⣿⣿⠟⣅⣥⣿⣿⣿⣿⠿⠋⠄⠄⣾⡌⢠⣿⡿⠃\n" +
+                "⠜⠋⢠⣷⢻⣿⣿⣶⣾⣿⣿⣿⣿⠿⣛⣥⣾⣿⠿⠟⠛⠉⠄⠄");
+    }
+    private static void ZeroTwo(){
+        System.out.println(Purple + "⣿⣿⣿⣿⣯⣿⣿⠄⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠈⣿⣿⣿⣿⣿⣿⣆⠄\n" +
+                "⢻⣿⣿⣿⣾⣿⢿⣢⣞⣿⣿⣿⣿⣷⣶⣿⣯⣟⣿⢿⡇⢃⢻⣿⣿⣿⣿⣿⢿⡄\n" +
+                "⠄⢿⣿⣯⣏⣿⣿⣿⡟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣧⣾⢿⣮⣿⣿⣿⣿⣾⣷\n" +
+                "⠄⣈⣽⢾⣿⣿⣿⣟⣄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣝⣯⢿⣿⣿⣿⣿\n" +
+                "⣿⠟⣫⢸⣿⢿⣿⣾⣿⢿⣿⣿⢻⣿⣿⣿⢿⣿⣿⣿⢸⣿⣼⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⡟⢸⣟⢸⣿⠸⣷⣝⢻⠘⣿⣿⢸⢿⣿⣿⠄⣿⣿⣿⡆⢿⣿⣼⣿⣿⣿⣿⢹⣿\n" +
+                "⡇⣿⡿⣿⣿⢟⠛⠛⠿⡢⢻⣿⣾⣞⣿⡏⠖⢸⣿⢣⣷⡸⣇⣿⣿⣿⢼⡿⣿⣿\n" +
+                "⣡⢿⡷⣿⣿⣾⣿⣷⣶⣮⣄⣿⣏⣸⣻⣃⠭⠄⠛⠙⠛⠳⠋⣿⣿⣇⠙⣿⢸⣿\n" +
+                "⠫⣿⣧⣿⣿⣿⣿⣿⣿⣿⣿⣿⠻⣿⣾⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣹⢷⣿⡼⠋\n" +
+                "⠄⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣿⣿⣿⠄⠄\n" +
+                "⠄⠄⢻⢹⣿⠸⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣼⣿⣿⣿⣿⡟⠄⠄\n" +
+                "⠄⠄⠈⢸⣿⠄⠙⢿⣿⣿⣹⣿⣿⣿⣿⣟⡃⣽⣿⣿⡟⠁⣿⣿⢻⣿⣿⢿⠄⠄\n" +
+                "⠄⠄⠄⠘⣿⡄⠄⠄⠙⢿⣿⣿⣾⣿⣷⣿⣿⣿⠟⠁⠄⠄⣿⣿⣾⣿⡟⣿⠄⠄\n" +
+                "⠄⠄⠄⠄⢻⡇⠸⣆⠄⠄⠈⠻⣿⡿⠿⠛⠉⠄⠄⠄⠄⢸⣿⣇⣿⣿⢿⣿⠄⠄");
+    }
+    private static void DripGoku(){
+        System.out.println(Purple + "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⣤⣤⢀\n" +
+                "⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⠀⠀⢿⣿⣦⠈⢄⠀⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣶⣦⣍⠐⢼⣿⣿⣧⠈⡄⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣷⣄⣿⣿⣿⣦⣴⣦⣀⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⢀⢠⣄⣒⣚⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡧⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠰⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡧⣤⣤⣤⣄⡀\n" +
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⢿⣿⣿⣿⡽⣿⠟⢃⣿⠟⡉⣿⣿⣿⣿⣿⠿⠛⠉⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⠀⠠⠶⢯⣭⣿⢹⡟⢶⣗⠀⢸⠇⢁⣠⠫⠟⣹⣿⣯⡭⠶⠂⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢙⣄⠣⠁⠈⠓⠊⠐⠃⠀⠀⣰⣿⣏⡀⠀⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⢉⣽⠀⠀⠀⠀⠀⠀⠀⣿⣯⠉⠉⠀⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⡀⠀⠀⠀⠀⠀⠀⣿⣿⣷⡀⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣿⣿⣿⣷⡀⠀⠀⠀⠀⢠⣿⣿⣿⣷⣦⣄⡀⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⣰⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀\n" +
+                "⠀⠀⠀⠀⢀⠘⢛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⠗⠀⠀\n" +
+                "⠀⠀⠀⢀⣧⣀⡀⠶⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣏⣠⣀⣀⣿⡿⠃⢢⣠⡆\n" +
+                "⠀⠀⠀⢸⠿⣿⡿⣷⡿⠿⣿⢿⡿⠩⢹⣿⡟⠉⠉⠉⢹⣿⢻⠛⠛⠻⢿⣿⣷⣿⣿⠉⠟⠀\n" +
+                "⠀⠀⠀⡾⢶⣿⣦⣿⣷⡇⢁⠚⡇⠐⢀⣿⣷⣤⣤⣤⣿⣧⣀⣠⣇⡰⢀⡿⣿⣿⣷⣾⣶⡀\n" +
+                "⠀⠀⢰⣵⡎⠹⣿⣿⣿⣁⣾⢻⣿⢻⣟⣩⣿⣿⣿⣿⣿⣿⣿⣿⣿⣥⣾⣿⡿⠛⠛⢛⡟⢇⠀\n" +
+                "⠀⠀⣾⣿⣞⣰⠞⣩⣿⣻⡇⢠⠃⠸⠉⠙⣿⣿⣿⣿⢈⡁⠤⠁⠌⢉⢙⣿⣐⣧⣤⣾⢇⢸⠀\n" +
+                "⠀⠀⢹⡿⢿⢋⡍⢇⠛⣿⣧⣼⣦⣴⣔⣠⣿⣿⣿⣯⣦⣤⣦⣤⣦⣄⣸⡻⢛⠋⠉⠻⠿⡇⠀\n" +
+                "⠀⠀⠀⡰⠀⣆⣷⣴⣶⠿⣿⡿⣿⢿⣿⣿⣿⣿⣿⢿⡿⢿⣿⢉⠉⣿⣿⣷⣾⣤⣭⡁⠂⠀⠀⠀\n" +
+                "⠀⠀⠀⢱⣾⣿⣿⣿⣿⠐⣉⣌⠇⠐⠁⡄⣿⣿⣿⠈⡠⢾⡇⠠⠠⣼⣽⡟⢣⠄⣹⣿⡖⠀⠀\n" +
+                "⠀⠀⠀⠀⢿⣉⠁⣿⣷⣿⡟⢿⡵⣾⣶⣦⣿⣿⣿⣴⣷⣾⣷⠖⡴⠿⣿⣿⠷⠚⢛⡻⠁⠀\n" +
+                "⠀⠀⠀⠀⠈⢿⣆⣿⣿⣿⣧⠐⡅⢘⠃⣿⣿⣿⣟⠿⡿⣿⣧⣈⠴⢃⠘⣻⣿⣿⡟⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⢰⢻⣿⠃⢸⣿⣶⣿⡿⡟⢉⣿⢿⣻⣼⣧⠂⠛⢿⣷⣟⣀⣥⡼⠋⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⣾⣏⡙⣿⣾⣿⣿⠿⢄⠉⣸⡿⠁⠉⠉⠟⢬⢛⢚⠻⣿⣿⠛⠀⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⣿⣷⣦⣅⣙⣿⣧⣮⣬⣽⡟⠀⠀⠀⠀⢶⣶⣮⢧⢠⠙⣰⢹⣦⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⣈⣽⣶⣿⣿⣷⣼⠟⠆\n" +
+                "⠀⠀⠀⠀⠀⠘⢥⣏⢿⢯⣿⡟⠀⣿⣿⣿⣶⣄⣠⢈⠲⠟⣛⠏⣍⣏⠬⣄⡺⠀⠀\n" +
+                "⠀⠀⠀⠀⠀⠀⢸⣿⣿⣾⣿⣃⣧⣿⣿⣿⣿⣿⣧⣒⣴⣦⣾⣶⣾⣶⣿⡇⠀⠀");
+    }
+    private static double getRandomDoubleBetweenRange(double min, double max){
+        double x = (Math.random()*((max-min)+1))+min;
+        return x;
+    }
+    private static void imprimirWaifu(){
+        int num = (int) getRandomDoubleBetweenRange(0.0,4.0);
+        switch (num){
+            case 0:
+                MaiSan();
+                break;
+            case 1:
+                ZeroTwo();
+                break;
+            case 2:
+                ChikaFujiwara();
+                break;
+            case 3:
+                DripGoku();
+                break;
+            default:
+                System.out.println("Esta vez no hay waifus :C");
+                break;
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------------------
 }
