@@ -3,6 +3,7 @@ import Clases.AsignaturasInscritas;
 import Clases.Estudiante;
 
 import java.io.*;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -13,8 +14,10 @@ public class App {
         SistemaUCR sistema = new SistemaUCRImpl();
         lecturaEstudiantes(sistema);
         lecturaAsignaturas(sistema);
-        lecturaParalelos(sistema);
         lecturaProfesores(sistema);
+        lecturaParalelos(sistema);
+        Menu(sistema);
+
     }
 
     //-------------------------------------------------------------------------------------------------------------
@@ -39,17 +42,36 @@ public class App {
                     System.out.println(Yellow + "             Inicio de Sesión              " + Restorer);
                     System.out.println("-------------------------------------------");
                     System.out.print("Ingrese su " + Cyan + "CORREO" + Restorer + " -> ");
-                    String rut = entrada.nextLine();
+                    String correo = entrada.nextLine();
                     System.out.print("Ingrese su " + Cyan + "CLAVE" + Restorer + " -> ");
                     String pass = entrada.nextLine();
-                    int inicio = sistema.inicioSesion(rut, pass);
+                    int inicio = sistema.inicioSesion(correo, pass);
+                    boolean fechaValida = false;
+                    int Periodo = -1;
                     switch (inicio) {
                         case 0: // Menu administrador
-                            //menuAdmin(sistema,rut);
+                            //menuAdmin(sistema,correo);
                             break;
                         case 1: // Menu Estudiante
-                            // = sistema.rutCompleto(rut);
-                            menuEstudiante(sistema);
+                            correo = sistema.correoCompletoEstudiante(correo);
+                            System.out.print("Ingrese la fecha en la que se encuetra (yyyy-MM-dd) -> ");
+                            String fecha = entrada.nextLine();
+
+                            try {
+                                String[] partesFecha = fecha.split("-");
+                                int ano = Integer.parseInt(partesFecha[0]);
+                                int mes = Integer.parseInt(partesFecha[1]);
+                                int dia = Integer.parseInt(partesFecha[2]);
+                                Date fechita = new Date(ano,mes,dia);
+                                Periodo = sistema.periodosSemestre(fechita);
+                                fechaValida = true;
+                            } catch (Exception e) {
+                                System.out.println("Has ingresado un foramto incorrecto");
+                            }
+
+                            if(fechaValida){
+                                menuEstudiante(sistema,correo,Periodo);
+                            }
                             break;
                         case 2: // Menu profesor
                             break;
@@ -73,7 +95,78 @@ public class App {
         }
     }
 
-    private static void menuEstudiante(SistemaUCR sistema) {
+    private static void menuEstudiante(SistemaUCR sistema, String corre, int periodo) {
+        Scanner entrada = new Scanner(System.in);
+        switch(periodo){
+            case 0:
+                System.out.println("===========================================");
+                System.out.println("           Inicio Semestre" + Yellow + " Alumno                 " + Restorer);
+                System.out.println("-------------------------------------------");;
+                System.out.println("1)" + Cyan + " Inscribir Asignatura." + Restorer);
+                System.out.println("2)" + Cyan + " Eliminar Asignatura." + Restorer);
+                System.out.println("3)" + Cyan + " Salir." + Restorer);
+                System.out.println("===========================================");
+                System.out.print("Ingrese una opcion: ");
+                int opcion = ScannerInt();
+                String titulo = "";
+                while ( opcion != 3){
+                    switch (opcion){
+                        case 1:
+                            System.out.println("==============================================================="+
+                                    "=====");
+                            titulo = "Asignaturas "+Cyan+"Disponibles"+Restorer;
+                            System.out.println(String.format("%55s",titulo));
+                            System.out.println("---------------------------------------------------------------"+
+                                    "-----");
+                            sistema.DesplegarAsignaturas(corre);
+                            System.out.println("---------------------------------------------------------------"+
+                                    "-----");
+                            System.out.print("Ingrese el codigo de la Asignatura que desea: ");
+                            String codigo = entrada.nextLine();
+                            var codigoValido = sistema.codigoValido(corre,codigo);
+                            if(codigoValido){
+                                System.out.println("==============================================================="+
+                                        "=====");
+                                titulo = "Paralelos "+Cyan+"Disponibles"+Restorer;
+                                System.out.println(String.format("%55s",titulo));
+                                System.out.println("---------------------------------------------------------------"+
+                                        "-----");
+                                sistema.DesplegarParalelos(corre,codigo);
+                                System.out.println("---------------------------------------------------------------"+
+                                        "-----");
+                                System.out.print("Ingrese el numero del paralelo: ");
+                                int nParalelo = ScannerInt();
+                                if(sistema.InscribirParalelo(corre, codigo, nParalelo)){
+                                    System.out.println("Te has inscrito con exito!");
+                                }else{
+                                    System.out.println("No te has inscrito!");
+                                }
+
+
+                            }else{
+                                System.out.println("Codigo invalido o no cuentas con creditos suficientes");
+                            }
+                            break;
+                    }
+                    System.out.println("===========================================");
+                    System.out.println("           Inicio Semestre" + Yellow + " Alumno                 " + Restorer);
+                    System.out.println("-------------------------------------------");;
+                    System.out.println("1)" + Cyan + " Inscribir Asignatura." + Restorer);
+                    System.out.println("2)" + Cyan + " Eliminar Asignatura." + Restorer);
+                    System.out.println("3)" + Cyan + " Salir." + Restorer);
+                    System.out.println("===========================================");
+                    opcion = ScannerInt();
+                }
+                break;
+            case 1:
+                System.out.println("Mitad Semestre");
+                break;
+            case 2:
+                System.out.println("Final Semestre");
+                break;
+            case -1:
+                System.out.println("Disfrutes sus Vacaciones");
+        }
     }
 
 
@@ -87,7 +180,7 @@ public class App {
             String contrasena = partes[3];
             Estudiante e = new Estudiante(rut,correo,nivel,contrasena);
             String partes2[] = entrada.nextLine().split("");
-            sistema.ingresarEstudiante(rut,contrasena,nivel,contrasena);
+            sistema.ingresarEstudiante(rut,correo,nivel,contrasena);
             int asignaturasCursadas = Integer.parseInt(partes2[0]);
             for (int i = 0; i < asignaturasCursadas; i++) {
                 String partes3[] = entrada.nextLine().split(",");
@@ -121,7 +214,7 @@ public class App {
                 int cantidadPreRequisitos = Integer.parseInt(partes[5]);
                 String codigos = "";
                 for(int i = 0 ; i < cantidadPreRequisitos ; i++){
-                    if(i+1 == (cantidadPreRequisitos-1)){
+                    if(i+1 == (cantidadPreRequisitos)){
                         codigos = codigos + partes[i+6];
                     }else{
                         codigos = codigos + partes[i+6] + ",";
@@ -135,18 +228,6 @@ public class App {
             }
         }
     }
-    private static void lecturaParalelos(SistemaUCR sistema) throws Exception{
-        BufferedReader buffer = new BufferedReader(new InputStreamReader
-                (new FileInputStream("paralelos.txt"),"utf-8"));
-        String linea;
-        while((linea = buffer.readLine()) != null) {
-            String partes[] = linea.split(",");
-            String numeroParalelo = partes[0];
-            String paralelo = partes[1];
-            String rutProfesor = partes[2];
-            sistema.acociarParalelo(numeroParalelo,paralelo,rutProfesor);
-        }
-    }
     private static void lecturaProfesores(SistemaUCR sistema) throws Exception{
         BufferedReader buffer = new BufferedReader(new InputStreamReader
                 (new FileInputStream("profesores.txt"),"utf-8"));
@@ -158,6 +239,18 @@ public class App {
             String contrasena = partes[2];
             int salario = Integer.parseInt(partes[3]);
             sistema.ingresarProfesores(rut,correo,contrasena,salario);
+        }
+    }
+    private static void lecturaParalelos(SistemaUCR sistema) throws Exception{
+        BufferedReader buffer = new BufferedReader(new InputStreamReader
+                (new FileInputStream("paralelos.txt"),"utf-8"));
+        String linea;
+        while((linea = buffer.readLine()) != null) {
+            String partes[] = linea.split(",");
+            String numeroParalelo = partes[0];
+            String paralelo = partes[1];
+            String rutProfesor = partes[2];
+            sistema.acociarParalelo(numeroParalelo,paralelo,rutProfesor);
         }
     }
 

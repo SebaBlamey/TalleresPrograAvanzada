@@ -1,6 +1,7 @@
 package Herencia;
 
 import Clases.Estudiante;
+import Clases.Paralelo;
 
 import java.util.Arrays;
 
@@ -55,6 +56,16 @@ public class listaAsignaturas {
                 return la[i];
             }
         }return null;
+    }
+
+    public Asignaturas getAsignaturasX(int i){
+        if(i<cant){
+            return la[i];
+        }
+        else{
+            return null;
+
+        }
     }
 
     @Override

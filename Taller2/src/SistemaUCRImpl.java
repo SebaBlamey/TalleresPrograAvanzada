@@ -1,5 +1,8 @@
 import Clases.*;
 import Herencia.*;
+
+import java.util.Date;
+
 public class SistemaUCRImpl implements SistemaUCR{
     listaEstudiantes lEstudiantes;
     listaAsignaturas lAsignaturas;
@@ -51,6 +54,7 @@ public class SistemaUCRImpl implements SistemaUCR{
     @Override
     public boolean ingresarAsignaturaObligatoria(String codigo, String nombreAsignatura, int cantCreditos, String tipoAsignatura, int nivel, int cantidadPreRequisitos, String codigos) {
         AsignaturaObligatorias asignaturaObligatorias = new AsignaturaObligatorias(codigo,nombreAsignatura,cantCreditos,tipoAsignatura,nivel,cantidadPreRequisitos,codigos);
+        lAsignaturas.anadirAsignatura(asignaturaObligatorias);
         return false;
     }
 
@@ -78,15 +82,162 @@ public class SistemaUCRImpl implements SistemaUCR{
     public int inicioSesion(String correo, String pass) {
         Estudiante estudiante = lEstudiantes.buscarEstudianteCorreo(correo);
         Profesores profesor = lProfesores.buscarProfesorCorreo(correo);
-        if(correo.equals("Admin") && pass.equals("GHI_789")){
-            return 0;
-        }else if(correo.equals(estudiante.getCorreo()) && pass.equals(estudiante.getContrasena())){
-            return 1;
-        }else if(correo.equals(profesor.getCorreo()) && pass.equals(profesor.getContrasena())){
-            return 2;
-        }else{
+        try {
+            if (correo.equals("Admin") && pass.equals("GHI_789")) {
+                return 0;
+            } else if (correo.equals(estudiante.getCorreo()) && pass.equals(estudiante.getContrasena())) {
+                return 1;
+            } else if (correo.equals(profesor.getCorreo()) && pass.equals(profesor.getContrasena())) {
+                return 2;
+            }
+        } catch (Exception e) {
             return -1;
         }
+        return -1;
+    }
+
+    public String correoCompletoEstudiante(String correo){
+        Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
+        return e.getCorreo();
+    }
+
+    public String correoCompletoProfesor(String correo){
+        Profesores p = lProfesores.buscarProfesorCorreo(correo);
+        return  p.getCorreo();
+    }
+
+    @Override
+    public int periodosSemestre(Date fecha) {
+        Date inicio1 = new Date(2021,3,8);
+        Date inicio2 = new Date(2021,5,2);
+
+        Date Mitad1 = new Date(2021,5,3);
+        Date Mitad2 = new Date(2021,7,11);
+
+        Date Final1 = new Date(2021, 7,12);
+        Date Final2 = new Date(2021, 7,25);
+
+        Date CierreSemestre = new Date(2021,7,26);
+        if(fecha.after(inicio1) && fecha.before(inicio2)){
+            return 0;
+        }
+        else if(fecha.after(Mitad1) && fecha.before(Mitad2)){
+            return 1;
+        }
+        else if(fecha.after(Final1) && fecha.before(Final2)){
+            return 2;
+        }
+        else if(fecha.equals(CierreSemestre)){
+            return 3;
+        }
+        else{
+            return -1;
+        }
+    }
+
+    @Override
+    public void DesplegarAsignaturas(String corre) {
+        Estudiante e = lEstudiantes.buscarEstudianteCorreo(corre);
+        String tipo = "";
+        String cabecera1 = "Nombre";
+        String cabecera2 = "Tipo";
+        String cabecera3 = "Codigo";
+        String cabecera4 = "Creditos";
+        String nombre,codigo,creditos;
+        int cont = 0;
+        int nivelEstudiante = e.getNivel();
+        System.out.printf("%-17s %14s %17s %17s %n",cabecera1,cabecera2,cabecera3,cabecera4);
+        for(int i = 0; i<lAsignaturas.getCant();i++){
+            Asignaturas a = lAsignaturas.getAsignaturasX(i);
+            if(a.getTipoAsignatura().equalsIgnoreCase("obligatoria")){
+                tipo = "Obligatoria";
+                AsignaturaObligatorias aO = (AsignaturaObligatorias) a;
+                if(aO.getNivel() == nivelEstudiante){
+                    nombre = aO.getNombreAsignatura();
+                    codigo = aO.getCodigoAsignatura();
+                    creditos = String.valueOf(aO.getCreditoAsignatura());
+                    System.out.printf("%-17s %14s %17s %17s %n",nombre,tipo,codigo,creditos);
+                    cont++;
+                }
+            }
+            if(a.getTipoAsignatura().equalsIgnoreCase("opcional")){
+                tipo = "Opcional";
+                AsignaturasOpcionales aOp = (AsignaturasOpcionales) a;
+                if(e.getCredito()>=aOp.getCantidadPreRequisitos()){
+                    nombre = aOp.getNombreAsignatura();
+                    codigo = aOp.getCodigoAsignatura();
+                    creditos = String.valueOf(aOp.getCreditoAsignatura());
+                    System.out.printf("%-17s %14s %17s %17s %n",nombre,tipo,codigo,creditos);
+                    cont++;
+                    if(i != lAsignaturas.getCant()){
+                        System.out.println("--------------------------------------------------------------------");
+                    }
+                }
+            }
+        }
+        if(cont==0){
+            System.out.println("No tienes Asignaturas disponibles para inscribir");
+        }
+    }
+
+    @Override
+    public boolean codigoValido(String correo, String codigo) {
+        boolean valido = false;
+        Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
+        try {
+            Asignaturas a = lAsignaturas.buscarAsignatura(codigo);
+            AsignaturaObligatorias aO = (AsignaturaObligatorias) a;
+            if(aO.getNivel() == e.getNivel() && (aO.getCreditoAsignatura()+e.getCredito() <= 40)){
+                valido = true;
+            }
+        } catch (Exception exception) {
+            System.out.println(exception);
+            System.out.println("El codigo ingresado no es valido");
+            valido = false;
+        }
+        System.out.println(valido+" 1");
+        return valido;
+    }
+
+    @Override
+    public void DesplegarParalelos(String correo, String codigo) {
+        String cabecera1 = "Numero";
+        String cabecera2 = "Codigo";
+        String cabecera3 = "Profesor";
+        String cabecera4 = "Rut";
+        String numero, profesor,rut;
+        System.out.printf("%-9s %11s %27s %18s %n", cabecera1, cabecera2, cabecera3, cabecera4);
+        for(int i = 0; i < lParalelo.getCant();i++){
+            try {
+                Paralelo p = lParalelo.getParaleloX(i);
+                if(p.getAsignaturas().getCodigoAsignatura().equals(codigo)) {
+                    numero = p.getNumeroParalelo();
+                    profesor = p.getProfesor().getCorreo();
+                    rut = p.getProfesor().getRut();
+                    System.out.printf("%-9s %11s %27s %18s %n", numero, codigo, profesor, rut);
+                }
+            }catch (Exception e){
+
+            }
+        }
+    }
+
+    @Override
+    public boolean InscribirParalelo(String correo, String codigo, int numeroParalelo) {
+        boolean inscrito = false;
+        for(int i = 0 ; i < lParalelo.getCant() ; i ++){
+            Paralelo p = lParalelo.getParaleloX(i);
+            if(p.getAsignaturas().getCodigoAsignatura().equals(codigo) &&
+                    p.getNumeroParalelo().equals(String.valueOf(numeroParalelo))){
+                    Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
+                    AsignaturasInscritas a = new AsignaturasInscritas(codigo,String.valueOf(numeroParalelo));
+                    e.getlAinscritas().anadirAsignaturaI(a);
+                    inscrito =true;
+            }
+        }
+        Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
+        System.out.println(e.getlAinscritas().toString());
+        return inscrito;
     }
 
 }

@@ -1,3 +1,5 @@
+import java.util.Date;
+
 public interface SistemaUCR {
     boolean ingresarEstudiante(String rut, String correo, int nivel, String contrasena);
     boolean ingresarAsignaturasCursadas(String rutEstudiante,String codigo,Double notafinal);
@@ -8,4 +10,12 @@ public interface SistemaUCR {
     boolean acociarParalelo(String paralelo, String codigo, String rutProfesor);
 
     int inicioSesion(String correo, String pass);
+    String correoCompletoEstudiante(String correo);
+    String correoCompletoProfesor(String correo);
+    int periodosSemestre(Date fecha);
+
+    void DesplegarAsignaturas(String corre);
+    boolean codigoValido(String correo, String codigo);
+    void DesplegarParalelos(String correo,String codigo);
+    boolean InscribirParalelo(String correo, String codigo, int numeroParalelo);
 }

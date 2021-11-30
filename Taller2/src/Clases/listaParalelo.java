@@ -46,6 +46,13 @@ public class listaParalelo {
 
         }
     }
+    public Paralelo buscarParaleloCodigo(String codigo){
+        for(int i = 0; i<cant;i++){
+            if(lp[i].getAsignaturas().getCodigoAsignatura().equalsIgnoreCase(codigo)){
+                return lp[i];
+            }
+        }return null;
+    }
     public boolean anadirParalelo(Paralelo paralelo){
         if(cant<max){
             lp[cant] = paralelo;
