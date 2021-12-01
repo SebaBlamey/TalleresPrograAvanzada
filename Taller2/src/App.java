@@ -117,6 +117,7 @@ public class App {
 
     private static void menuEstudiante(SistemaUCR sistema, String corre, int periodo) {
         Scanner entrada = new Scanner(System.in);
+        int opcion;
         switch(periodo){
             case 0:
                 System.out.println("===========================================");
@@ -127,7 +128,7 @@ public class App {
                 System.out.println("3)" + Cyan + " Salir." + Restorer);
                 System.out.println("===========================================");
                 System.out.print("Ingrese una opcion: ");
-                int opcion = ScannerInt();
+                opcion = ScannerInt();
                 String titulo = "";
                 String codigo ="";
                 while ( opcion != 3){
@@ -187,6 +188,11 @@ public class App {
                                     System.out.println("No has podido eliminar la asignatura");
                                 }
                             }
+                            break;
+                        default:
+                            System.out.println(Red + "ERROR: " + Restorer +
+                                    "No se encuentras las credenciales ingresadas.");
+                            break;
                     }
                     System.out.println("===========================================");
                     System.out.println("           Inicio Semestre" + Yellow + " Alumno                 " + Restorer);
@@ -195,14 +201,60 @@ public class App {
                     System.out.println("2)" + Cyan + " Eliminar Asignatura." + Restorer);
                     System.out.println("3)" + Cyan + " Salir." + Restorer);
                     System.out.println("===========================================");
+                    System.out.print("Ingrese una opcion: ");
                     opcion = ScannerInt();
                 }
                 break;
             case 1:
-                System.out.println("Mitad Semestre");
+                System.out.println("===========================================");
+                System.out.println("           Mitad Semestre" + Yellow + " Alumno                 " + Restorer);
+                System.out.println("-------------------------------------------");;
+                System.out.println("1)" + Cyan + " Eliminar Asignatura." + Restorer);
+                System.out.println("2)" + Cyan + " Salir." + Restorer);
+                System.out.println("===========================================");
+                System.out.print("Ingrese una opcion: ");
+                opcion = ScannerInt();
+                while(opcion != 2){
+                    switch(opcion) {
+                        case 1:
+                            System.out.println("===============================================================" +
+                                    "=====");
+                            titulo = "Asignaturas " + Cyan + "Inscritas" + Restorer;
+                            System.out.println(String.format("%55s", titulo));
+                            System.out.println("---------------------------------------------------------------" +
+                                    "-----");
+                            System.out.println(sistema.asignaturasInscritas(corre));
+                            System.out.println("---------------------------------------------------------------" +
+                                    "-----");
+                            if (!sistema.asignaturasInscritas(corre).equals("No tienes asignaturas inscritas")) {
+                                System.out.print("Ingrese el codigo de la asignatura a eliminar: ");
+                                codigo = entrada.nextLine();
+                                if (sistema.eliminarAsignatura(corre, codigo)) {
+                                    System.out.println("Has eliminado la asignatura!");
+                                } else {
+                                    System.out.println("No has podido eliminar la asignatura");
+                                }
+                            }
+                            System.out.println("===========================================");
+                            System.out.println("           Mitad Semestre" + Yellow + " Alumno                 " + Restorer);
+                            System.out.println("-------------------------------------------");
+                            ;
+                            System.out.println("1)" + Cyan + " Eliminar Asignatura." + Restorer);
+                            System.out.println("2)" + Cyan + " Salir." + Restorer);
+                            System.out.println("===========================================");
+                            System.out.print("Ingrese una opcion: ");
+                            opcion = ScannerInt();
+                            break;
+                        default:
+                            System.out.println(Red + "ERROR: " + Restorer +
+                                    "No se encuentras las credenciales ingresadas.");
+                            break;
+                    }
+                }
+
                 break;
             case 2:
-                System.out.println("Final Semestre");
+                System.out.println("No puede realizar acciones al final del semestre");
                 break;
             case -1:
                 System.out.println("Disfrutes sus Vacaciones");
@@ -247,7 +299,11 @@ public class App {
                             System.out.println(sistema.desplegarChequeoAlumnos(numeroParalelo, codigoAsignatura));
                             System.out.println("---------------------------------------------------------------"+
                                     "-----");
-
+                            break;
+                        default:
+                            System.out.println(Red + "ERROR: " + Restorer +
+                                    "No se encuentras las credenciales ingresadas.");
+                            break;
                     }
                     System.out.println("===========================================");
                     System.out.println("           Inicio Semestre" + Yellow + " Profesor                 " + Restorer);
@@ -258,7 +314,25 @@ public class App {
                     System.out.print("Ingrese una opcion: ");
                     opcion = ScannerInt();
                 }
+                break;
+            case 2:
+                System.out.println("No puedes realizar acciones a mitad de semestre");
+                break;
+            case 3: // Final
+                System.out.println("===========================================");
+                System.out.println("           Final Semestre" + Yellow + " Profesor                 " + Restorer);
+                System.out.println("-------------------------------------------");;
+                System.out.println("1)" + Cyan + " Chequeo Alumnos." + Restorer);
+                System.out.println("2)" + Cyan + " Salir." + Restorer);
+                System.out.println("===========================================");
+                System.out.print("Ingrese una opcion: ");
+                opcion = ScannerInt();
+                break;
 
+            default:
+                System.out.println(Red + "ERROR: " + Restorer +
+                        "No se encuentras las credenciales ingresadas.");
+                break;
         }
     }
 
