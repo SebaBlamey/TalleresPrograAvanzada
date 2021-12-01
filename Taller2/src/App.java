@@ -46,6 +46,7 @@ public class App {
                     System.out.print("Ingrese su " + Cyan + "CLAVE" + Restorer + " -> ");
                     String pass = entrada.nextLine();
                     int inicio = sistema.inicioSesion(correo, pass);
+                    String fecha = "";
                     boolean fechaValida = false;
                     int Periodo = -1;
                     switch (inicio) {
@@ -55,7 +56,7 @@ public class App {
                         case 1: // Menu Estudiante
                             correo = sistema.correoCompletoEstudiante(correo);
                             System.out.print("Ingrese la fecha en la que se encuetra (yyyy-MM-dd) -> ");
-                            String fecha = entrada.nextLine();
+                            fecha = entrada.nextLine();
 
                             try {
                                 String[] partesFecha = fecha.split("-");
@@ -74,6 +75,25 @@ public class App {
                             }
                             break;
                         case 2: // Menu profesor
+                            String rut = sistema.rutCompletoProfesor(correo);
+                            System.out.print("Ingrese la fecha en la que se encuetra (yyyy-MM-dd) -> ");
+                            fecha = entrada.nextLine();
+
+                            try {
+                                String[] partesFecha = fecha.split("-");
+                                int ano = Integer.parseInt(partesFecha[0]);
+                                int mes = Integer.parseInt(partesFecha[1]);
+                                int dia = Integer.parseInt(partesFecha[2]);
+                                Date fechita = new Date(ano,mes,dia);
+                                Periodo = sistema.periodosSemestre(fechita);
+                                fechaValida = true;
+                            } catch (Exception e) {
+                                System.out.println("Has ingresado un formato incorrecto");
+                            }
+
+                            if(fechaValida){
+                                menuProfesor(sistema,rut,Periodo);
+                            }
                             break;
                         default:
                             System.out.println(Red + "ERROR: " + Restorer +
@@ -109,6 +129,7 @@ public class App {
                 System.out.print("Ingrese una opcion: ");
                 int opcion = ScannerInt();
                 String titulo = "";
+                String codigo ="";
                 while ( opcion != 3){
                     switch (opcion){
                         case 1:
@@ -122,7 +143,7 @@ public class App {
                             System.out.println("---------------------------------------------------------------"+
                                     "-----");
                             System.out.print("Ingrese el codigo de la Asignatura que desea: ");
-                            String codigo = entrada.nextLine();
+                            codigo = entrada.nextLine();
                             var codigoValido = sistema.codigoValido(corre,codigo);
                             if(codigoValido){
                                 System.out.println("==============================================================="+
@@ -147,6 +168,25 @@ public class App {
                                 System.out.println("Codigo invalido o no cuentas con creditos suficientes");
                             }
                             break;
+                        case 2:
+                            System.out.println("==============================================================="+
+                                    "=====");
+                            titulo = "Asignaturas "+Cyan+"Inscritas"+Restorer;
+                            System.out.println(String.format("%55s",titulo));
+                            System.out.println("---------------------------------------------------------------"+
+                                    "-----");
+                            System.out.println(sistema.asignaturasInscritas(corre));
+                            System.out.println("---------------------------------------------------------------"+
+                                    "-----");
+                            if(!sistema.asignaturasInscritas(corre).equals("No tienes asignaturas inscritas")) {
+                                System.out.print("Ingrese el codigo de la asignatura a eliminar: ");
+                                codigo = entrada.nextLine();
+                                if (sistema.eliminarAsignatura(corre, codigo)) {
+                                    System.out.println("Has eliminado la asignatura!");
+                                } else {
+                                    System.out.println("No has podido eliminar la asignatura");
+                                }
+                            }
                     }
                     System.out.println("===========================================");
                     System.out.println("           Inicio Semestre" + Yellow + " Alumno                 " + Restorer);
@@ -166,6 +206,59 @@ public class App {
                 break;
             case -1:
                 System.out.println("Disfrutes sus Vacaciones");
+        }
+    }
+
+    private static void menuProfesor(SistemaUCR sistema, String rut, int periodo){
+        Scanner entrada = new Scanner(System.in);
+        String titulo = "";
+        switch(periodo){
+            case 0: //Inicio
+                System.out.println("===========================================");
+                System.out.println("           Inicio Semestre" + Yellow + " Profesor                 " + Restorer);
+                System.out.println("-------------------------------------------");;
+                System.out.println("1)" + Cyan + " Chequeo Alumnos." + Restorer);
+                System.out.println("2)" + Cyan + " Salir." + Restorer);
+                System.out.println("===========================================");
+                System.out.print("Ingrese una opcion: ");
+                int opcion = ScannerInt();
+                while(opcion != 2){
+                    switch(opcion){
+                        case 1:
+                            System.out.println("==============================================================="+
+                                    "=====");
+                            titulo = "Paralelos "+Cyan+"Dictados"+Restorer;
+                            System.out.println(String.format("%55s",titulo));
+                            System.out.println("---------------------------------------------------------------"+
+                                    "-----");
+                            System.out.println(sistema.desplegarParalelosProfesor(rut));
+                            System.out.println("---------------------------------------------------------------"+
+                                    "-----");
+                            System.out.print("Ingrese el numero del paralelo: ");
+                            String numeroParalelo = entrada.nextLine();
+                            System.out.print("Ingrese el codigo de la asignatura: ");
+                            String codigoAsignatura = entrada.nextLine();
+                            System.out.println("==============================================================="+
+                                    "=====");
+                            titulo = "Lista de "+Cyan+"Alumnos"+Restorer;
+                            System.out.println(String.format("%55s",titulo));
+                            System.out.println("---------------------------------------------------------------"+
+                                    "-----");
+                            System.out.println(sistema.desplegarChequeoAlumnos(numeroParalelo, codigoAsignatura));
+                            System.out.println("---------------------------------------------------------------"+
+                                    "-----");
+
+                    }
+                    System.out.println("===========================================");
+                    System.out.println("           Inicio Semestre" + Yellow + " Profesor                 " + Restorer);
+                    System.out.println("-------------------------------------------");;
+                    System.out.println("1)" + Cyan + " Chequeo Alumnos." + Restorer);
+                    System.out.println("2)" + Cyan + " Salir." + Restorer);
+                    System.out.println("===========================================");
+                    System.out.print("Ingrese una opcion: ");
+                    opcion = ScannerInt();
+                }
+
         }
     }
 

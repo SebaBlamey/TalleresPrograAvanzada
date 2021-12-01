@@ -11,11 +11,19 @@ public interface SistemaUCR {
 
     int inicioSesion(String correo, String pass);
     String correoCompletoEstudiante(String correo);
-    String correoCompletoProfesor(String correo);
+    String rutCompletoProfesor(String correo);
     int periodosSemestre(Date fecha);
 
+    // -- ESTUDIANTE --
     void DesplegarAsignaturas(String corre);
     boolean codigoValido(String correo, String codigo);
     void DesplegarParalelos(String correo,String codigo);
     boolean InscribirParalelo(String correo, String codigo, int numeroParalelo);
+    String asignaturasInscritas(String correo);
+    boolean eliminarAsignatura(String correo, String codigo);
+
+    // -- PROFESOR --
+    String desplegarParalelosProfesor(String rut);
+
+    String desplegarChequeoAlumnos(String numeroParalelo, String codigoAsignatura);
 }

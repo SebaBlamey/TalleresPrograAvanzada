@@ -85,10 +85,16 @@ public class SistemaUCRImpl implements SistemaUCR{
         try {
             if (correo.equals("Admin") && pass.equals("GHI_789")) {
                 return 0;
-            } else if (correo.equals(estudiante.getCorreo()) && pass.equals(estudiante.getContrasena())) {
-                return 1;
-            } else if (correo.equals(profesor.getCorreo()) && pass.equals(profesor.getContrasena())) {
-                return 2;
+            }
+            if(estudiante != null){
+                if (correo.equals(estudiante.getCorreo()) && pass.equals(estudiante.getContrasena())) {
+                    return 1;
+                }
+            }
+            if(profesor !=null){
+                if (correo.equals(profesor.getCorreo()) && pass.equals(profesor.getContrasena())) {
+                    return 2;
+                }
             }
         } catch (Exception e) {
             return -1;
@@ -101,9 +107,9 @@ public class SistemaUCRImpl implements SistemaUCR{
         return e.getCorreo();
     }
 
-    public String correoCompletoProfesor(String correo){
+    public String rutCompletoProfesor(String correo){
         Profesores p = lProfesores.buscarProfesorCorreo(correo);
-        return  p.getCorreo();
+        return  p.getRut();
     }
 
     @Override
@@ -137,6 +143,7 @@ public class SistemaUCRImpl implements SistemaUCR{
 
     @Override
     public void DesplegarAsignaturas(String corre) {
+        //String text = "";
         Estudiante e = lEstudiantes.buscarEstudianteCorreo(corre);
         String tipo = "";
         String cabecera1 = "Nombre";
@@ -155,9 +162,11 @@ public class SistemaUCRImpl implements SistemaUCR{
                 if(aO.getNivel() == nivelEstudiante){
                     nombre = aO.getNombreAsignatura();
                     codigo = aO.getCodigoAsignatura();
-                    creditos = String.valueOf(aO.getCreditoAsignatura());
-                    System.out.printf("%-17s %14s %17s %17s %n",nombre,tipo,codigo,creditos);
-                    cont++;
+                    if(!yaTieneAsignatura(corre,codigo)) {
+                        creditos = String.valueOf(aO.getCreditoAsignatura());
+                        System.out.printf("%-17s %14s %17s %17s %n", nombre, tipo, codigo, creditos);
+                        cont++;
+                    }
                 }
             }
             if(a.getTipoAsignatura().equalsIgnoreCase("opcional")){
@@ -166,11 +175,10 @@ public class SistemaUCRImpl implements SistemaUCR{
                 if(e.getCredito()>=aOp.getCantidadPreRequisitos()){
                     nombre = aOp.getNombreAsignatura();
                     codigo = aOp.getCodigoAsignatura();
-                    creditos = String.valueOf(aOp.getCreditoAsignatura());
-                    System.out.printf("%-17s %14s %17s %17s %n",nombre,tipo,codigo,creditos);
-                    cont++;
-                    if(i != lAsignaturas.getCant()){
-                        System.out.println("--------------------------------------------------------------------");
+                    if(!yaTieneAsignatura(corre,codigo)) {
+                        creditos = String.valueOf(aOp.getCreditoAsignatura());
+                        System.out.printf("%-17s %14s %17s %17s %n", nombre, tipo, codigo, creditos);
+                        cont++;
                     }
                 }
             }
@@ -179,6 +187,15 @@ public class SistemaUCRImpl implements SistemaUCR{
             System.out.println("No tienes Asignaturas disponibles para inscribir");
         }
     }
+    private boolean yaTieneAsignatura(String correo, String codigoAsignatura){
+        Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
+        boolean laTiene = false;
+        AsignaturasInscritas ai = e.getlAinscritas().buscarAsignaturaI(codigoAsignatura);
+        if(ai != null){
+            laTiene = true;
+        }
+        return laTiene;
+    }
 
     @Override
     public boolean codigoValido(String correo, String codigo) {
@@ -186,10 +203,20 @@ public class SistemaUCRImpl implements SistemaUCR{
         Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
         try {
             Asignaturas a = lAsignaturas.buscarAsignatura(codigo);
-            AsignaturaObligatorias aO = (AsignaturaObligatorias) a;
-            if(aO.getNivel() == e.getNivel() && (aO.getCreditoAsignatura()+e.getCredito() <= 40)){
-                valido = true;
+            if(a.getTipoAsignatura().equalsIgnoreCase("obligatoria")){
+                AsignaturaObligatorias aO = (AsignaturaObligatorias) a;
+                if(aO.getNivel() == e.getNivel() && (aO.getCreditoAsignatura()+e.getCredito() <= 40)){
+                    valido = true;
+                }
+
+            }else if (a.getTipoAsignatura().equalsIgnoreCase("opcional")){
+                AsignaturasOpcionales aOp = (AsignaturasOpcionales) a;
+                if(e.getCredito()>=aOp.getCantidadPreRequisitos() && (aOp.getCreditoAsignatura()+e.getCredito() <= 40)){
+                    valido = true;
+                }
             }
+
+
         } catch (Exception exception) {
             System.out.println(exception);
             System.out.println("El codigo ingresado no es valido");
@@ -232,12 +259,109 @@ public class SistemaUCRImpl implements SistemaUCR{
                     Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
                     AsignaturasInscritas a = new AsignaturasInscritas(codigo,String.valueOf(numeroParalelo));
                     e.getlAinscritas().anadirAsignaturaI(a);
+                    int numeroAlumnos = p.getCantAlumnos()+1;
+                    p.setCantAlumnos(numeroAlumnos);
+                    int creditos = e.getCredito()+p.getAsignaturas().getCreditoAsignatura();
+                    e.setCredito(creditos);
                     inscrito =true;
             }
         }
-        Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
-        System.out.println(e.getlAinscritas().toString());
         return inscrito;
+    }
+
+    @Override
+    public String asignaturasInscritas(String correo) {
+        String texto = "";
+        String nombreA, tipoAsignatura, codigo, paralelo;
+        Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
+        if(e.getlAinscritas().getCant() > 0) {
+            for (int i = 0; i < e.getlAinscritas().getCant(); i++) {
+                AsignaturasInscritas ai = e.getlAinscritas().getAsignaturasIX(i);
+                codigo = ai.getCodigo();
+                paralelo = ai.getCodigoParalelo();
+                Paralelo p = lParalelo.buscarParaleloCodigo(codigo);
+                nombreA = p.getAsignaturas().getNombreAsignatura();
+                tipoAsignatura = p.getAsignaturas().getTipoAsignatura();
+                texto += ("Nombre Asignatura: " + nombreA + "\nTipo Asignatura: " + tipoAsignatura +
+                        "\nCodigo: " + codigo + "\nParalelo: " + paralelo);
+                if (i + 1 != e.getlAinscritas().getCant()) {
+                    texto += "\n---------------------------------------\n";
+                }
+            }
+        }
+        else if( e.getlAinscritas().getCant() == 0){
+            texto = "No tienes asignaturas inscritas";
+        }
+        return texto;
+    }
+
+    @Override
+    public boolean eliminarAsignatura(String correo, String codigo) {
+        boolean eliminado = false;
+        Estudiante e = lEstudiantes.buscarEstudianteCorreo(correo);
+        AsignaturasInscritas ai = e.getlAinscritas().buscarAsignaturaI(codigo);
+        if(ai != null){
+            Asignaturas a = lAsignaturas.buscarAsignatura(codigo);
+            e.getlAinscritas().borrarAsignaturaI(codigo);
+            int creditos = e.getCredito() - a.getCreditoAsignatura();
+            e.setCredito(creditos);
+            eliminado = true;
+        }
+
+        return eliminado;
+    }
+
+    @Override
+    public String desplegarParalelosProfesor(String rut) {
+        String texto = "";
+        int cont = 0;
+        Profesores p = lProfesores.buscarProfesor(rut);
+        for(int i = 0; i < lParalelo.getCant();i++){
+            Paralelo pa = lParalelo.getParaleloX(i);
+            if(pa.getProfesor().getRut().equals(p.getRut())){
+                texto += ("Asignatura: "+pa.getAsignaturas().getNombreAsignatura()+"\nParalelo: "+pa.getNumeroParalelo()
+                        +"\nCodigo: "+pa.getAsignaturas().getCodigoAsignatura());
+                cont++;
+                if(i+1 != lParalelo.getCant()){
+                    texto+= "\n---------------------------------------\n";
+                }
+            }
+        }
+        if(cont == 0){
+            texto = "No tiene paralelos registrados";
+        }
+        return texto;
+    }
+
+    @Override
+    public String desplegarChequeoAlumnos(String numeroParalelo, String codigoAsignatura) {
+        String texto = "";
+        int cont = 0;
+        /*Paralelo p = lParalelo.buscarParaleloCodigo(codigoAsignatura);
+        if(p != null){
+            for(int i = 0; i< p.getCantAlumnos();i++){
+                if(p.getNumeroParalelo().equals(numeroParalelo)){
+                    p.getAsignaturas().
+                }
+            }
+        }*/
+        for(int i = 0 ; i < lEstudiantes.getCant() ;i ++){
+            Estudiante e = lEstudiantes.getEstudianteX(i);
+            AsignaturasInscritas ai = e.getlAinscritas().buscarAsignaturaI(codigoAsignatura);
+            if(ai != null){
+                if(ai.getCodigoParalelo().equals(numeroParalelo)){
+                    texto += ("Correo: "+e.getCorreo()+"\nRut: "+e.getRut());
+                    if(cont != lEstudiantes.getCant()){
+                        texto+= "\n---------------------------------------\n";
+                    }
+                    cont++;
+                }
+            }
+        }
+        if(cont == 0){
+            texto = "No tiene alumnos en este paralelo";
+        }
+        return texto;
     }
 
 }

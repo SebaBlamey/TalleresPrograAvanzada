@@ -1,5 +1,7 @@
 package Clases;
 
+import Herencia.Asignaturas;
+
 import java.util.Arrays;
 
 public class listaAsignaturasI {
@@ -55,6 +57,13 @@ public class listaAsignaturasI {
             return false;
         }
     }
+    public AsignaturasInscritas buscarAsignaturaI(String codigo){
+        for(int i = 0; i<cant;i++){
+            if(lai[i].getCodigo().equalsIgnoreCase(codigo)){
+                return lai[i];
+            }
+        }return null;
+    }
 
     public boolean borrarAsignaturaI(String codigo){
         int i = 0;
@@ -72,7 +81,7 @@ public class listaAsignaturasI {
             for(int j = i ; i < cant - 1 ; j++){
                 lai[j] = lai[j + 1];
             }
-            cant++;
+            cant--;
             return true;
         }
     }

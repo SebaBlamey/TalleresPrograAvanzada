@@ -53,6 +53,15 @@ public class listaParalelo {
             }
         }return null;
     }
+
+    public Paralelo buscarParaleloProfesor(String correo){
+        for(int i = 0; i<cant;i++){
+            if(lp[i].getProfesor().getCorreo().equalsIgnoreCase(correo)){
+                return lp[i];
+            }
+        }return null;
+    }
+
     public boolean anadirParalelo(Paralelo paralelo){
         if(cant<max){
             lp[cant] = paralelo;
