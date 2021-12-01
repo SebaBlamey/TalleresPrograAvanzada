@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Date;
 
 public interface SistemaUCR {
@@ -24,6 +25,8 @@ public interface SistemaUCR {
 
     // -- PROFESOR --
     String desplegarParalelosProfesor(String rut);
-
     String desplegarChequeoAlumnos(String numeroParalelo, String codigoAsignatura);
+    boolean ingresarNotaFinal(String rutAlumno, double notaFinal,String numeroParalelo, String codigoAsignatura);
+
+    int ConsolidarSistema() throws IOException;
 }

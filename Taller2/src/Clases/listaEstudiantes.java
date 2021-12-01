@@ -83,10 +83,10 @@ public class listaEstudiantes {
         }
         else{
             le[i] = null;
-            for(int j = i ; i < cant - 1 ; j++){
+            for(int j = i ; j < cant - 1 ; j++){
                 le[j] = le[j + 1];
             }
-            cant++;
+            cant--;
             return true;
         }
     }

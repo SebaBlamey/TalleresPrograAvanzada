@@ -1,6 +1,9 @@
 import Clases.*;
 import Herencia.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 public class SistemaUCRImpl implements SistemaUCR{
@@ -337,14 +340,6 @@ public class SistemaUCRImpl implements SistemaUCR{
     public String desplegarChequeoAlumnos(String numeroParalelo, String codigoAsignatura) {
         String texto = "";
         int cont = 0;
-        /*Paralelo p = lParalelo.buscarParaleloCodigo(codigoAsignatura);
-        if(p != null){
-            for(int i = 0; i< p.getCantAlumnos();i++){
-                if(p.getNumeroParalelo().equals(numeroParalelo)){
-                    p.getAsignaturas().
-                }
-            }
-        }*/
         for(int i = 0 ; i < lEstudiantes.getCant() ;i ++){
             Estudiante e = lEstudiantes.getEstudianteX(i);
             AsignaturasInscritas ai = e.getlAinscritas().buscarAsignaturaI(codigoAsignatura);
@@ -362,6 +357,37 @@ public class SistemaUCRImpl implements SistemaUCR{
             texto = "No tiene alumnos en este paralelo";
         }
         return texto;
+    }
+
+    @Override
+    public boolean ingresarNotaFinal(String rutAlumno, double notaFinal, String numeroParalelo, String codigoAsignatura) {
+        boolean notaIngresada = false;
+        Estudiante e = lEstudiantes.buscarEstudiante(rutAlumno);
+        if(e != null){
+            AsignaturasCursadas ac = new AsignaturasCursadas(codigoAsignatura,notaFinal);
+            e.getlAcursadas().anadirAsignaturaC(ac);
+            e.getlAinscritas().borrarAsignaturaI(codigoAsignatura);
+            notaIngresada = true;
+        }
+        return notaIngresada;
+    }
+
+    @Override
+    public int ConsolidarSistema() throws IOException {
+        int cont = 0;
+        String rut ="";
+        for(int i = 0; i< lEstudiantes.getCant(); i++){
+            Estudiante e = lEstudiantes.getEstudianteX(i);
+            if(e.getNivel()==10){
+                rut = e.getRut()+"\n";
+                lEstudiantes.borrarEstudiante(rut);
+                cont++;
+            }
+        }
+        PrintWriter file = new PrintWriter("EstudiantesEgresados.txt","UTF-8");
+        file.println(rut);
+        file.close();
+        return cont;
     }
 
 }

@@ -23,7 +23,7 @@ public class App {
     //-------------------------------------------------------------------------------------------------------------
 
     //-------------------------------------------------- MENUS -----------------------------------------------
-    public static void Menu(SistemaUCR sistema) throws InterruptedException {
+    public static void Menu(SistemaUCR sistema) throws InterruptedException, IOException {
         System.out.println("===========================================");
         System.out.println("               Sistema" + Yellow + " UCR                 " + Restorer);
         System.out.println("-------------------------------------------");
@@ -51,7 +51,24 @@ public class App {
                     int Periodo = -1;
                     switch (inicio) {
                         case 0: // Menu administrador
-                            //menuAdmin(sistema,correo);
+                            System.out.print("Ingrese la fecha en la que se encuetra (yyyy-MM-dd) -> ");
+                            fecha = entrada.nextLine();
+
+                            try {
+                                String[] partesFecha = fecha.split("-");
+                                int ano = Integer.parseInt(partesFecha[0]);
+                                int mes = Integer.parseInt(partesFecha[1]);
+                                int dia = Integer.parseInt(partesFecha[2]);
+                                Date fechita = new Date(ano,mes,dia);
+                                Periodo = sistema.periodosSemestre(fechita);
+                                fechaValida = true;
+                            } catch (Exception e) {
+                                System.out.println("Has ingresado un foramto incorrecto");
+                            }
+
+                            if(fechaValida){
+                                menuAdmin(sistema, Periodo);
+                            }
                             break;
                         case 1: // Menu Estudiante
                             correo = sistema.correoCompletoEstudiante(correo);
@@ -90,7 +107,6 @@ public class App {
                             } catch (Exception e) {
                                 System.out.println("Has ingresado un formato incorrecto");
                             }
-
                             if(fechaValida){
                                 menuProfesor(sistema,rut,Periodo);
                             }
@@ -112,6 +128,25 @@ public class App {
             System.out.println("===========================================");
             System.out.print("Ingrese alguna opción -> ");
             opcion = ScannerInt();
+        }
+    }
+
+    private static void menuAdmin(SistemaUCR sistema, int periodo) throws IOException {
+        Scanner entrada = new Scanner(System.in);
+        int opcion;
+        switch (periodo){
+            case 0:
+                System.out.println("No puedes realizar acciones a inicio de sesmetre");
+                break;
+            case 1:
+                System.out.println("No puedes realizar acciones a mitad de sesmetre");
+                break;
+            case 2:
+                System.out.println("No puedes realizar acciones a final de sesmetre");
+                break;
+            case 3:
+                System.out.println("Un total de " + sistema.ConsolidarSistema() + " han egresados");
+                break;
         }
     }
 
@@ -256,6 +291,9 @@ public class App {
             case 2:
                 System.out.println("No puede realizar acciones al final del semestre");
                 break;
+            case 3:
+                System.out.println("No puede realizar acciones en el cierre del semestre");
+                break;
             case -1:
                 System.out.println("Disfrutes sus Vacaciones");
         }
@@ -315,18 +353,73 @@ public class App {
                     opcion = ScannerInt();
                 }
                 break;
-            case 2:
+            case 1:
                 System.out.println("No puedes realizar acciones a mitad de semestre");
                 break;
-            case 3: // Final
+            case 2: // Final
                 System.out.println("===========================================");
                 System.out.println("           Final Semestre" + Yellow + " Profesor                 " + Restorer);
                 System.out.println("-------------------------------------------");;
-                System.out.println("1)" + Cyan + " Chequeo Alumnos." + Restorer);
+                System.out.println("1)" + Cyan + " Ingreso nota Final." + Restorer);
                 System.out.println("2)" + Cyan + " Salir." + Restorer);
                 System.out.println("===========================================");
                 System.out.print("Ingrese una opcion: ");
                 opcion = ScannerInt();
+                while(opcion != 2){
+                    if(opcion == 1){
+                        System.out.println("==============================================================="+
+                                "=====");
+                        titulo = "Paralelos "+Cyan+"Dictados"+Restorer;
+                        System.out.println(String.format("%55s",titulo));
+                        System.out.println("---------------------------------------------------------------"+
+                                "-----");
+                        System.out.println(sistema.desplegarParalelosProfesor(rut));
+                        System.out.println("---------------------------------------------------------------"+
+                                "-----");
+                        System.out.print("Ingrese el numero del paralelo: ");
+                        String numeroParalelo = entrada.nextLine();
+                        System.out.print("Ingrese el codigo de la asignatura: ");
+                        String codigoAsignatura = entrada.nextLine();
+                        System.out.println("==============================================================="+
+                                "=====");
+                        titulo = "Lista de "+Cyan+"Alumnos"+Restorer;
+                        System.out.println(String.format("%55s",titulo));
+                        System.out.println("---------------------------------------------------------------"+
+                                "-----");
+                        System.out.println(sistema.desplegarChequeoAlumnos(numeroParalelo, codigoAsignatura));
+                        System.out.println("---------------------------------------------------------------"+
+                                "-----");
+                        System.out.print("Ingrese el rut del alumno: ");
+                        String rutAlumno = entrada.nextLine();
+                        System.out.print("Ingrese la nota final del alumnos: ");
+                        Double notaFinal = entrada.nextDouble();
+                        if(notaFinal < 0.0 || notaFinal > 7.0){
+                            System.out.println("La nota no puede ser inferior a 0.0 o superior a 7.0");
+                        }
+                        else{
+                            if(sistema.ingresarNotaFinal(rutAlumno,notaFinal,numeroParalelo,codigoAsignatura)){
+                                System.out.println("Nota Ingresada");
+                            }else {
+                                System.out.println("Nota no ingresada");
+                            }
+                        }
+
+                    }else {
+                        System.out.println(Red + "ERROR: " + Restorer +
+                                "Opcion ingresadas no valida.");
+                    }
+                    System.out.println("===========================================");
+                    System.out.println("           Final Semestre" + Yellow + " Profesor                 " + Restorer);
+                    System.out.println("-------------------------------------------");;
+                    System.out.println("1)" + Cyan + " Ingreso nota Final." + Restorer);
+                    System.out.println("2)" + Cyan + " Salir." + Restorer);
+                    System.out.println("===========================================");
+                    System.out.print("Ingrese una opcion: ");
+                    opcion = ScannerInt();
+                }
+                break;
+            case 3:
+                System.out.println("No puede realizar acciones en el cierre del semestre");
                 break;
 
             default:
@@ -345,7 +438,6 @@ public class App {
             String correo = partes[1];
             int nivel = Integer.parseInt(partes[2]);
             String contrasena = partes[3];
-            Estudiante e = new Estudiante(rut,correo,nivel,contrasena);
             String partes2[] = entrada.nextLine().split("");
             sistema.ingresarEstudiante(rut,correo,nivel,contrasena);
             int asignaturasCursadas = Integer.parseInt(partes2[0]);
