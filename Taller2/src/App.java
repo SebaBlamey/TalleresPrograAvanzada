@@ -17,12 +17,17 @@ public class App {
         lecturaProfesores(sistema);
         lecturaParalelos(sistema);
         Menu(sistema);
+        imprimirWaifu();
 
     }
 
     //-------------------------------------------------------------------------------------------------------------
 
     //-------------------------------------------------- MENUS -----------------------------------------------
+    /**
+     * Function whose only utility is to forward to the option entered by the user.
+     * @param sistema
+     */
     public static void Menu(SistemaUCR sistema) throws InterruptedException, IOException {
         System.out.println("===========================================");
         System.out.println("               Sistema" + Yellow + " UCR                 " + Restorer);
@@ -116,7 +121,11 @@ public class App {
                                     "No se encuentras las credenciales ingresadas.");
                     }
                     break;
-
+                case 2:
+                    registro(sistema);
+                    break;
+                default:
+                    System.out.println("Opcion ingresada no valida");
             }
             limpiarConsola(3000);
             System.out.println("===========================================");
@@ -130,7 +139,37 @@ public class App {
             opcion = ScannerInt();
         }
     }
+    /**
+     * Function that allows creating new accounts for new users.
+     * @param sistema
+     * @throws InterruptedException
+     */
+    public static void registro(SistemaUCR sistema) throws InterruptedException {
+        limpiarConsola(3);
+        Scanner entrada = new Scanner(System.in);
+        System.out.println("===========================================");
+        System.out.println(Yellow+"             Registro "+ Red + "Estudiante" + Restorer);
+        System.out.println("-------------------------------------------");
+        System.out.print("Ingrese su RUT:");
+        String rut = entrada.nextLine();
+        System.out.print("Ingrese su Correo:");
+        String correo = entrada.nextLine();
+        System.out.print("Ingrese su Clave:");
+        String clave = entrada.nextLine();
+        try {
+            sistema.ingresarEstudiante(rut, correo, 0, clave);
+            System.out.println("Te has registrado con exito!");
+        } catch (Exception e) {
+            System.out.println("No se ha podido registrar");
+        }
+    }
 
+    /**
+     * The main menu of Admin, where they can be redirected to multiple options as indicated
+     * @param sistema
+     * @param periodo Int that indicates the period of the semester in which it is (Start, middle, end)
+     * @throws IOException
+     */
     private static void menuAdmin(SistemaUCR sistema, int periodo) throws IOException {
         Scanner entrada = new Scanner(System.in);
         int opcion;
@@ -150,6 +189,12 @@ public class App {
         }
     }
 
+    /**
+     * The main menu of Students, where they can be redirected to multiple options as indicated
+     * @param sistema
+     * @param corre Student email with which they are identified in the program
+     * @param periodo Int that indicates the period of the semester in which it is (Start, middle, end)
+     */
     private static void menuEstudiante(SistemaUCR sistema, String corre, int periodo) {
         Scanner entrada = new Scanner(System.in);
         int opcion;
@@ -299,6 +344,12 @@ public class App {
         }
     }
 
+    /**
+     * The main menu of Teacher, where they can be redirected to multiple options as indicated
+     * @param sistema
+     * @param rut Teacher RUT with which they are identified in the program
+     * @param periodo Int that indicates the period of the semester in which it is (Start, middle, end)
+     */
     private static void menuProfesor(SistemaUCR sistema, String rut, int periodo){
         Scanner entrada = new Scanner(System.in);
         String titulo = "";
@@ -430,6 +481,11 @@ public class App {
     }
 
 
+    /**
+     * Function that reads the data from the file estudiantes.txt; and then store them in their respective class
+     * @param sistema
+     * @throws IOException
+     */
     public static void lecturaEstudiantes(SistemaUCR sistema) throws IOException{
         Scanner entrada = new Scanner(new File(windowsSeba+"estudiantes.txt"));
         while(entrada.hasNextLine()){
@@ -458,6 +514,11 @@ public class App {
 
         }
     }
+    /**
+     * Function that reads the data from the file asignaturas.txt; and then store them in their respective class
+     * @param sistema
+     * @throws IOException
+     */
     private static void lecturaAsignaturas(SistemaUCR sistema) throws IOException{
         BufferedReader buffer = new BufferedReader(new InputStreamReader
                 (new FileInputStream("asignaturas.txt"),"utf-8"));
@@ -487,6 +548,11 @@ public class App {
             }
         }
     }
+    /**
+     * Function that reads the data from the file profesores.txt; and then store them in their respective class
+     * @param sistema
+     * @throws IOException
+     */
     private static void lecturaProfesores(SistemaUCR sistema) throws Exception{
         BufferedReader buffer = new BufferedReader(new InputStreamReader
                 (new FileInputStream("profesores.txt"),"utf-8"));
@@ -500,6 +566,11 @@ public class App {
             sistema.ingresarProfesores(rut,correo,contrasena,salario);
         }
     }
+    /**
+     * Function that reads the data from the file paralelos.txt; and then store them in their respective class
+     * @param sistema
+     * @throws IOException
+     */
     private static void lecturaParalelos(SistemaUCR sistema) throws Exception{
         BufferedReader buffer = new BufferedReader(new InputStreamReader
                 (new FileInputStream("paralelos.txt"),"utf-8"));
@@ -515,7 +586,11 @@ public class App {
 
     //-------------------------------------------------- UTILIDADES -----------------------------------------------
 
-    //LIMPIAR CONSOLA
+    /***
+     * Clean the console after the indicated time
+     * @param time how long will i wait
+     * @throws InterruptedException
+     */
     private static void limpiarConsola(int time) throws InterruptedException {
         /**
          * This function gives several line breaks to "clean" the console.
@@ -536,6 +611,10 @@ public class App {
     private static final String Restorer = "\u001B[00m";
 
     //SCANNERS
+    /**
+     * Basic function not to be using creating a Scanner every time you want to request an option
+     * @return return the int
+     */
     private static int ScannerInt() {
         /**
          * Basic function not to be using creating a Scanner every time you want to request an option
@@ -554,7 +633,11 @@ public class App {
         } while (!complete);
         return valor;
     }
-
+    /**
+     * Function that asks the user to enter a character. In case of being more than a single character,
+     * it will be requested again.
+     * @return return the String
+     */
     public static String ScannerChar() {
         /**
          * Function that asks the user to enter a character. In case of being more than a single character,
@@ -583,13 +666,20 @@ public class App {
         valor = valor.toUpperCase();
         return valor;
     }
-
+    /**
+     * Here it is verified that a single character has been entered.
+     * @param str String that will be verified within the function
+     * @return true or false
+     */
     private static boolean stringCharCheck(String str) {
         /**
          * Here it is verified that a single character has been entered.
          */
         return ((str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z]+$")));
     }
+    /**
+     * Simple function that only has the ascii drawing of different anime waifus
+     */
     private static void MaiSan(){
         System.out.println(Purple + "⠄⠄⠄⣰⣿⠄⠄⠄⠄⠄⢠⠄⠄⢀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄\n" +
                 "⠄⠄⢰⣿⠿⠄⡀⠄⠄⠄⠘⣷⡀⠄⠢⣄⠄⠄⠄⠄⠄⠄⠄⣠⠖⠁⠄⠄⠄⠄\n" +
@@ -624,6 +714,34 @@ public class App {
                 "⠄⣰⡗⠹⣿⣄⠄⠄⠄⢀⣿⣿⣿⣿⣿⣿⠟⣅⣥⣿⣿⣿⣿⠿⠋⠄⠄⣾⡌⢠⣿⡿⠃\n" +
                 "⠜⠋⢠⣷⢻⣿⣿⣶⣾⣿⣿⣿⣿⠿⣛⣥⣾⣿⠿⠟⠛⠉⠄⠄");
     }
+    private static void Fubuki(){
+        System.out.println(Purple + "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢛⡋⠙⡩⠵⢒⠯⡉⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣤⢀⡄⢀⢠⢈⠈⠀⠩⠹⡀⡀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠯⠈⡁⠑⠁⡃⠉⠋⠉⠳⠛⠏⠁⠁⡀⠐⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠁⠆⡀⢠⠀⠀⡀⠀⠁⠩⠱⠄⡘⠗⢈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠤⡐⠠⠘⠈⠅⣹⠀⡇⠀⢀⠈⡀⢧⠄⢰⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⣰⣠⡀⠀⣡⡟⣸⣣⣆⢸⠀⠩⣥⠀⢼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⣳⣏⣐⣬⣿⣧⣖⣴⣴⣾⣾⣿⣿⡄⢘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣅⡄⠀⠓⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⡉⡚⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠅⠰⠀⠂⣿⣿⡻⣿⣿⣿⣿⣿⣿⢉⠁⡖⡷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⡿⣦⢰⠀⠀⠀⠝⠿⣿⣞⢯⣽⡟⠿⢱⠀⢸⠁⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣤⡾⠋⠀⠀⠀⠀⠈⠉⠁⢨⡄⠺⣸⣬⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⡛⣩⢀⢶⠈⠢⠀⣀⠀⠀⠀⠀⠀⡄⡀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⡿⠑⢠⡖⠼⠟⣳⠇⣄⠄⡞⢀⣀⠀⢀⠈⣃⡀⠉⠙⡛⠛⠟⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣄⠧⢙⠀⣀⠔⢇⣇⡤⠣⢂⠐⠒⡰⠘⠡⢿⣷⣔⡓⠋⠐⠀⠊⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⢯⠀⠀⠘⢛⣍⢫⡂⠓⡄⠚⠐⠥⢽⡊⠄⠁⢿⣿⣿⣿⣮⣴⠒⠘⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⡋⠀⠀⠀⢤⠈⠢⣀⠃⡀⠊⠂⠐⠈⣤⣬⣶⣶⣿⣯⣟⠷⡿⣻⣿⣶⣤⡛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⠟⠀⠀⠀⣤⠼⠂⠃⠀⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣟⣿⣿⣷⣟⠍⠛⠻⢿⣽⣶⣽⣻⢿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⠉⡽⣴⡪⢹⠫⢁⣴⣷⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⡟⠛⠋⠉⠀⠀⠀⠀⠈⠋⠛⠋⠛⠷⡽⣿⣿⣿⣿⣿⣿\n" +
+                "⢎⡔⠀⢹⠥⢂⣷⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿\n" +
+                "⢄⢃⣀⣗⣡⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿\n" +
+                "⡗⡡⣔⣼⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⢮⠁⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⡔⡛⡖⠟⢿⣿⣿⣿⣿⣿⣿⡟⠁⠀⠀⢀⠀⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿");
+    }
     private static void ZeroTwo(){
         System.out.println(Purple + "⣿⣿⣿⣿⣯⣿⣿⠄⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠈⣿⣿⣿⣿⣿⣿⣆⠄\n" +
                 "⢻⣿⣿⣿⣾⣿⢿⣢⣞⣿⣿⣿⣿⣷⣶⣿⣯⣟⣿⢿⡇⢃⢻⣿⣿⣿⣿⣿⢿⡄\n" +
@@ -639,6 +757,29 @@ public class App {
                 "⠄⠄⠈⢸⣿⠄⠙⢿⣿⣿⣹⣿⣿⣿⣿⣟⡃⣽⣿⣿⡟⠁⣿⣿⢻⣿⣿⢿⠄⠄\n" +
                 "⠄⠄⠄⠘⣿⡄⠄⠄⠙⢿⣿⣿⣾⣿⣷⣿⣿⣿⠟⠁⠄⠄⣿⣿⣾⣿⡟⣿⠄⠄\n" +
                 "⠄⠄⠄⠄⢻⡇⠸⣆⠄⠄⠈⠻⣿⡿⠿⠛⠉⠄⠄⠄⠄⢸⣿⣇⣿⣿⢿⣿⠄⠄");
+    }
+    private static void Umaru(){
+        System.out.println(Purple + "⠄⡀⠄⠄⠠⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠠⠄⠄⠄⠄⠄⠄⠄⠄⠠⠄⠄⠄⣀⣀⣀⣀⡀⠄⠄⠄\n" +
+                "⠐⠄⠄⠤⠅⠐⠄⠄⠄⠠⠄⠄⠄⡼⣻⢳⣀⣤⣤⣴⣶⣶⣶⣶⣦⣤⣤⣄⣀⠄⠄⠄⢀⠄⠄⠄⠈⠱⠙⠋⠒⠄⠄⠅\n" +
+                "⢀⠄⠒⠪⢤⡠⡡⢀⡄⢁⢓⠠⠄⣑⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣦⣼⢯⡝⡆⠄⠁⠄⠄⡠⡀⠠⢈⠄\n" +
+                "⠄⠂⢚⣀⡁⢐⣄⡂⠚⣈⠠⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣥⡐⠅⠈⠄⠂⠐⠆⠄⢐\n" +
+                "⠖⠢⢔⠒⠐⣒⠰⠆⢐⢀⣼⣿⣿⣿⢿⣻⣿⣭⣍⣭⣭⣭⣽⣿⣛⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠄⠐⠄⠂⠄⢂⠃\n" +
+                "⢢⣬⡠⢤⣠⡬⣐⡀⡀⣾⣿⢿⣽⣾⡿⣿⣟⣿⣿⢻⣿⣿⣿⣿⣿⣿⣿⣾⣿⡿⣿⣿⣿⣿⣿⣿⣷⣐⢥⡶⠲⢰⢄⠆\n" +
+                "⣺⠣⣖⣤⣯⢵⢁⢭⢸⡟⢱⠿⠟⢙⣓⠛⠽⣿⣿⣸⡿⣿⣿⣿⣿⣿⡽⣻⣿⣿⣾⣿⣿⣿⣿⣿⣿⡇⠉⠳⠷⠷⠹⠺\n" +
+                "⣿⣹⡻⣯⣵⢧⠩⠟⣾⢡⣿⠄⠔⠳⠄⠄⠄⠄⠈⠙⠿⠽⠏⢛⠛⠻⠿⠻⣾⢿⣿⣿⣮⢿⣿⣿⣿⣇⡪⢅⢑⣬⡄⠑\n" +
+                "⣩⣘⢓⡒⣩⣷⣾⡇⣿⣾⣿⣡⡀⠄⠄⠄⠄⠄⠄⣰⣶⡶⠄⠲⠄⠁⠄⠄⠈⠛⢿⣿⣿⡟⣿⣿⣿⣏⣩⠧⣠⡊⣝⡪\n" +
+                "⣽⣾⣿⣿⣷⣝⠿⣸⡇⣿⣿⣿⣿⣿⣶⣶⣶⣶⣾⣿⣿⣧⡀⠄⠄⠄⠄⠄⢀⡴⣾⣿⣿⡗⣽⣿⣿⡏⣿⣿⣶⣴⣲⢶\n" +
+                "⣿⣿⣿⣿⣿⣿⢧⣿⡇⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣤⣴⣿⡻⣫⣿⣿⣙⣛⣿⣿⡷⣿⣿⣿⣿⣿⣷\n" +
+                "⣿⣿⣿⣿⣿⣏⣿⣿⡇⣿⡿⢿⢹⡻⣿⣿⣿⣿⣭⣿⣿⣿⣽⣿⣿⣿⣿⣿⣧⣽⣿⣿⢯⣿⠿⠿⠿⠇⢿⣋⣽⣷⣶⣿\n" +
+                "⣿⣿⣿⣿⡟⣼⣿⣿⣿⠹⡏⢿⢸⢿⠱⣦⣧⢑⠾⠻⠿⠿⠿⠿⠿⠿⢛⢛⢡⣿⣿⣏⢞⣥⣿⣿⣿⣿⣶⣽⣛⡿⢿⣿\n" +
+                "⡿⣿⣿⣿⢷⣿⣿⢟⣥⣾⣦⣧⣾⣿⣿⣾⣮⣷⣶⣔⣤⣀⣳⣤⣼⣷⣾⢏⣾⣿⢏⣴⣿⣨⢱⣾⣿⣶⡆⠉⣛⣛⣡⣿\n" +
+                "⣿⣮⡻⣿⢸⡿⡃⢸⣿⣧⣿⣻⣷⡻⣼⣿⣿⣿⣿⣿⣿⣾⣭⣭⣭⣯⣍⣮⢜⣵⡟⣭⣽⣿⡞⣿⣿⣿⠃⣴⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣮⣸⠁⠃⢸⣿⢿⣟⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⣿⣿⣿⣧⢻⣿⣟⣶⣾⣿⣷⣶⣾\n" +
+                "⣿⣿⣿⣿⣧⠈⣀⣴⣶⣿⣿⣿⣿⣿⣟⣿⡿⢿⣃⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⠃⢸⣫⣾⣿⣿⣿⣿⣿⣿\n" +
+                "⡿⣛⢽⣶⣾⣾⣿⣿⣿⣿⡿⠜⢿⣿⣿⣿⣿⣿⣿⣿⣟⣛⣿⢿⣿⣿⣿⣿⣿⡿⣾⣿⣿⢿⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣾⣿⣿⣿⣿⣻⣿⣿⣿⣿⣦⣤⣈⣻⣿⡿⣻⣿⣿⡿⠿⠏⠻⣿⣾⡿⣿⠿⠿⣓⢻⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣿⡿⣟⣽⣾⣿⣷⣶⣶⣷⣶⣿⣿⣿⣿⣿⣮⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+                "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣏⣾⣿⣽⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n");
     }
     private static void DripGoku(){
         System.out.println(Purple + "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⣤⣤⢀\n" +
@@ -672,12 +813,23 @@ public class App {
                 "⠀⠀⠀⠀⠀⠘⢥⣏⢿⢯⣿⡟⠀⣿⣿⣿⣶⣄⣠⢈⠲⠟⣛⠏⣍⣏⠬⣄⡺⠀⠀\n" +
                 "⠀⠀⠀⠀⠀⠀⢸⣿⣿⣾⣿⣃⣧⣿⣿⣿⣿⣿⣧⣒⣴⣦⣾⣶⣾⣶⣿⡇⠀⠀");
     }
+
+    /**
+     * Function to have a random number
+     * @param min minimum number that can be obtained
+     * @param max maximum number that can be obtained
+     * @return a random number between the ranges of min and max
+     */
     private static double getRandomDoubleBetweenRange(double min, double max){
         double x = (Math.random()*((max-min)+1))+min;
         return x;
     }
+
+    /**
+     * Depending on the number obtained, it will print a waifu
+     */
     private static void imprimirWaifu(){
-        int num = (int) getRandomDoubleBetweenRange(0.0,4.0);
+        int num = (int) getRandomDoubleBetweenRange(0.0,6.0);
         switch (num){
             case 0:
                 MaiSan();
@@ -691,11 +843,16 @@ public class App {
             case 3:
                 DripGoku();
                 break;
+            case 4:
+                Fubuki();
+                break;
+            case 5:
+                Umaru();
+                break;
             default:
                 System.out.println("Esta vez no hay waifus :C");
                 break;
         }
     }
-
     //--------------------------------------------------------------------------------------------------------------
 }
