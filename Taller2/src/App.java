@@ -33,7 +33,6 @@ public class App {
         System.out.println("               Sistema" + Yellow + " UCR                 " + Restorer);
         System.out.println("-------------------------------------------");
         System.out.println("1)" + Cyan + " Iniciar Sesión." + Restorer);
-        System.out.println("2)" + Cyan + " Registrarse." + Restorer);
         System.out.println("3)" + Cyan + " Salir." + Restorer);
         System.out.println("===========================================");
         System.out.print("Ingrese alguna opción -> ");
@@ -121,9 +120,6 @@ public class App {
                                     "No se encuentras las credenciales ingresadas.");
                     }
                     break;
-                case 2:
-                    registro(sistema);
-                    break;
                 default:
                     System.out.println("Opcion ingresada no valida");
             }
@@ -137,30 +133,6 @@ public class App {
             System.out.println("===========================================");
             System.out.print("Ingrese alguna opción -> ");
             opcion = ScannerInt();
-        }
-    }
-    /**
-     * Function that allows creating new accounts for new users.
-     * @param sistema
-     * @throws InterruptedException
-     */
-    public static void registro(SistemaUCR sistema) throws InterruptedException {
-        limpiarConsola(3);
-        Scanner entrada = new Scanner(System.in);
-        System.out.println("===========================================");
-        System.out.println(Yellow+"             Registro "+ Red + "Estudiante" + Restorer);
-        System.out.println("-------------------------------------------");
-        System.out.print("Ingrese su RUT:");
-        String rut = entrada.nextLine();
-        System.out.print("Ingrese su Correo:");
-        String correo = entrada.nextLine();
-        System.out.print("Ingrese su Clave:");
-        String clave = entrada.nextLine();
-        try {
-            sistema.ingresarEstudiante(rut, correo, 0, clave);
-            System.out.println("Te has registrado con exito!");
-        } catch (Exception e) {
-            System.out.println("No se ha podido registrar");
         }
     }
 
