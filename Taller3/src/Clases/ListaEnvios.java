@@ -4,6 +4,15 @@ import Herencias.Envio;
 
 public class ListaEnvios {
     private NodoEnvios first;
+    private int tamano;
+
+    public int getTamano() {
+        return tamano;
+    }
+
+    public void setTamano(int tamano) {
+        this.tamano = tamano;
+    }
 
     public ListaEnvios() {
         this.first = null;
@@ -29,6 +38,7 @@ public class ListaEnvios {
             e.setNext(first);
             first.setPrev(e);
         }
+        tamano++;
     }
     public Envio buscarEnvio(String codigo){
         NodoEnvios aux = first;

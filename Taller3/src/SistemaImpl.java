@@ -57,6 +57,7 @@ public class SistemaImpl implements Sistema {
                 throw new NullPointerException();
             }
             envioCompleto = true;
+            listaEnvios.ingresarEnvio(ed);
         }
         return envioCompleto;
     }
@@ -82,6 +83,7 @@ public class SistemaImpl implements Sistema {
             } else {
                 throw new NullPointerException();
             }
+            listaEnvios.ingresarEnvio(ee);
             envioCompleto = true;
         }
         return envioCompleto;
@@ -104,6 +106,7 @@ public class SistemaImpl implements Sistema {
             } else {
                 throw new NullPointerException();
             }
+            listaEnvios.ingresarEnvio(ev);
             envioCompleto = true;
         }
         return envioCompleto;
@@ -209,6 +212,11 @@ public class SistemaImpl implements Sistema {
     @Override
     public String registroGanancias() {
         return null;
+    }
+
+    @Override
+    public int tamanoListaEnvio() {
+        return listaEnvios.getTamano();
     }
 
 }

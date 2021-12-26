@@ -16,4 +16,6 @@ public interface Sistema {
     String entregasPorTipo();
     String entregasPorLocalizacion();
     String registroGanancias();
+
+    int tamanoListaEnvio();
 }
