@@ -17,7 +17,7 @@ public class EnvioV extends Envio{
     }
 
     @Override
-    Double valor() {
+    public Double valor() {
         double precioMaterial;
 
         if(getMaterial().equalsIgnoreCase("Cuero")) precioMaterial = 200.0;
@@ -25,6 +25,6 @@ public class EnvioV extends Envio{
         else if (getMaterial().equalsIgnoreCase("Tela")) precioMaterial = 100.0;
         else precioMaterial = 0.0;
 
-        return precioMaterial*getPeso()*150;
+        return precioMaterial*getPeso()/1000*150;
     }
 }

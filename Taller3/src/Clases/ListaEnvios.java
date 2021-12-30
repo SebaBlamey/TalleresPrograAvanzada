@@ -23,20 +23,20 @@ public class ListaEnvios {
     }
 
     public void ingresarEnvio(Envio v){
-        NodoEnvios e = new NodoEnvios(v);
-        if(isEmpty()){
-            first = e;
-            first.setNext(e);
+        NodoEnvios n = new NodoEnvios(v);
+        if (first == null) {
+            first = n;
+            first.setNext(n);
         }
-        else{
+        else {
             NodoEnvios aux = first;
-            while(aux.getNext() != first){
+            while (aux.getNext() != first) {
                 aux = aux.getNext();
             }
-            aux.setNext(e);
-            e.setPrev(aux);
-            e.setNext(first);
-            first.setPrev(e);
+            aux.setNext(n);
+            n.setPrev(aux);
+            n.setNext(first);
+            first.setPrev(n);
         }
         tamano++;
     }
@@ -83,12 +83,5 @@ public class ListaEnvios {
                 return false;
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ListaEnvios{" +
-                "first=" + first +
-                '}';
     }
 }

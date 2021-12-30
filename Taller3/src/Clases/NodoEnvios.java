@@ -37,12 +37,4 @@ public class NodoEnvios {
         this.prev = prev;
     }
 
-    @Override
-    public String toString() {
-        return "NodoEnvios{" +
-                "envio=" + envio +
-                ", next=" + next +
-                ", prev=" + prev +
-                '}';
-    }
 }

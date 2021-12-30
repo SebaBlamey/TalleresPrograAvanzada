@@ -1,6 +1,7 @@
 import Clases.Clientes;
 import Clases.ListaEnvios;
 import Clases.Localizacion;
+import Herencias.Envio;
 import Herencias.EnvioD;
 import Herencias.EnvioE;
 import Herencias.EnvioV;
@@ -52,9 +53,17 @@ public class SistemaImpl implements Sistema {
             EnvioD ed = new EnvioD(codigo, tipo, pesoKG, grosorCM);
             if (remitente != null && destinatario != null) {
                 ed.setClienteRemitente(remitente);
+                remitente.getListaEnviosE().add(ed);
                 ed.setClienteDestinatario(destinatario);
+                destinatario.getListaEnviosR().add(ed);
             } else {
                 throw new NullPointerException();
+            }
+            for(int i = 0; i<listaLocalizacion.size();i++){
+                Localizacion l = listaLocalizacion.get(i);
+                if(remitente.getLocalizacion().equalsIgnoreCase(l.getNombre())){
+                    l.setGanancias( l.getGanancias()+ed.valor());
+                }
             }
             envioCompleto = true;
             listaEnvios.ingresarEnvio(ed);
@@ -71,7 +80,7 @@ public class SistemaImpl implements Sistema {
         profundo = profundo/100;
         Clientes remitente = null;
         Clientes destinatario = null;
-        if(peso < 50 && (largo <= 1.2 && ancho <= .8 &&  profundo <=.8)) {
+        if(peso < 50000 && (largo <= 1.2 && ancho <= .8 &&  profundo <=.8)) {
             for (Clientes r : listaClientes) {
                 if (r.getRut().equalsIgnoreCase(rutRemitente)) remitente = r;
                 if (r.getRut().equalsIgnoreCase(rutDestinatario)) destinatario = r;
@@ -79,7 +88,15 @@ public class SistemaImpl implements Sistema {
             EnvioE ee = new EnvioE(codigo, tipo, pesoKG, largo, ancho, profundo);
             if (remitente != null && destinatario != null) {
                 ee.setClienteRemitente(remitente);
+                remitente.getListaEnviosE().add(ee);
+                for(int i = 0; i<listaLocalizacion.size();i++){
+                    Localizacion l = listaLocalizacion.get(i);
+                    if(remitente.getLocalizacion().equalsIgnoreCase(l.getNombre())){
+                        l.setGanancias( l.getGanancias()+ee.valor());
+                    }
+                }
                 ee.setClienteDestinatario(destinatario);
+                destinatario.getListaEnviosR().add(ee);
             } else {
                 throw new NullPointerException();
             }
@@ -94,7 +111,7 @@ public class SistemaImpl implements Sistema {
         boolean envioCompleto = false;
         Clientes remitente = null;
         Clientes destinatario = null;
-        if(peso <= 2) {
+        if(peso <= 2000) {
             for (Clientes r : listaClientes) {
                 if (r.getRut().equalsIgnoreCase(rutRemitente)) remitente = r;
                 if (r.getRut().equalsIgnoreCase(rutDestinatario)) destinatario = r;
@@ -102,9 +119,17 @@ public class SistemaImpl implements Sistema {
             EnvioV ev = new EnvioV(codigo, tipo, peso, material);
             if (remitente != null && destinatario != null) {
                 ev.setClienteRemitente(remitente);
+                remitente.getListaEnviosE().add(ev);
                 ev.setClienteDestinatario(destinatario);
+                destinatario.getListaEnviosR().add(ev);
             } else {
                 throw new NullPointerException();
+            }
+            for(int i = 0; i<listaLocalizacion.size();i++){
+                Localizacion l = listaLocalizacion.get(i);
+                if(remitente.getLocalizacion().equalsIgnoreCase(l.getNombre())){
+                    l.setGanancias( l.getGanancias()+ev.valor());
+                }
             }
             listaEnvios.ingresarEnvio(ev);
             envioCompleto = true;
@@ -114,7 +139,7 @@ public class SistemaImpl implements Sistema {
 
     @Override
     public int inicioSesion(String rut, String contrasena) {
-        if(rut.equalsIgnoreCase("Admin") && contrasena.equals("Choripan123")) return 1;
+        if(rut.equalsIgnoreCase("Admin") && contrasena.equals("choripan123")) return 1;
 
         Clientes cliente = null;
         for (Clientes c : listaClientes) {
@@ -122,9 +147,8 @@ public class SistemaImpl implements Sistema {
         }
         if(cliente != null){
             return 2;
-        }else{
-            throw  new NullPointerException();
         }
+        return -1;
 
     }
 
@@ -162,8 +186,7 @@ public class SistemaImpl implements Sistema {
             if (c.getRut().equalsIgnoreCase(rutRemitente)) remitente = c;
             else if (c.getRut().equalsIgnoreCase(rutDestinatario)) destinatario = c;
         }
-        if(remitente != null && destinatario != null){
-            return remitente.getSaldo() >= total;
+        if(remitente != null && destinatario != null && remitente.getSaldo()>= total){
         }
         return false;
     }
@@ -189,8 +212,14 @@ public class SistemaImpl implements Sistema {
         if(micliente != null){
             entregas = micliente.getListaEnviosE().toString();
             recibidos = micliente.getListaEnviosR().toString();
-            texto += "Entregas: \n"+entregas+"\n===========================================" +
-                    "\nRecibidos: \n"+recibidos;
+            texto += "          -- Entregas -- ";
+            for(int i = 0 ; i < micliente.getListaEnviosE().size(); i++){
+                Envio e = micliente.getListaEnviosE().get(i);
+                texto += "\nTipo: "+e.getTipo()+"" +
+                        "\nCodigo: "+e.getCodigo()+"" +
+                        "\nRut Destinatario: "+e.getClienteDestinatario().getRut()+"" +
+                        "\n---------";
+            }
         }else{
             throw new NullPointerException();
         }
@@ -200,23 +229,75 @@ public class SistemaImpl implements Sistema {
 
     @Override
     public String entregasPorTipo() {
-
-        return null;
+        /*String texto = "";
+        String textoD = "           -- Documentos --";
+        String textoE = "           -- Encomiendas --";
+        String textoV = "           -- Valijas --";
+        for(int i =0 ; i < listaEnvios.getTamano() ; i ++){
+            Envio v = listaEnvios.
+        }
+        return texto;
+         */
+        return "";
     }
 
     @Override
     public String entregasPorLocalizacion() {
-        return null;
+        String texto = "";
+        for(int i =0 ; i < listaLocalizacion.size(); i ++){
+            Localizacion l = listaLocalizacion.get(i);
+            int envios = 0;
+            int entregas = 0;
+            for(int j = 0 ; j<listaClientes.size(); j ++){
+                Clientes c = listaClientes.get(j);
+                if(c.getLocalizacion().equalsIgnoreCase(l.getNombre())){
+                    envios += c.getListaEnviosE().size();
+                    entregas += c.getListaEnviosR().size();
+                }
+            }
+            texto+=l.getNombre()+" realizo "+envios+" envios y recibio "+entregas+" envios\n";
+        }
+        return texto;
+    }
+
+    @Override
+    public String entregasPorCliente() {
+        String texto ="";
+        for (Clientes r : listaClientes) {
+            texto += "          -- Entregas de "+r.getRut()+" -- ";
+            texto+= "\nEnviados: ";
+            for(int i = 0 ; i < r.getListaEnviosE().size(); i++){
+                Envio e = r.getListaEnviosE().get(i);
+                texto += "\nTipo: "+e.getTipo()+"" +
+                        "\nCodigo: "+e.getCodigo()+"" +
+                        "\nRut Destinatario: "+e.getClienteDestinatario().getRut()+"" +
+                        "\n---------";
+            }
+            texto+= "\nRecibidos: ";
+            for(int i = 0 ; i < r.getListaEnviosR().size(); i++){
+                Envio e = r.getListaEnviosR().get(i);
+                texto += "\nTipo: "+e.getTipo()+"" +
+                        "\nCodigo: "+e.getCodigo()+"" +
+                        "\nRut Remitente: "+e.getClienteRemitente().getRut()+"" +
+                        "\n---------\n";
+            }
+        }
+        return  texto;
     }
 
     @Override
     public String registroGanancias() {
-        return null;
-    }
+        String texto = "";
+        double total = 0;
+        for(int i = 0 ; i<listaLocalizacion.size(); i++){
+            Localizacion l = listaLocalizacion.get(i);
+            texto += "\nTotal ganancias en "+l.getNombre()+": "+l.getGanancias();
+            total += l.getGanancias();
+        }
+        texto+= "\nGananacias totales: "+total;
 
-    @Override
-    public int tamanoListaEnvio() {
-        return listaEnvios.getTamano();
+
+        return texto;
     }
 
 }

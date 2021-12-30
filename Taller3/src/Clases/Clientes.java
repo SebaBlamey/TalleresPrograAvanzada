@@ -1,5 +1,9 @@
 package Clases;
 
+import Herencias.Envio;
+
+import java.util.LinkedList;
+
 public class Clientes {
     private String rut;
     private String nombre;
@@ -7,8 +11,8 @@ public class Clientes {
     private double saldo;
     private String localizacion;
     private Localizacion loca;
-    private ListaEnvios listaEnviosR;
-    private ListaEnvios listaEnviosE;
+    private LinkedList<Envio> listaEnviosR;
+    private LinkedList<Envio> listaEnviosE;
 
     public Clientes(String rut, String nombre, String apellido, double saldo, String localizacion) {
         this.rut = rut;
@@ -17,8 +21,8 @@ public class Clientes {
         this.saldo = saldo;
         this.localizacion = localizacion;
         loca = null;
-        listaEnviosR = null;
-        listaEnviosE = null;
+        listaEnviosR = new LinkedList<Envio>();
+        listaEnviosE = new LinkedList<Envio>();
     }
 
     public String getRut() {
@@ -69,33 +73,20 @@ public class Clientes {
         this.loca = loca;
     }
 
-    public ListaEnvios getListaEnviosR() {
+
+    public LinkedList<Envio> getListaEnviosR() {
         return listaEnviosR;
     }
 
-    public void setListaEnviosR(ListaEnvios listaEnviosR) {
+    public void setListaEnviosR(LinkedList<Envio> listaEnviosR) {
         this.listaEnviosR = listaEnviosR;
     }
 
-    public ListaEnvios getListaEnviosE() {
+    public LinkedList<Envio> getListaEnviosE() {
         return listaEnviosE;
     }
 
-    public void setListaEnviosE(ListaEnvios listaEnviosE) {
+    public void setListaEnviosE(LinkedList<Envio> listaEnviosE) {
         this.listaEnviosE = listaEnviosE;
-    }
-
-    @Override
-    public String toString() {
-        return "Clientes{" +
-                "rut='" + rut + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", saldo=" + saldo +
-                ", localizacion='" + localizacion + '\'' +
-                ", loca=" + loca +
-                ", listaEnviosR=" + listaEnviosR +
-                ", listaEnviosE=" + listaEnviosE +
-                '}';
     }
 }

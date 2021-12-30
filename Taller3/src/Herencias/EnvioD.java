@@ -19,7 +19,7 @@ public class EnvioD extends Envio{
 
 
     @Override
-    Double valor() {
+    public Double valor() {
         return (double) getPeso() * getGrosor() *100;
     }
 }

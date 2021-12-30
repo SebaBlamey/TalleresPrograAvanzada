@@ -36,17 +36,9 @@ public class EnvioE extends Envio{
         this.profundidad = profundidad;
     }
 
-    @Override
-    public String toString() {
-        return "EnvioE{" +
-                "largo=" + largo +
-                ", ancho=" + ancho +
-                ", profundidad=" + profundidad +
-                '}';
-    }
 
     @Override
-    Double valor() {
+    public Double valor() {
         return (double) getPeso()*(getLargo()*getAncho()*getProfundidad())*50;
     }
 }

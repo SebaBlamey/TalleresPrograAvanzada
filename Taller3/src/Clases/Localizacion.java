@@ -1,5 +1,9 @@
 package Clases;
 
+import Herencias.Envio;
+
+import java.util.LinkedList;
+
 public class Localizacion {
     private String nombre;
     private int cantEnvios;
@@ -45,13 +49,4 @@ public class Localizacion {
         this.ganancias = ganancias;
     }
 
-    @Override
-    public String toString() {
-        return "Localizacion{" +
-                "nombre='" + nombre + '\'' +
-                ", cantEnvios=" + cantEnvios +
-                ", cantRecibidos=" + cantRecibidos +
-                ", ganancias=" + ganancias +
-                '}';
-    }
 }

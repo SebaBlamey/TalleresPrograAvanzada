@@ -480,6 +480,7 @@ public class App {
             for (int j = 0; j < asignaturasInscritas; j++) {
                 String partes5[] = entrada.nextLine().split(",");
                 String codigoAsignaturaInscrita = partes5[0];
+                System.out.println(partes5[1]);
                 String paralelo = ((partes5[1]));
                 sistema.ingresarAsignaturasInscritas(rut,codigoAsignaturaInscrita,paralelo);
             }
