@@ -1,7 +1,0 @@
-Jinx,50000
-Sett,60000
-Lillia,80000
-Vex,10000
-Jhin,90000
-Kaisa,100000
-Ahri,100000

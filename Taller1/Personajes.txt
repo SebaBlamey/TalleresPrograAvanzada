@@ -1,7 +1,0 @@
-Jinx,ADC,3,Jinx Elfa Buena,N,Jinx guardiana estelar,L,Jinx Explosiva,E
-Sett,TOP,1,Sett Puño del dragón,E
-Lillia,JG,1,Lillia flor espiritual,N
-Vex,MID,1,Portadora del Amanecer,E
-Jhin,ADC,3,Oscuridad Cosmica,D,Forajido,N,PROYECTO:Jhin,E
-Ahri,MID,2,Zorra nivel 10,M,Leona mata leones,L
-Kaisa,ADC,2,KDA All Out,L,Exterminador Galactico,E
